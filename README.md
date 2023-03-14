@@ -1,14 +1,17 @@
 # Polynote
 
-OP-Stack improvement with ERC-4337 compatible account abstracted with Apple Enclave - Touch ID
+Private note taking application #buidl on [Polybase](https://polybase.xyz/).
+
+<img style="width: 220px" align="right" src="https://raw.githubusercontent.com/itublockchain/polynote-scaling2023/master/docs/logo.png">
 
 [ETHGlobal Scaling 2023 Hackathon](https://ethglobal.com/events/scaling2023) project
 
 <br/>
 
-| Team Member                                     | Role            |
-| ----------------------------------------------- | --------------- |
-| [0xulas.eth](https://twitter.com/ulerdogan)     | Client          |
-| [tahos.eth](https://twitter.com/0xTahos)        | Smart Contracts |
-| [zetsub0ii.eth](https://twitter.com/zetsuboii_) | Wallet          |
-| [0xdogan.eth](https://twitter.com/doganeth)     | Research        |
+| Team Member                                           | Role            |
+| ----------------------------------------------------- | --------------- |
+| [Farhad Asgarov](https://twitter.com/asgarovf)        | Full stack      |
+| [Alim Sahin](https://twitter.com/aalimsahin)          | Smart Contracts |
+| [Bahri Bugra Meydan](https://twitter.com/weckleth)    | Frontend        |
+| [Eylul Sahin](https://twitter.com/eyllshn007)         | Designer        |
+| [Feyzi Taylan Unal](https://twitter.com/unalf_Taylan) | Research        |
