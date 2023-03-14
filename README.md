@@ -4,7 +4,7 @@ Private note taking application #buidl on [Polybase](https://polybase.xyz/).
 
 <img style="width: 320px" src="https://raw.githubusercontent.com/itublockchain/polynote-scaling2023/master/docs/logo.png">
 
-[ETHGlobal Scaling 2023 Hackathon](https://ethglobal.com/events/scaling2023) project
+[ETHGlobal Scaling 2023 Hackathon](https://ethglobal.com/events/scaling2023) project.
 
 <br/>
 
