@@ -26,7 +26,7 @@ module.exports = {
         buttonSuccessColor: "#225A0E",
         buttonSuccessColorHover: "#FFFFFF",
 
-        buttonSecondaryBg: "#FCD9DA",
+        buttonSecondaryBg: "#f8c8ed",
         buttonSecondaryBgHover: "#E9A2D8",
         buttonSecondaryColor: "#4B0A3C",
         buttonSecondaryColorHover: "#4B0A3C",

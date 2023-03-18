@@ -9,6 +9,8 @@ import { AiOutlineWallet } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { Typography } from "ui/Typography/Typography";
 import { formatAddress } from "utils/formatAddress";
+import { useRouter } from "next/router";
+import { Paths } from "consts/paths";
 
 const borderStyles: CSSProperties = {
   borderTopLeftRadius: "180px",
@@ -17,6 +19,7 @@ const borderStyles: CSSProperties = {
 
 const ConnectPage: NextPage = () => {
   const { isConnected, address } = useAccount();
+  const router = useRouter();
 
   const [connected, setConnected] = useState(false);
 
@@ -56,15 +59,19 @@ const ConnectPage: NextPage = () => {
                 </Typography>
               </Typography>
 
-              <CustomConnectButton
-                disableAccountIcon
+              <Button
+                onClick={() => router.push(Paths.DASHBOARD)}
                 className="w-full h-10 rounded-lg mt-4"
-                changeAccountText="Switch account"
-              />
-
-              <Button className="w-full h-10 rounded-lg mt-2" color="primary">
+                color="secondary"
+              >
                 Proceed
               </Button>
+
+              <CustomConnectButton
+                disableAccountIcon
+                className="w-full h-10 rounded-lg mt-2"
+                changeAccountText="Switch account"
+              />
             </div>
           ) : (
             <CustomConnectButton

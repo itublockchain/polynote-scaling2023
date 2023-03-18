@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSetTheme, useTheme } from "recoil/theme/ThemeStore";
 
 const identifier = "PolynoteTheme";
+const initialTheme = "dark";
 
 export const useInitializeTheme = () => {
   const setTheme = useSetTheme();
@@ -11,7 +12,7 @@ export const useInitializeTheme = () => {
     const existingTheme = localStorage.getItem(identifier);
 
     if (existingTheme == null) {
-      localStorage.setItem(identifier, "light");
+      localStorage.setItem(identifier, initialTheme);
     } else {
       if (existingTheme === "dark") {
         setTheme("dark");
@@ -27,7 +28,12 @@ export const useInitializeTheme = () => {
     }
 
     const htmlElement = document.documentElement;
+    const bodyElement = document.body;
 
     htmlElement.classList.add(theme);
+    htmlElement.classList.remove(theme === "dark" ? "light" : "dark");
+
+    bodyElement.classList.add(theme);
+    bodyElement.classList.remove(theme === "dark" ? "light" : "dark");
   }, [theme]);
 };

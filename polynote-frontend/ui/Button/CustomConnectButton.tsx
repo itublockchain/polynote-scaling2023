@@ -79,7 +79,7 @@ export const CustomConnectButton = ({
                   <Button
                     leftIcon={disableAccountIcon ? null : <AiOutlineUser />}
                     className={className}
-                    color="secondary"
+                    color="primary"
                     onClick={openAccountModal}
                     type="button"
                   >

@@ -58,7 +58,9 @@ export function Button({
           {leftIcon}
         </div>
       ) : null}
-      <span className={clsnm(loading && "opacity-0")}>{children}</span>
+      <span className={clsnm(loading && "opacity-0", "font-medium")}>
+        {children}
+      </span>
       {rightIcon != null ? (
         <div
           className={clsnm(
