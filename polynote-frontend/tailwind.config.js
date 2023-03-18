@@ -15,6 +15,26 @@ module.exports = {
         PURPLE: "#6f629e",
         PINK: "#f8c8ed",
         CONNECT_WINDOW: "#1D1029",
+
+        buttonDangerBg: "#CA4F4F",
+        buttonDangerBgHover: "802323",
+        buttonDangerColor: "#FFEEEE",
+        buttonDarngetColorHover: "#F3F0FF",
+
+        buttonSuccessBg: "#9DDD97",
+        buttonSuccessBgHover: "#558351",
+        buttonSuccessColor: "#225A0E",
+        buttonSuccessColorHover: "#FFFFFF",
+
+        buttonSecondaryBg: "#FCD9DA",
+        buttonSecondaryBgHover: "#E9A2D8",
+        buttonSecondaryColor: "#4B0A3C",
+        buttonSecondaryColorHover: "#4B0A3C",
+
+        buttonPrimaryBg: "#361151",
+        buttonPrimaryBgHover: "#6B628E",
+        buttonPrimaryColor: "#F3F0FF",
+        buttonPrimaryColorHover: "#F3F0FF",
       },
     },
   },
