@@ -5,6 +5,8 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { goerli } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import "styles/globals.scss";
+import { RecoilRoot } from "recoil";
+import { useInitializeTheme } from "hooks/useInitializeTheme";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [goerli],
@@ -23,14 +25,23 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function PolynoteApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <RecoilRoot>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <InitHooks />
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </RecoilRoot>
   );
 }
 
-export default MyApp;
+function InitHooks() {
+  useInitializeTheme();
+
+  return null;
+}
+
+export default PolynoteApp;
