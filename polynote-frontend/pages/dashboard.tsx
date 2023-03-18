@@ -1,8 +1,11 @@
+import { Header, Sidebar } from "components";
 import { Paths } from "consts/paths";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
+
+enum Page {}
 
 const Dashboard: NextPage = () => {
   const { isConnected } = useAccount();
@@ -15,7 +18,14 @@ const Dashboard: NextPage = () => {
     }
   }, [isConnected, router]);
 
-  return null;
+  return (
+    <>
+      <Header title="Dashboard" />
+      <div className="flex">
+        <Sidebar />
+      </div>
+    </>
+  );
 };
 
 export default Dashboard;

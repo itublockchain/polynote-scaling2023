@@ -9,11 +9,17 @@ type Props = {
 export const Header = ({ title, description }: Props) => {
   let _title = CONFIG.APP;
   if (title != null) {
-    _title += ` ${title}`;
+    _title += ` - ${title}`;
   }
 
   return (
     <NextSeo
+      additionalLinkTags={[
+        {
+          rel: "icon",
+          href: "/favicon.ico",
+        },
+      ]}
       title={_title}
       description={description ?? CONFIG.APP_DESCRIPTION}
     />

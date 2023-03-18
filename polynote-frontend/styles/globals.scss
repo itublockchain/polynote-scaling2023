@@ -12,14 +12,6 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-html {
-  &.dark {
-    & .body {
-      background-color: red;
-    }
-  }
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -28,4 +20,12 @@ a {
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+}
+
+body.light {
+  background-color: #fafafa;
+}
+
+body.dark {
+  background-color: #130b1b;
 }

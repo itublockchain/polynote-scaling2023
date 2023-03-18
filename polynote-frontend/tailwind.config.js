@@ -35,6 +35,9 @@ module.exports = {
         buttonPrimaryBgHover: "#6B628E",
         buttonPrimaryColor: "#F3F0FF",
         buttonPrimaryColorHover: "#F3F0FF",
+
+        sidebarLight: "#FFFEFF",
+        sidebarDark: "#0E0616",
       },
     },
   },
