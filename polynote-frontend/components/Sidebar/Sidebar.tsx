@@ -15,7 +15,7 @@ import { useModal } from "hooks/useModal";
 import { FaRegStickyNote } from "react-icons/fa";
 import { useNotes } from "recoil/notes/NotesStoreHooks";
 import { useState } from "react";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
 
 export const Sidebar = () => {
@@ -98,7 +98,7 @@ export const Sidebar = () => {
           </div>
           <div className="flex w-full overflow-auto mt-auto">
             {notes.length === 0 && (
-              <div className="flex flex-col justify-center items-center border-1 border-LIGHT_PURPLE dark:border-DARK_PURPLE rounded-[12px] py-[32px] w-full bg-LIGHT_PURPLE dark:bg-MAIN_DARK p-[24px] pb-[16px]">
+              <div className="flex flex-col justify-center items-center border-1 border-LIGHT_PURPLE dark:border-DARK_PURPLE rounded-[12px] py-[32px] w-full bg-emptyNoteBg dark:bg-MAIN_DARK p-[24px] pb-[16px]">
                 <div className="w-[64px] h-[64px] shrink-0 text-PINK bg-DARK_PURPLE rounded-full flex items-center justify-center">
                   <FaRegStickyNote fontSize={24} />
                 </div>
@@ -111,10 +111,11 @@ export const Sidebar = () => {
                 </Typography>
 
                 <Button
-                  className="w-full h-12 mt-[12px]"
+                  leftIcon={<BsPlus />}
+                  className="w-full h-10 mt-[12px]"
                   color={theme === "dark" ? "primary" : "secondary"}
                 >
-                  Create your first note
+                  Create note
                 </Button>
               </div>
             )}

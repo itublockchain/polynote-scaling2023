@@ -5,6 +5,8 @@ import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import LogoLarge from "assets/logo/logo-large.png";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import Image from "next/image";
+import { Button } from "ui";
+import { BsPlus } from "react-icons/bs";
 
 export const Main = () => {
   useNotesQuery();
@@ -23,6 +25,13 @@ export const Main = () => {
               alt="Logo"
               src={theme === "dark" ? LogoLargeWhite : LogoLarge}
             />
+            <Button
+              leftIcon={<BsPlus />}
+              color={theme === "dark" ? "primary" : "secondary"}
+              className="h-10 mt-4"
+            >
+              Create note
+            </Button>
           </div>
         )}
       </div>
