@@ -9,7 +9,7 @@ export const db = new Polybase({
       sig: ethPersonalSign(process.env.PRIVATE_KEY, data),
     };
   },
-  defaultNamespace: 'test',
+  defaultNamespace: 'polynote',
 });
 
 export const initPolybase = async () => {

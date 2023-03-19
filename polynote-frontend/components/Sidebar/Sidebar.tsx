@@ -2,8 +2,8 @@ import LogoLarge from "assets/logo/logo-large.png";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import { useTheme } from "recoil/theme/ThemeStore";
 import Image from "next/image";
-import { Button, Typography } from "ui";
-import { AiFillSetting } from "react-icons/ai";
+import { Button, Input, Typography } from "ui";
+import { AiFillSetting, AiOutlineSearch } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import { useAvatar } from "hooks/useAvatar";
@@ -36,7 +36,7 @@ export const Sidebar = () => {
           className="flex py-[8px] px-[4px] cursor-pointer hover:bg-DARK_PURPLE rounded-[12px]"
         >
           <div
-            className="w-[48px] h-[48px]   flex shrink-0 bg-DARK_PURPLE rounded-[12px] items-center justify-center"
+            className="w-[48px] h-[48px] flex shrink-0 bg-DARK_PURPLE rounded-[12px] items-center justify-center"
             dangerouslySetInnerHTML={{
               __html: avatar,
             }}
@@ -59,6 +59,9 @@ export const Sidebar = () => {
               </Typography>
             )}
           </div>
+        </div>
+        <div className="px-[8px] mt-[16px]">
+          <Input placeholder="Search..." icon={<AiOutlineSearch />} />
         </div>
       </div>
     </div>
