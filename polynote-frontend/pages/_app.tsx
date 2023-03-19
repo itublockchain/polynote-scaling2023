@@ -7,7 +7,6 @@ import {
 } from "@rainbow-me/rainbowkit";
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { goerli } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import "styles/globals.scss";
 import { RecoilRoot } from "recoil";
@@ -21,13 +20,14 @@ import {
 } from "react";
 import { ThemeOption } from "recoil/theme/types";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { AccountModal } from "components/AccountModal/AccountModal";
+import { AccountModal } from "components";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
+import { scroll } from "consts/chains";
 
 export const queryClient = new QueryClient();
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [goerli],
+  [scroll],
   [publicProvider()]
 );
 

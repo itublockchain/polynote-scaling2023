@@ -8,7 +8,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UserAddressDto, UserCreateDto } from 'src/modules/user/user.dto';
+import {
+  UserAddressDto,
+  UserCreateDto,
+  UserUpdateDto,
+} from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @ApiTags('User')
@@ -34,5 +38,17 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   public async createUser(@Body() userCreateDto: UserCreateDto) {
     return await this.userService.createUser(userCreateDto);
+  }
+
+  @Post('/:address')
+  @UsePipes(new ValidationPipe())
+  public async updateUserName(
+    @Param() userAddressDto: UserAddressDto,
+    @Body() userUpdateDto: UserUpdateDto,
+  ) {
+    return await this.userService.updateUserName(
+      userAddressDto.address,
+      userUpdateDto.name,
+    );
   }
 }

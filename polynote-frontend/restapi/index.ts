@@ -1,5 +1,8 @@
 import Axios from "axios";
-import { CreatePolybaseUserDto } from "restapi/types";
+import {
+  CreatePolybaseUserDto,
+  UpdatePolybaseUserNameDto,
+} from "restapi/types";
 
 const apiURL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
@@ -10,6 +13,13 @@ const axios = Axios.create({
 
 export const apiGetPolybaseUser = (address: string) => {
   return axios.get(`/user/${address}`);
+};
+
+export const apiUpdatePolybaseUserName = (
+  address: string,
+  data: UpdatePolybaseUserNameDto
+) => {
+  return axios.post(`/user/${address}`, data);
 };
 
 export const apiCreatePolybaseUser = (data: CreatePolybaseUserDto) => {

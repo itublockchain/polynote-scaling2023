@@ -8,3 +8,7 @@ export type CreatePolybaseUserDto = {
   address: string;
   signature: string;
 };
+
+export type UpdatePolybaseUserNameDto = {
+  name: string;
+};

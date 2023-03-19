@@ -24,23 +24,15 @@ export function Input({
   ...props
 }: InputProps) {
   return (
-    <div
-      ref={containerRef}
-      className={clsnm(
-        "flex relative",
-        containerClassName,
-        (label != null || error != null) && "flex-col"
-      )}
-    >
-      {icon != null && (
-        <div className="absolute left-[12px] top-1/2 -translate-y-1/2 text-MAIN_DARK dark:text-PINK text-xl">
-          {icon}
-        </div>
-      )}
+    <div className={clsnm("flex flex-col", containerClassName)}>
       {label != null && (
         <>
           {typeof label === "string" ? (
-            <Typography variant="body2" weight="medium" className="ml-1 mb-1">
+            <Typography
+              variant="body2"
+              weight="regular"
+              className="ml-1 mb-1 text-MAIN_DARK dark:text-PINK"
+            >
               {label}
             </Typography>
           ) : (
@@ -48,31 +40,45 @@ export function Input({
           )}
         </>
       )}
-      <input
-        ref={forwardedRef}
+      <div
+        ref={containerRef}
         className={clsnm(
-          "outline-none w-full rounded-lg bg-transparent dark:bg-MAIN_DARK text-neutral-600 dark:text-neutral-200 border-PURPLE dark:border-DARK_PURPLE border-1 focus:border-blue-200 focus:shadow-input dark:focus:shadow-inputDark focus:duration-200",
-          className,
-          !extendHeight && "h-12",
-          icon != null ? "p-4 pl-[40px]" : "p-4"
+          "flex relative mt-1",
+          (label != null || error != null) && "flex-col"
         )}
-        {...props}
-      />
-      {error != null && (
-        <>
-          {typeof error === "string" ? (
-            <Typography
-              variant="caption"
-              weight="medium"
-              className="ml-1 mt-1 text-red-600 text-sm"
-            >
-              {error}
-            </Typography>
-          ) : (
-            error
+      >
+        {icon != null && (
+          <div className="absolute left-[12px] top-1/2 -translate-y-1/2 text-MAIN_DARK dark:text-PINK text-xl">
+            {icon}
+          </div>
+        )}
+
+        <input
+          ref={forwardedRef}
+          className={clsnm(
+            "outline-none w-full rounded-lg bg-transparent dark:bg-MAIN_DARK text-neutral-600 dark:text-neutral-200 border-PURPLE dark:border-DARK_PURPLE border-1 focus:border-blue-200 focus:shadow-input dark:focus:shadow-inputDark focus:duration-200",
+            className,
+            !extendHeight && "h-12",
+            icon != null ? "p-4 pl-[40px]" : "p-4"
           )}
-        </>
-      )}
+          {...props}
+        />
+        {error != null && (
+          <>
+            {typeof error === "string" ? (
+              <Typography
+                variant="caption"
+                weight="medium"
+                className="ml-1 mt-1 text-red-600 text-sm"
+              >
+                {error}
+              </Typography>
+            ) : (
+              error
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
