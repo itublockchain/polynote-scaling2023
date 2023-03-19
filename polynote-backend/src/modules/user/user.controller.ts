@@ -6,10 +6,13 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import {
   UserAddressDto,
   UserAuthDto,
@@ -18,6 +21,8 @@ import {
   UserUpdateDto,
 } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
+import { checkAdmin } from 'src/utils/checkAdmin';
+import { getTokenData } from 'src/utils/getTokenData';
 
 @ApiTags('User')
 @Controller('user')
@@ -55,7 +60,14 @@ export class UserController {
   public async updateUserName(
     @Param() userAddressDto: UserAddressDto,
     @Body() userUpdateDto: UserUpdateDto,
+    @Req() req: Request,
   ) {
+    const { address } = getTokenData(req);
+
+    if (userAddressDto.address !== address) {
+      throw new UnauthorizedException();
+    }
+
     return await this.userService.updateUserName(
       userAddressDto.address,
       userUpdateDto.name,
@@ -64,7 +76,20 @@ export class UserController {
 
   @Delete('/:address')
   @UsePipes(new ValidationPipe())
-  public async deleteUser(@Param() userAddressDto: UserDeleteDto) {
+  public async deleteUser(
+    @Param() userAddressDto: UserDeleteDto,
+    @Req() req: Request,
+  ) {
+    const { address } = getTokenData(req);
+
+    if (!checkAdmin(address)) {
+      throw new UnauthorizedException();
+    }
+
+    if (userAddressDto.address !== address) {
+      throw new UnauthorizedException();
+    }
+
     return await this.userService.deleteUser(userAddressDto.address);
   }
 }

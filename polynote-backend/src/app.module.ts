@@ -1,7 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CONFIG } from 'src/config';
+import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
 import { NoteModule } from 'src/modules/note/note.module';
 import { UserModule } from 'src/modules/user/user.module';
 
@@ -15,6 +22,7 @@ import { UserModule } from 'src/modules/user/user.module';
         return CONFIG.MYSQL;
       },
     }),
+    JwtModule.register({ secret: process.env.PRIVATE_KEY }),
 
     UserModule,
     NoteModule,
@@ -22,4 +30,15 @@ import { UserModule } from 'src/modules/user/user.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude()
+      .forRoutes(
+        { path: '*', method: RequestMethod.POST },
+        { path: '*', method: RequestMethod.PUT },
+        { path: '*', method: RequestMethod.DELETE },
+      );
+  }
+}
