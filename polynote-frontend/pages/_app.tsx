@@ -19,9 +19,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useTheme } from "recoil/theme/ThemeStore";
 import { ThemeOption } from "recoil/theme/types";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AccountModal } from "components/AccountModal/AccountModal";
+import { useTheme } from "recoil/theme/ThemeStoreHooks";
 
 export const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ function PolynoteApp({ Component, pageProps }: AppProps) {
               chains={chains}
               theme={_theme === "dark" ? darkTheme() : lightTheme()}
             >
+              <AccountModal />
               <InitHooks setTheme={_setTheme} />
               <Component {...pageProps} />
             </RainbowKitProvider>

@@ -3,3 +3,8 @@ export type PolybaseUser = {
   name: string;
   id: string;
 };
+
+export type CreatePolybaseUserDto = {
+  address: string;
+  signature: string;
+};

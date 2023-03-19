@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSetTheme, useTheme } from "recoil/theme/ThemeStore";
+import { useSetTheme, useTheme } from "recoil/theme/ThemeStoreHooks";
 
 const identifier = "PolynoteTheme";
 const initialTheme = "dark";

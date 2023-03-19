@@ -22,7 +22,7 @@ const Modal = ({
   showCloseIcon = true,
   className,
   bodyProps = {},
-  width,
+  width = "320px",
 }: ModalProps) => {
   const { isOpen, close } = modalController;
 
@@ -52,11 +52,7 @@ const Modal = ({
       <div
         {...bodyProps}
         ref={outsideRef}
-        className={clsnm(
-          styles.body,
-          "bg-white dark:bg-neutral-800",
-          className
-        )}
+        className={clsnm(styles.body, "bg-white dark:bg-MAIN_DARK", className)}
         style={{
           width: width,
           ...(bodyProps.style || {}),
@@ -67,7 +63,7 @@ const Modal = ({
             onClick={close}
             className={clsnm(
               styles.close,
-              "flex items-center align-center bg-neutral-100 hover:bg-gray-20 dark:bg-neutral-900 hover:dark:bg-black text-black dark:text-white rounded-full"
+              "flex items-center align-center bg-neutral-100 hover:bg-gray-200 dark:bg-DARK_PURPLE hover:dark:bg-neutral-900 text-black dark:text-white rounded-full"
             )}
           >
             <IoMdClose />

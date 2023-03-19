@@ -1,6 +1,5 @@
 import LogoLarge from "assets/logo/logo-large.png";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
-import { useTheme } from "recoil/theme/ThemeStore";
 import Image from "next/image";
 import { Button, Input, Typography } from "ui";
 import { AiFillSetting, AiOutlineSearch } from "react-icons/ai";
@@ -8,12 +7,16 @@ import { useAccount } from "wagmi";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import { useAvatar } from "hooks/useAvatar";
 import { formatAddress } from "utils/formatAddress";
+import { useTheme } from "recoil/theme/ThemeStoreHooks";
+import { getPolybaseUserName } from "utils/getPolybaseUserName";
+import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 
 export const Sidebar = () => {
   const theme = useTheme();
   const { address } = useAccount();
   const { openAccountModal } = useAccountModal();
   const avatar = useAvatar(32);
+  const polybaseUser = usePolybaseUser();
 
   return (
     <div className="flex flex-col min-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute md:w-[320px] lg:relative left-0 top-0">
@@ -47,7 +50,7 @@ export const Sidebar = () => {
               weight="medium"
               className="text-MAIN_DARK dark:text-PINK whitespace-nowrap text-ellipsis overflow-hidden"
             >
-              Farhad Asgarov
+              {getPolybaseUserName(polybaseUser)}
             </Typography>
             {address != null && (
               <Typography
