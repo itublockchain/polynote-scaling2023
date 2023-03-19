@@ -12,3 +12,10 @@ export class UserCreateDto {
   @IsString()
   signature: string;
 }
+
+export class UserAddressDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+}

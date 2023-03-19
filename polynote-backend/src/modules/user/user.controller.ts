@@ -2,12 +2,13 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UserCreateDto } from 'src/modules/user/user.dto';
+import { UserAddressDto, UserCreateDto } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
 
 @ApiTags('User')
@@ -18,6 +19,14 @@ export class UserController {
   @Get()
   public async genUsers() {
     const result = await this.userService.genUsers();
+    return result;
+  }
+
+  @Get('/:address')
+  public async genUserByAddress(@Param() userAddressDto: UserAddressDto) {
+    const result = await this.userService.genUserByAddress(
+      userAddressDto.address,
+    );
     return result;
   }
 

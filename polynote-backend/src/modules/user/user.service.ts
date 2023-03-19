@@ -20,7 +20,25 @@ export class UserService {
     return response.data;
   }
 
+  public async genUserByAddress(address: string) {
+    const response = await this.collection
+      .where('address', '==', address)
+      .get();
+
+    if (response == null) {
+      return { user: null };
+    }
+
+    if (Array.isArray(response.data)) {
+      return { user: response.data[0] ?? null };
+    }
+
+    return { user: null };
+  }
+
   public async createUser(userCreateDto: UserCreateDto) {
+    console.log([uuidv4(), userCreateDto.signature, userCreateDto.address]);
+
     const response = await this.collection.create([
       uuidv4(),
       userCreateDto.signature,
