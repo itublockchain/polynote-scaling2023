@@ -3,3 +3,4 @@ export { CustomConnectButton } from "./Button/CustomConnectButton";
 export { Spinner } from "./Spinner/Spinner";
 export { Typography } from "./Typography/Typography";
 export { Input } from "./Input/Input";
+export { Modal } from "./Modal/Modal";

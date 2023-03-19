@@ -3,7 +3,7 @@ import Wallpaper from "assets/wallpaper.png";
 import ConnectPageIllustration from "assets/connect-page-illustration.png";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import Image from "next/image";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties } from "react";
 import { Button, CustomConnectButton } from "ui";
 import { useAccount } from "wagmi";
 import { Typography } from "ui/Typography/Typography";

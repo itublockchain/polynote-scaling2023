@@ -30,7 +30,7 @@ export const Sidebar = () => {
           <AiFillSetting />
         </Button>
       </div>
-      <div className="h-full flex-1 py-[8px] px-[8px] border-r-1 border-PINK dark:border-DARK_PURPLE">
+      <div className="h-full flex-1 py-[8px] px-[16px] border-r-1 border-PINK dark:border-DARK_PURPLE">
         <div
           onClick={openAccountModal}
           className="flex py-[8px] px-[4px] cursor-pointer hover:bg-DARK_PURPLE rounded-[12px]"
@@ -60,7 +60,7 @@ export const Sidebar = () => {
             )}
           </div>
         </div>
-        <div className="px-[8px] mt-[16px]">
+        <div className="mt-[16px]">
           <Input placeholder="Search..." icon={<AiOutlineSearch />} />
         </div>
       </div>

@@ -21,6 +21,9 @@ import {
 } from "react";
 import { useTheme } from "recoil/theme/ThemeStore";
 import { ThemeOption } from "recoil/theme/types";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+export const queryClient = new QueryClient();
 
 const { chains, provider, webSocketProvider } = configureChains(
   [goerli],
@@ -43,19 +46,21 @@ function PolynoteApp({ Component, pageProps }: AppProps) {
   const [_theme, _setTheme] = useState<ThemeOption>("dark");
 
   return (
-    <ClientOnly>
-      <RecoilRoot>
-        <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider
-            chains={chains}
-            theme={_theme === "dark" ? darkTheme() : lightTheme()}
-          >
-            <InitHooks setTheme={_setTheme} />
-            <Component {...pageProps} />
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </RecoilRoot>
-    </ClientOnly>
+    <QueryClientProvider client={queryClient}>
+      <ClientOnly>
+        <RecoilRoot>
+          <WagmiConfig client={wagmiClient}>
+            <RainbowKitProvider
+              chains={chains}
+              theme={_theme === "dark" ? darkTheme() : lightTheme()}
+            >
+              <InitHooks setTheme={_setTheme} />
+              <Component {...pageProps} />
+            </RainbowKitProvider>
+          </WagmiConfig>
+        </RecoilRoot>
+      </ClientOnly>
+    </QueryClientProvider>
   );
 }
 
