@@ -6,6 +6,6 @@ export const useNotes = (): Note[] => {
   return useRecoilValue(NotesAtom);
 };
 
-export const useSetTheme = (): SetterOrUpdater<Note[]> => {
+export const useSetNotes = (): SetterOrUpdater<Note[]> => {
   return useSetRecoilState(NotesAtom);
 };

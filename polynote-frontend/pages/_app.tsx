@@ -6,7 +6,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import type { AppProps } from "next/app";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import "styles/globals.scss";
 import { RecoilRoot } from "recoil";
@@ -20,9 +20,9 @@ import {
 } from "react";
 import { ThemeOption } from "recoil/theme/types";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { AccountModal } from "components";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { scroll } from "consts/chains";
+import { ACCESS_TOKEN_KEY } from "consts/storage";
 
 export const queryClient = new QueryClient();
 
@@ -55,7 +55,6 @@ function PolynoteApp({ Component, pageProps }: AppProps) {
               chains={chains}
               theme={_theme === "dark" ? darkTheme() : lightTheme()}
             >
-              <AccountModal />
               <InitHooks setTheme={_setTheme} />
               <Component {...pageProps} />
             </RainbowKitProvider>
@@ -87,6 +86,12 @@ function InitHooks({
 }) {
   const theme = useTheme();
   useInitializeTheme();
+
+  useAccount({
+    onDisconnect: () => {
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+    },
+  });
 
   useEffect(() => {
     setTheme(theme);

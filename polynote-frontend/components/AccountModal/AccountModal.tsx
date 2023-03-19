@@ -3,27 +3,78 @@ import { Button, Modal, Typography } from "ui";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import LogoLarge from "assets/logo/logo-large.png";
 import Image from "next/image";
-import { useAccount, useSignMessage } from "wagmi";
+import { useAccount, useSignTypedData } from "wagmi";
 import { useCreatePolybaseUserMutation } from "restapi/queries/useCreatePolybaseUserMutation";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
-import { usePolybaseUser } from "recoil/user/UserStoreHooks";
+import { usePolybaseUser, useSetToken } from "recoil/user/UserStoreHooks";
+import { DOMAIN, getSignatureValue, TYPES } from "utils/signature";
+import { useEffect, useRef } from "react";
+import { ACCESS_TOKEN_KEY } from "consts/storage";
+import { useAuthUserMutation } from "restapi/queries/useAuthUserMutation";
+import { useRouter } from "next/router";
+import { Paths } from "consts/paths";
 
 export const AccountModal = () => {
   const { isLoading } = usePolybaseUserQuery();
   const theme = useTheme();
   const { address } = useAccount();
   const polybaseUser = usePolybaseUser();
+  const router = useRouter();
+  const checkedRef = useRef(false);
+  const setToken = useSetToken();
 
   const createPolybaseUserMutation = useCreatePolybaseUserMutation();
+  const authUserMutation = useAuthUserMutation();
 
-  const { signMessage, isLoading: isSigning } = useSignMessage({
+  const {
+    signTypedData: signTypedDataForRegister,
+    isLoading: isSigningRegistration,
+  } = useSignTypedData({
     onSuccess: (res) => {
       createPolybaseUserMutation.mutate({
         address: address as string,
         signature: res,
       });
     },
+    domain: DOMAIN,
+    types: TYPES,
+    value: getSignatureValue(
+      address as `0x${string}`,
+      "I accept creating Polynote account"
+    ),
   });
+
+  const { signTypedData: signTypeDataForAuth, isLoading: isSigningAuth } =
+    useSignTypedData({
+      onSuccess: (res) => {
+        authUserMutation.mutate({
+          address: address as string,
+          signature: res,
+        });
+      },
+      onError: () => {
+        router.replace(Paths.CONNECT_WALLET);
+      },
+      domain: DOMAIN,
+      types: TYPES,
+      value: getSignatureValue(address as `0x${string}`, "Sign in"),
+    });
+
+  useEffect(() => {
+    if (checkedRef.current) {
+      return;
+    }
+    if (polybaseUser?.address != null) {
+      const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
+      if (access_token == null) {
+        signTypeDataForAuth();
+        checkedRef.current = true;
+      } else {
+        setToken(access_token);
+      }
+    }
+    // eslint-disable-next-line
+  }, [polybaseUser?.address, setToken]);
 
   return (
     <Modal
@@ -54,11 +105,11 @@ export const AccountModal = () => {
           </code>
         </Typography>
         <Button
-          loading={createPolybaseUserMutation.isLoading || isSigning}
+          loading={
+            createPolybaseUserMutation.isLoading || isSigningRegistration
+          }
           onClick={() => {
-            signMessage({
-              message: "I accept creating Polynote account",
-            });
+            signTypedDataForRegister();
           }}
           className="w-[90%] ml-auto mr-auto h-10 mt-5"
           color={theme === "dark" ? "secondary" : "primary"}

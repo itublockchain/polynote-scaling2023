@@ -9,6 +9,11 @@ export type CreatePolybaseUserDto = {
   signature: string;
 };
 
+export type AuthUserDto = {
+  address: string;
+  signature: string;
+};
+
 export type UpdatePolybaseUserNameDto = {
   name: string;
 };

@@ -3,7 +3,7 @@ import Wallpaper from "assets/wallpaper.png";
 import ConnectPageIllustration from "assets/connect-page-illustration.png";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import Image from "next/image";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
 import { Button, CustomConnectButton } from "ui";
 import { useAccount } from "wagmi";
 import { Typography } from "ui/Typography/Typography";
@@ -11,6 +11,7 @@ import { formatAddress } from "utils/formatAddress";
 import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
 import { Header } from "components";
+import { useSetPolybaseUser } from "recoil/user/UserStoreHooks";
 
 const borderStyles: CSSProperties = {
   borderTopLeftRadius: "180px",
@@ -19,7 +20,12 @@ const borderStyles: CSSProperties = {
 
 const ConnectPage: NextPage = () => {
   const { isConnected, address } = useAccount();
+  const setPolybaseUser = useSetPolybaseUser();
   const router = useRouter();
+
+  useEffect(() => {
+    setPolybaseUser(null);
+  }, [setPolybaseUser]);
 
   return (
     <>

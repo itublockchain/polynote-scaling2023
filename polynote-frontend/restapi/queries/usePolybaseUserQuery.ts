@@ -1,3 +1,5 @@
+import { Paths } from "consts/paths";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useSetPolybaseUser } from "recoil/user/UserStoreHooks";
@@ -8,6 +10,7 @@ import { useAccount } from "wagmi";
 export const usePolybaseUserQuery = () => {
   const { address } = useAccount();
   const setPolybaseUser = useSetPolybaseUser();
+  const router = useRouter();
 
   const { data, ...rest } = useQuery({
     queryKey: POLYBASE_USER_QUERY,
@@ -21,6 +24,9 @@ export const usePolybaseUserQuery = () => {
 
         return user;
       }),
+    onError: () => {
+      router.replace(Paths.CONNECT_WALLET);
+    },
     enabled: address != null,
     cacheTime: 0,
     refetchOnWindowFocus: false,
