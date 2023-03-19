@@ -1,16 +1,20 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   UserAddressDto,
+  UserAuthDto,
   UserCreateDto,
+  UserDeleteDto,
   UserUpdateDto,
 } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
@@ -40,7 +44,13 @@ export class UserController {
     return await this.userService.createUser(userCreateDto);
   }
 
-  @Post('/:address')
+  @Post('/auth')
+  @UsePipes(new ValidationPipe())
+  public async authUser(@Body() userAuthDto: UserAuthDto) {
+    return await this.userService.authUser(userAuthDto);
+  }
+
+  @Put('/:address')
   @UsePipes(new ValidationPipe())
   public async updateUserName(
     @Param() userAddressDto: UserAddressDto,
@@ -50,5 +60,11 @@ export class UserController {
       userAddressDto.address,
       userUpdateDto.name,
     );
+  }
+
+  @Delete('/:address')
+  @UsePipes(new ValidationPipe())
+  public async deleteUser(@Param() userAddressDto: UserDeleteDto) {
+    return await this.userService.deleteUser(userAddressDto.address);
   }
 }

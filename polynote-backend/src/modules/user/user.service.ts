@@ -1,7 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Collection, Polybase } from '@polybase/client';
-import { UserCreateDto, UserResponseDto } from 'src/modules/user/user.dto';
+import { ethers } from 'ethers';
+import {
+  UserAuthDto,
+  UserCreateDto,
+  UserResponseDto,
+} from 'src/modules/user/user.dto';
 import { getPolybaseInstance } from 'src/utils/getPolybaseInstance';
+import { DOMAIN, TYPES } from 'src/utils/signature';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -9,7 +16,7 @@ export class UserService {
   db: Polybase;
   collection: Collection<any>;
 
-  constructor() {
+  constructor(private readonly jwtService: JwtService) {
     this.db = getPolybaseInstance();
     this.collection = this.db.collection('User');
   }
@@ -17,7 +24,9 @@ export class UserService {
   public async genUsers() {
     const response = await this.collection.get();
 
-    return response.data;
+    return response.data.map((item) => {
+      return item.data;
+    });
   }
 
   public async genUserByAddress(
@@ -51,8 +60,6 @@ export class UserService {
   }
 
   public async createUser(userCreateDto: UserCreateDto) {
-    console.log([uuidv4(), userCreateDto.signature, userCreateDto.address]);
-
     const response = await this.collection.create([
       uuidv4(),
       userCreateDto.signature,
@@ -60,5 +67,35 @@ export class UserService {
     ]);
 
     return response.data;
+  }
+
+  public async authUser(userAuthDto: UserAuthDto) {
+    const signer = ethers.utils.verifyTypedData(
+      DOMAIN,
+      TYPES,
+      {
+        address: userAuthDto.address,
+        message: 'Sign in',
+      },
+      userAuthDto.signature,
+    );
+
+    if (signer === userAuthDto.address) {
+      const token = this.jwtService.sign({ address: userAuthDto.address });
+
+      return { token };
+    }
+
+    throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+  }
+
+  public async deleteUser(address: string) {
+    const { user } = await this.genUserByAddress(address);
+
+    if (user == null) {
+      throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    await this.collection.record(user.id).call('deleteUser');
   }
 }

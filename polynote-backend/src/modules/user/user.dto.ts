@@ -14,11 +14,30 @@ export class UserCreateDto {
   signature: string;
 }
 
+export class UserAuthDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  signature: string;
+}
+
 export class UserUpdateDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   name: string;
+}
+
+export class UserDeleteDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
 }
 
 export class UserAddressDto {

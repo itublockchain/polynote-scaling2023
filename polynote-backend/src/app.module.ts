@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CONFIG } from 'src/config';
+import { NoteModule } from 'src/modules/note/note.module';
 import { UserModule } from 'src/modules/user/user.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { UserModule } from 'src/modules/user/user.module';
     }),
 
     UserModule,
+    NoteModule,
   ],
   controllers: [],
   providers: [],

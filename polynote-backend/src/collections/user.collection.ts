@@ -26,4 +26,11 @@ collection User {
     }
     this.signature = signature;
   }
+
+  deleteUser() {
+    if (this.publicKey != ctx.publicKey) {
+      throw error('invalid public key');
+    }
+    selfdestruct();
+  }
 }`;
