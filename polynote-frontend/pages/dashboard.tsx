@@ -8,15 +8,15 @@ import { useAccount } from "wagmi";
 enum Page {}
 
 const Dashboard: NextPage = () => {
-  const { isConnected } = useAccount();
+  const { isConnected, isReconnecting, isConnecting } = useAccount();
   const router = useRouter();
 
   useEffect(() => {
-    console.log(isConnected);
+    if (isReconnecting || isConnecting) return;
     if (!isConnected) {
       router.replace(Paths.CONNECT_WALLET);
     }
-  }, [isConnected, router]);
+  }, [isConnected, router, isReconnecting, isConnecting]);
 
   return (
     <>

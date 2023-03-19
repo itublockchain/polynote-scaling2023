@@ -5,7 +5,6 @@ import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import Image from "next/image";
 import { CSSProperties, useEffect, useState } from "react";
 import { Button, CustomConnectButton } from "ui";
-import { AiOutlineWallet } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { Typography } from "ui/Typography/Typography";
 import { formatAddress } from "utils/formatAddress";
@@ -21,13 +20,6 @@ const borderStyles: CSSProperties = {
 const ConnectPage: NextPage = () => {
   const { isConnected, address } = useAccount();
   const router = useRouter();
-
-  const [connected, setConnected] = useState(false);
-
-  //** SSR ISSUE */
-  useEffect(() => {
-    setConnected(isConnected);
-  }, [isConnected]);
 
   return (
     <>
@@ -49,7 +41,7 @@ const ConnectPage: NextPage = () => {
               />
             </div>
 
-            {connected && address != null ? (
+            {isConnected && address != null ? (
               <div className="w-[220px] md:w-[90%] mt-[32px] flex flex-col">
                 <Typography
                   variant="body1"

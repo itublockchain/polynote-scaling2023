@@ -39,6 +39,9 @@ module.exports = {
         sidebarLight: "#FFFEFF",
         sidebarDark: "#0E0616",
       },
+      borderWidth: {
+        1: "1px",
+      },
     },
   },
   darkMode: "class",
