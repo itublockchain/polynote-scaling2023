@@ -43,7 +43,7 @@ export const Sidebar = () => {
         <div className="h-full flex-1 py-[8px] px-[16px] border-r-1 border-PINK dark:border-DARK_PURPLE">
           <div
             onClick={openAccountModal}
-            className="flex py-[8px] px-[4px] cursor-pointer hover:bg-PINK dark:hover:bg-DARK_PURPLE rounded-[12px]"
+            className="flex py-[4px] px-[4px] cursor-pointer hover:bg-PINK dark:hover:bg-DARK_PURPLE rounded-[12px]"
           >
             <div
               className="w-[48px] h-[48px] flex shrink-0 bg-PINK  dark:bg-DARK_PURPLE rounded-[12px] items-center justify-center"
@@ -70,7 +70,7 @@ export const Sidebar = () => {
               )}
             </div>
           </div>
-          <div className="mt-[8asfpx]">
+          <div className="mt-[8px]">
             <Input placeholder="Search..." icon={<AiOutlineSearch />} />
           </div>
         </div>

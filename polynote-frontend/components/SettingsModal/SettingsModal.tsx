@@ -5,6 +5,7 @@ import { useTheme, useToggleTheme } from "recoil/theme/ThemeStoreHooks";
 import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 import { useUpdatePolybaseUserNameMutation } from "restapi/queries";
 import { Button, Input, Modal, Typography } from "ui";
+import { BsFillMoonFill, BsSunFill } from "react-icons/bs";
 
 type Props = {
   modalController: ModalController;
@@ -23,6 +24,12 @@ export const SettingsModal = ({ modalController }: Props) => {
   useEffect(() => {
     setEditedName(polybaseUser?.name ?? "");
   }, [polybaseUser?.name]);
+
+  useEffect(() => {
+    if (!modalController.isOpen) {
+      setEditedName(polybaseUser?.name ?? "");
+    }
+  }, [modalController.isOpen, polybaseUser?.name]);
 
   return (
     <Modal width="400px" modalController={modalController}>
@@ -67,6 +74,7 @@ export const SettingsModal = ({ modalController }: Props) => {
         </Typography>
 
         <Button
+          leftIcon={theme === "dark" ? <BsFillMoonFill /> : <BsSunFill />}
           className="h-[40px] w-full mt-[8px]"
           onClick={toggleTheme}
           color={theme === "dark" ? "primary" : "secondary"}

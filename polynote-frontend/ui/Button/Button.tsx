@@ -50,7 +50,7 @@ export function Button({
       {leftIcon != null ? (
         <div
           className={clsnm(
-            "text-xl",
+            "text-base",
             children != null && "mr-2",
             loading && "opacity-0"
           )}
@@ -64,7 +64,7 @@ export function Button({
       {rightIcon != null ? (
         <div
           className={clsnm(
-            "text-xl",
+            "text-base",
             children != null && "ml-2",
             loading && "opacity-0"
           )}
