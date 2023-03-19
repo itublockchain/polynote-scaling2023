@@ -12,7 +12,7 @@ import { getPolybaseUserName } from "utils/getPolybaseUserName";
 import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 import { SettingsModal } from "components";
 import { useModal } from "hooks/useModal";
-import { FaRegStickyNote } from "react-icons/fa";
+import { FaBars, FaRegStickyNote } from "react-icons/fa";
 import { useNotes } from "recoil/notes/NotesStoreHooks";
 import { useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
@@ -33,7 +33,7 @@ export const Sidebar = () => {
       <SettingsModal modalController={modal} />
       <div
         className={clsnm(
-          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute md:w-[320px] lg:relative left-0 top-0 shrink-0",
+          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute md:w-[320px] lg:relative left-0 top-0 shrink-0 z-10",
           collapsed && "hidden md:flex"
         )}
       >
@@ -105,7 +105,7 @@ export const Sidebar = () => {
                 <Typography
                   variant="body2"
                   weight="regular"
-                  className="text-MAIN_DARK dark:text-PINK block mt-[12px]"
+                  className="text-MAIN_DARK dark:text-PINK block mt-[12px] text-center"
                 >
                   You don’t have any existing note.
                 </Typography>
@@ -133,7 +133,7 @@ export const Sidebar = () => {
           className="w-[36px] h-[32px]"
           color={theme === "dark" ? "primary" : "secondary"}
         >
-          <BsChevronRight />
+          <FaBars />
         </Button>
       </div>
     </>
