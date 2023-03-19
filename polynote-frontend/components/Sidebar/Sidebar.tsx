@@ -11,14 +11,18 @@ import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { getPolybaseUserName } from "utils/getPolybaseUserName";
 import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 import { SettingsModal } from "components";
-import { useModal } from "hooks/useModal";
+import { ModalController, useModal } from "hooks/useModal";
 import { FaBars, FaRegStickyNote } from "react-icons/fa";
 import { useNotes } from "recoil/notes/NotesStoreHooks";
 import { useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
 
-export const Sidebar = () => {
+type Props = {
+  createNoteModal: ModalController;
+};
+
+export const Sidebar = ({ createNoteModal }: Props) => {
   const theme = useTheme();
   const { address } = useAccount();
   const { openAccountModal } = useAccountModal();
@@ -111,6 +115,7 @@ export const Sidebar = () => {
                 </Typography>
 
                 <Button
+                  onClick={createNoteModal.open}
                   leftIcon={<BsPlus />}
                   className="w-full h-10 mt-[12px]"
                   color={theme === "dark" ? "primary" : "secondary"}

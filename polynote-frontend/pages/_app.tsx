@@ -23,6 +23,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { scroll } from "consts/chains";
 import { ACCESS_TOKEN_KEY } from "consts/storage";
+import { useSetToken } from "recoil/user/UserStoreHooks";
 
 export const queryClient = new QueryClient();
 
@@ -86,9 +87,11 @@ function InitHooks({
 }) {
   const theme = useTheme();
   useInitializeTheme();
+  const setToken = useSetToken();
 
   useAccount({
     onDisconnect: () => {
+      setToken(null);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
     },
   });
