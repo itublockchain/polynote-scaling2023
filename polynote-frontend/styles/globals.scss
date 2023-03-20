@@ -52,3 +52,85 @@ body.dark {
   height: 0;
   pointer-events: none;
 }
+
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
+}
+
+.ProseMirror {
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+}
+
+.bubble-menu {
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+
+  button {
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0.2rem;
+    opacity: 0.6;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+    }
+  }
+}
+
+.floating-menu {
+  display: flex;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  transform: translateX(20px);
+  width: max-content;
+
+  button {
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 0.2rem;
+    opacity: 0.6;
+    white-space: nowrap;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    &:hover,
+    &.is-active {
+      opacity: 1;
+    }
+  }
+}

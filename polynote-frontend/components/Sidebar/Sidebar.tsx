@@ -130,7 +130,10 @@ export const Sidebar = ({ createNoteModal }: Props) => {
               <div className="flex flex-col pb-[24px] overflow-auto mb-[12px] scrollbar-hide">
                 {filteredNotes.map((note) => (
                   <div
-                    onClick={() => setSelectedNote(note)}
+                    onClick={() => {
+                      setSelectedNote(note);
+                      setCollapsed(true);
+                    }}
                     className={clsnm(
                       "flex items-center cursor-pointer py-[8px] px-[16px] mt-[8px] rounded-[12px]  hover:bg-PINK dark:hover:bg-DARK_PURPLE",
                       selectedNote?.id === note.id

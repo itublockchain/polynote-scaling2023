@@ -17,7 +17,6 @@ import { useState } from "react";
 
 export const Main = () => {
   useNotesQuery();
-  const theme = useTheme();
   const notes = useNotes();
   const selectedNote = useSelectedNote();
   const createNoteModal = useModal();
