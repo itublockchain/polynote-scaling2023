@@ -22,29 +22,29 @@ describe("Lock", function () {
       const { polynote, user1, user2 } = await loadFixture(deployFixture);
 
       expect(
-        await polynote.isShared(user1.getAddress(), user2.getAddress())
+        await polynote.isShared(user1.getAddress(), 0, user2.getAddress())
       ).to.equal(false);
     });
 
     it("Share with partner", async function () {
       const { polynote, user1, user2 } = await loadFixture(deployFixture);
-      await polynote.connect(user1).addPartner(user2.getAddress());
+      await polynote.connect(user1).addPartners(0, [user2.getAddress()]);
       expect(
-        await polynote.isShared(user1.getAddress(), user2.getAddress())
+        await polynote.isShared(user1.getAddress(), 0, user2.getAddress())
       ).to.equal(true);
     });
 
     it("Remove partner", async function () {
       const { polynote, user1, user2 } = await loadFixture(deployFixture);
-      await polynote.connect(user1).addPartner(user2.getAddress());
+      await polynote.connect(user1).addPartners(0, [user2.getAddress()]);
       expect(
-        await polynote.isShared(user1.getAddress(), user2.getAddress())
+        await polynote.isShared(user1.getAddress(), 0, user2.getAddress())
       ).to.equal(true);
 
-      await polynote.connect(user1).removePartner(user2.getAddress());
+      await polynote.connect(user1).removePartners(0, [user2.getAddress()]);
 
       expect(
-        await polynote.isShared(user1.getAddress(), user2.getAddress())
+        await polynote.isShared(user1.getAddress(), 0, user2.getAddress())
       ).to.equal(false);
     });
   });
