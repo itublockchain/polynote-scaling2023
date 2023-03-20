@@ -36,14 +36,6 @@ export const Editor = ({
 
   return (
     <>
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "is-active" : ""}
-      >
-        bold
-      </button>
-
       {editor && (
         <BubbleMenu
           className="bubble-menu bg-DARK_PURPLE"

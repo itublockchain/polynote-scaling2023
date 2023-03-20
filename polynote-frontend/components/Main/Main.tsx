@@ -1,5 +1,9 @@
 import { Sidebar } from "components/Sidebar/Sidebar";
-import { useNotes, useSelectedNote } from "recoil/notes/NotesStoreHooks";
+import {
+  useNotes,
+  useSelectedNote,
+  useSetSelectedNote,
+} from "recoil/notes/NotesStoreHooks";
 import { useNotesQuery } from "restapi/queries";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import LogoLarge from "assets/logo/logo-large.png";
@@ -11,23 +15,49 @@ import { CreateNoteModal } from "components/CreateNoteModal/CreateNoteModal";
 import { ModalController, useModal } from "hooks/useModal";
 import { NoteEditor } from "components/NoteEditor/NoteEditor";
 import { NoteHeader } from "components/NoteHeader/NoteHeader";
-import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
-import { Note } from "recoil/notes/types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { Paths } from "consts/paths";
 
 export const Main = () => {
   useNotesQuery();
-  const notes = useNotes();
   const selectedNote = useSelectedNote();
+  const setSelectedNote = useSetSelectedNote();
   const createNoteModal = useModal();
   const [updating, setUpdating] = useState(false);
+  const router = useRouter();
+  const notes = useNotes();
+  const openedRef = useRef(false);
+
+  useEffect(() => {
+    if (selectedNote?.id != null) {
+      window.location.hash = `#id=${selectedNote.id}`;
+    }
+  }, [selectedNote?.id, router]);
+
+  useEffect(() => {
+    if (openedRef.current === true) {
+      return;
+    }
+
+    const hash = window.location.hash;
+
+    if (hash != null) {
+      const split = hash.split("id=");
+      const id = split[1];
+      const find = notes.find((note) => note.id === id);
+      if (find != null) {
+        setSelectedNote(find);
+      }
+    }
+  }, [notes, setSelectedNote]);
 
   return (
     <>
       <CreateNoteModal modalController={createNoteModal} />
       <div className="flex">
         <Sidebar createNoteModal={createNoteModal} />
-        <div className="flex flex-col w-full items-center min-h-screen">
+        <div className="flex flex-col w-full items-center overflow-auto min-h-screen max-h-screen pb-[32px]">
           {selectedNote != null && (
             <div className="flex-col w-full">
               <NoteHeader updating={updating} selectedNote={selectedNote} />
