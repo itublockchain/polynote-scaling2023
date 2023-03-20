@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Collection, Polybase } from '@polybase/client';
 import { NotesCreateDto } from 'src/modules/note/note.dto';
 import { getPolybaseInstance } from 'src/utils/getPolybaseInstance';
+import { getTimestamp } from 'src/utils/getTimestamp';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
@@ -37,6 +38,8 @@ export class NoteService {
       notesCreateDto.emoji,
       notesCreateDto.title,
       notesCreateDto.content,
+      getTimestamp(),
+      getTimestamp(),
     ]);
 
     return await this.genNoteById(id);
