@@ -17,7 +17,7 @@ module.exports = {
         CONNECT_WINDOW: "#1D1029",
 
         buttonDangerBg: "#CA4F4F",
-        buttonDangerBgHover: "802323",
+        buttonDangerBgHover: "#802323",
         buttonDangerColor: "#FFEEEE",
         buttonDarngetColorHover: "#F3F0FF",
 

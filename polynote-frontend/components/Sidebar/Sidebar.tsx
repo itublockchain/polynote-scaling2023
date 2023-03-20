@@ -13,7 +13,11 @@ import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 import { SettingsModal } from "components";
 import { ModalController, useModal } from "hooks/useModal";
 import { FaBars, FaRegStickyNote } from "react-icons/fa";
-import { useNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
+import {
+  useNotes,
+  useSelectedNote,
+  useSetSelectedNote,
+} from "recoil/notes/NotesStoreHooks";
 import { useMemo, useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
@@ -30,6 +34,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
   const polybaseUser = usePolybaseUser();
   const modal = useModal();
   const notes = useNotes();
+  const selectedNote = useSelectedNote();
   const setSelectedNote = useSetSelectedNote();
   const [collapsed, setCollapsed] = useState(true);
   const [search, setSearch] = useState("");
@@ -126,7 +131,12 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                 {filteredNotes.map((note) => (
                   <div
                     onClick={() => setSelectedNote(note)}
-                    className="flex items-center cursor-pointer py-[8px] px-[16px] mt-[8px] rounded-[12px] bg-sidebarNoteLight dark:bg-sidebarNoteDark hover:bg-PINK dark:hover:bg-DARK_PURPLE"
+                    className={clsnm(
+                      "flex items-center cursor-pointer py-[8px] px-[16px] mt-[8px] rounded-[12px]  hover:bg-PINK dark:hover:bg-DARK_PURPLE",
+                      selectedNote?.id === note.id
+                        ? "bg-sidebarNoteLight dark:bg-sidebarNoteDark border-1 border-PURPLE"
+                        : "bg-sidebarNoteLight dark:bg-sidebarNoteDark"
+                    )}
                     key={note.id}
                   >
                     <div className="flex text-xl mr-[8px]">{note.emoji}</div>

@@ -11,15 +11,17 @@ import { CreateNoteModal } from "components/CreateNoteModal/CreateNoteModal";
 import { ModalController, useModal } from "hooks/useModal";
 import { NoteEditor } from "components/NoteEditor/NoteEditor";
 import { NoteHeader } from "components/NoteHeader/NoteHeader";
+import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
+import { Note } from "recoil/notes/types";
+import { useState } from "react";
 
 export const Main = () => {
   useNotesQuery();
-
   const theme = useTheme();
   const notes = useNotes();
   const selectedNote = useSelectedNote();
-
   const createNoteModal = useModal();
+  const [updating, setUpdating] = useState(false);
 
   return (
     <>
@@ -29,8 +31,11 @@ export const Main = () => {
         <div className="flex flex-col w-full items-center min-h-screen">
           {selectedNote != null && (
             <div className="flex-col w-full">
-              <NoteHeader />
-              <NoteEditor selectedNote={selectedNote} />
+              <NoteHeader updating={updating} selectedNote={selectedNote} />
+              <NoteEditor
+                setUpdating={setUpdating}
+                selectedNote={selectedNote}
+              />
             </div>
           )}
 

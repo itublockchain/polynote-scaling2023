@@ -24,3 +24,9 @@ export type CreateNoteDto = {
   title: string;
   content: string;
 };
+
+export type UpdateNoteDto = {
+  emoji: string;
+  title: string;
+  content: string;
+};

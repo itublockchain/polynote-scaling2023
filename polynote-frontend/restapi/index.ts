@@ -3,6 +3,7 @@ import {
   AuthUserDto,
   CreateNoteDto,
   CreatePolybaseUserDto,
+  UpdateNoteDto,
   UpdatePolybaseUserNameDto,
 } from "restapi/types";
 import { getToken } from "utils/getToken";
@@ -52,6 +53,9 @@ export const apiCreateNote = (data: CreateNoteDto) => {
   return axios.post(`/notes`, data);
 };
 
+export const apiUpdateNote = (id: string, data: UpdateNoteDto) => {
+  return axios.post(`/notes/${id}`, data);
+};
+
 export const POLYBASE_USER_QUERY = ["polybase_user"];
-export const POLYBASE_CREATE_USER_MUTATION = ["polybase_create_user"];
 export const NOTES_QUERY = ["notes"];

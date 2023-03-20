@@ -1,18 +1,35 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import Placeholder from "@tiptap/extension-placeholder";
+import { useEditor, EditorContent, Editor as EditorProp } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { Note } from "recoil/notes/types";
 
-export const Editor = () => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
-    onUpdate: (e) => {
-      console.log(e.editor.getHTML());
-    },
-  });
+type Props = {
+  editor: EditorProp;
+  selectedNoteCopy: Note;
+  setSelectedNoteCopy: Dispatch<SetStateAction<Note>>;
+};
 
-  if (!editor) {
-    return null;
-  }
+export const Editor = ({
+  selectedNoteCopy,
+  setSelectedNoteCopy,
+  editor,
+}: Props) => {
+  useEffect(() => {
+    if (editor == null) {
+      return;
+    }
+
+    const changeFn = (e: any) => {
+      setSelectedNoteCopy({ ...selectedNoteCopy, content: e.editor.getHTML() });
+    };
+
+    editor.on("update", changeFn);
+
+    return () => {
+      editor.off("update", changeFn);
+    };
+  }, [editor, selectedNoteCopy, setSelectedNoteCopy]);
 
   return (
     <>
