@@ -165,7 +165,6 @@ export const Sidebar = ({ createNoteModal }: Props) => {
           )}
           {filteredNotes.length === 0 && search.trim() === "" && (
             <div className="flex w-full mt-auto">
-              (
               <div className="flex flex-col justify-center items-center border-1 border-LIGHT_PURPLE dark:border-DARK_PURPLE rounded-[12px] py-[32px] w-full bg-emptyNoteBg dark:bg-MAIN_DARK p-[24px] pb-[16px]">
                 <div className="w-[64px] h-[64px] shrink-0 text-PINK bg-DARK_PURPLE rounded-full flex items-center justify-center">
                   <FaRegStickyNote fontSize={24} />
@@ -187,7 +186,6 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                   Create note
                 </Button>
               </div>
-              )
             </div>
           )}
         </div>

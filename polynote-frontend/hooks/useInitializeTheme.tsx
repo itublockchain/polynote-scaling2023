@@ -35,5 +35,7 @@ export const useInitializeTheme = () => {
 
     bodyElement.classList.add(theme);
     bodyElement.classList.remove(theme === "dark" ? "light" : "dark");
+
+    localStorage.setItem(identifier, theme);
   }, [theme]);
 };
