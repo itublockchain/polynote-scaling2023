@@ -18,6 +18,8 @@ export const useDeleteNoteMutation = () => {
       setNotes(newNotes);
       if (newNotes.length > 0) {
         setSelectedNote(newNotes[newNotes.length - 1]);
+      } else {
+        setSelectedNote(null);
       }
     },
   });
