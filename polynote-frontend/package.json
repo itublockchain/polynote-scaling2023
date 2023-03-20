@@ -14,6 +14,7 @@
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@floating-ui/react-dom": "^1.3.0",
+    "@polybase/util": "^0.3.36",
     "@rainbow-me/rainbowkit": "^0.11.1",
     "@tiptap/extension-placeholder": "^2.0.0-beta.220",
     "@tiptap/pm": "^2.0.0-beta.220",

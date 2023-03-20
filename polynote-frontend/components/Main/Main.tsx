@@ -109,7 +109,7 @@ const EmptyState = ({
           onClick={createNoteModal.open}
           leftIcon={<BsPlus />}
           color={theme === "dark" ? "primary" : "secondary"}
-          className="h-10 mt-4"
+          className="h-10 w-full mt-4"
         >
           Create note
         </Button>
