@@ -13,8 +13,8 @@ import { usePolybaseUser } from "recoil/user/UserStoreHooks";
 import { SettingsModal } from "components";
 import { ModalController, useModal } from "hooks/useModal";
 import { FaBars, FaRegStickyNote } from "react-icons/fa";
-import { useNotes } from "recoil/notes/NotesStoreHooks";
-import { useState } from "react";
+import { useNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
+import { useMemo, useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
 
@@ -30,7 +30,15 @@ export const Sidebar = ({ createNoteModal }: Props) => {
   const polybaseUser = usePolybaseUser();
   const modal = useModal();
   const notes = useNotes();
+  const setSelectedNote = useSetSelectedNote();
   const [collapsed, setCollapsed] = useState(true);
+  const [search, setSearch] = useState("");
+
+  const filteredNotes = useMemo(() => {
+    return notes.filter((item) =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [notes, search]);
 
   return (
     <>
@@ -98,9 +106,14 @@ export const Sidebar = ({ createNoteModal }: Props) => {
             </div>
           </div>
           <div className="mt-[8px]">
-            <Input placeholder="Search..." icon={<AiOutlineSearch />} />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search..."
+              icon={<AiOutlineSearch />}
+            />
           </div>
-          {notes.length > 0 && (
+          {filteredNotes.length > 0 && (
             <>
               <Typography
                 className="text-MAIN_DARK dark:text-PINK mt-[12px] mb-[8px]"
@@ -110,15 +123,16 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                 Notes
               </Typography>
               <div className="flex flex-col pb-[24px] overflow-auto mb-[12px] scrollbar-hide">
-                {notes.map((note) => (
+                {filteredNotes.map((note) => (
                   <div
+                    onClick={() => setSelectedNote(note)}
                     className="flex items-center cursor-pointer py-[8px] px-[16px] mt-[8px] rounded-[12px] bg-sidebarNoteLight dark:bg-sidebarNoteDark hover:bg-PINK dark:hover:bg-DARK_PURPLE"
                     key={note.id}
                   >
                     <div className="flex text-xl mr-[8px]">{note.emoji}</div>
                     <Typography
                       variant="body2"
-                      className="text-DARK_PURPLE dark:text-LIGHT_PURPLE"
+                      className="text-DARK_PURPLE dark:text-LIGHT_PURPLE whitespace-nowrap overflow-hidden text-ellipsis"
                     >
                       {note.title}
                     </Typography>
@@ -136,7 +150,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
               </Button>
             </>
           )}
-          {notes.length === 0 && (
+          {filteredNotes.length === 0 && search.trim() === "" && (
             <div className="flex w-full mt-auto">
               (
               <div className="flex flex-col justify-center items-center border-1 border-LIGHT_PURPLE dark:border-DARK_PURPLE rounded-[12px] py-[32px] w-full bg-emptyNoteBg dark:bg-MAIN_DARK p-[24px] pb-[16px]">

@@ -23,7 +23,9 @@ export const useNotesQuery = () => {
             note.address != null &&
             note.title != null &&
             note.emoji != null &&
-            note.content != null
+            note.content != null &&
+            note.created != null &&
+            note.updated != null
           ) {
             _notes.push({
               id: note.id,
@@ -31,12 +33,18 @@ export const useNotesQuery = () => {
               content: note.content,
               emoji: note.emoji,
               title: note.title,
+              created: note.created,
+              updated: note.updated,
             });
           }
         }
 
-        setNotes(_notes);
-        return _notes;
+        const sortedNotes = _notes.sort((a, b) => {
+          return a.created - b.created;
+        });
+
+        setNotes(sortedNotes);
+        return sortedNotes;
       }),
     cacheTime: 0,
     refetchOnWindowFocus: false,

@@ -4,4 +4,6 @@ export type Note = {
   emoji: string;
   title: string;
   content: string;
+  created: number;
+  updated: number;
 };
