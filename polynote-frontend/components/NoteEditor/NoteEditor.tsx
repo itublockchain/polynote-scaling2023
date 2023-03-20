@@ -44,7 +44,7 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     selectedNoteCopy.content,
     2000
   );
-  const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 2000);
+  const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 1000);
 
   useEffect(() => {
     if (!readyRef.current) {
