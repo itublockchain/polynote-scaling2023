@@ -23,7 +23,10 @@ export const Editor = () => {
       >
         bold
       </button>
-      <EditorContent editor={editor} />
+      <EditorContent
+        className="text-black dark:text-white w-full h-full"
+        editor={editor}
+      />
     </>
   );
 };

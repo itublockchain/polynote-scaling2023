@@ -9,6 +9,8 @@ import { Button, Typography } from "ui";
 import { BsPlus } from "react-icons/bs";
 import { CreateNoteModal } from "components/CreateNoteModal/CreateNoteModal";
 import { ModalController, useModal } from "hooks/useModal";
+import { NoteEditor } from "components/NoteEditor/NoteEditor";
+import { NoteHeader } from "components/NoteHeader/NoteHeader";
 
 export const Main = () => {
   useNotesQuery();
@@ -24,7 +26,14 @@ export const Main = () => {
       <CreateNoteModal modalController={createNoteModal} />
       <div className="flex">
         <Sidebar createNoteModal={createNoteModal} />
-        <div className="flex flex-col w-full justify-center items-center min-h-screen">
+        <div className="flex flex-col w-full items-center min-h-screen">
+          {selectedNote != null && (
+            <div className="flex-col w-full">
+              <NoteHeader />
+              <NoteEditor selectedNote={selectedNote} />
+            </div>
+          )}
+
           {notes.length === 0 && (
             <EmptyState select={false} createNoteModal={createNoteModal} />
           )}
@@ -47,7 +56,7 @@ const EmptyState = ({
   const theme = useTheme();
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center mt-auto mb-auto">
       <Image
         width={200}
         alt="Logo"
