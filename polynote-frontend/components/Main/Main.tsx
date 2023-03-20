@@ -17,7 +17,7 @@ import { NoteEditor } from "components/NoteEditor/NoteEditor";
 import { NoteHeader } from "components/NoteHeader/NoteHeader";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { Paths } from "consts/paths";
+import EmptyStateIllustration from "assets/empty-state-illustration.png";
 
 export const Main = () => {
   useNotesQuery();
@@ -91,6 +91,12 @@ const EmptyState = ({
 
   return (
     <div className="flex flex-col justify-center items-center mt-auto mb-auto">
+      <Image
+        width={160}
+        className="mb-[20px]"
+        src={EmptyStateIllustration}
+        alt="Empty state"
+      />
       <Image
         width={200}
         alt="Logo"
