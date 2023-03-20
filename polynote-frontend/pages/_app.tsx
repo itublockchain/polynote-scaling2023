@@ -23,7 +23,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { scroll } from "consts/chains";
 import { ACCESS_TOKEN_KEY } from "consts/storage";
-import { useSetToken } from "recoil/user/UserStoreHooks";
+import { useSetPolybaseUser, useSetToken } from "recoil/user/UserStoreHooks";
+import { useSetNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
 
 export const queryClient = new QueryClient();
 
@@ -88,10 +89,16 @@ function InitHooks({
   const theme = useTheme();
   useInitializeTheme();
   const setToken = useSetToken();
+  const setSelectedNote = useSetSelectedNote();
+  const setPolybaseUser = useSetPolybaseUser();
+  const setNotes = useSetNotes();
 
   useAccount({
     onDisconnect: () => {
       setToken(null);
+      setSelectedNote(null);
+      setPolybaseUser(null);
+      setNotes([]);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
     },
   });
