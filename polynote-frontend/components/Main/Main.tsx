@@ -1,6 +1,6 @@
 import { Sidebar } from "components/Sidebar/Sidebar";
 import { useNotes } from "recoil/notes/NotesStoreHooks";
-import { useNotesQuery } from "restapi/queries/useNotesQuery";
+import { useNotesQuery } from "restapi/queries";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import LogoLarge from "assets/logo/logo-large.png";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";

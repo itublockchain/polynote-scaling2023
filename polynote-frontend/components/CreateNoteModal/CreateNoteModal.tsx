@@ -4,15 +4,17 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { useDropdown } from "hooks/useDropdown";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useCreateNoteMutation } from "restapi/queries/useCreateNoteMutation";
+import { useAccount } from "wagmi";
 
 type Props = {
   modalController: ModalController;
 };
 
 export const CreateNoteModal = ({ modalController }: Props) => {
+  const { address } = useAccount();
   const theme = useTheme();
-
   const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState("➕");
 
@@ -29,6 +31,17 @@ export const CreateNoteModal = ({ modalController }: Props) => {
       setEmoji("➕");
     }
   }, [modalController.isOpen]);
+
+  const createNoteMutation = useCreateNoteMutation({
+    onSuccess: () => modalController.close(),
+  });
+
+  const isSubmitDisabled = useMemo(() => {
+    if (title.trim() === "" || emoji === "➕") {
+      return true;
+    }
+    return false;
+  }, [title, emoji]);
 
   return (
     <Modal
@@ -76,6 +89,16 @@ export const CreateNoteModal = ({ modalController }: Props) => {
           onChange={(e) => setTitle(e.target.value)}
         />
         <Button
+          disabled={isSubmitDisabled}
+          loading={createNoteMutation.isLoading}
+          onClick={() =>
+            createNoteMutation.mutate({
+              address: address as string,
+              content: "<p></p>",
+              emoji,
+              title,
+            })
+          }
           color={theme === "dark" ? "primary" : "secondary"}
           className="h-10 w-full mt-4"
         >

@@ -40,6 +40,8 @@ module.exports = {
         sidebarDark: "#0E0616",
 
         emptyNoteBg: "#FFF0FC",
+        sidebarNoteLight: "#FFE7F9",
+        sidebarNoteDark: "#1E1427",
       },
       borderWidth: {
         1: "1px",

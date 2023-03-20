@@ -1,6 +1,7 @@
 export type Note = {
-  author: string;
+  id: string;
+  address: string;
   emoji: string;
-  headline: string;
+  title: string;
   content: string;
 };

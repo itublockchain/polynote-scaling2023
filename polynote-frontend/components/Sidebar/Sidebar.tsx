@@ -100,8 +100,45 @@ export const Sidebar = ({ createNoteModal }: Props) => {
           <div className="mt-[8px]">
             <Input placeholder="Search..." icon={<AiOutlineSearch />} />
           </div>
-          <div className="flex w-full overflow-auto mt-auto">
-            {notes.length === 0 && (
+          {notes.length > 0 && (
+            <>
+              <Typography
+                className="text-MAIN_DARK dark:text-PINK mt-[12px] mb-[8px]"
+                variant="title4"
+                weight="medium"
+              >
+                Notes
+              </Typography>
+              <div className="flex flex-col pb-[24px] overflow-auto mb-[12px] scrollbar-hide">
+                {notes.map((note) => (
+                  <div
+                    className="flex items-center cursor-pointer py-[8px] px-[16px] mt-[8px] rounded-[12px] bg-sidebarNoteLight dark:bg-sidebarNoteDark hover:bg-PINK dark:hover:bg-DARK_PURPLE"
+                    key={note.id}
+                  >
+                    <div className="flex text-xl mr-[8px]">{note.emoji}</div>
+                    <Typography
+                      variant="body2"
+                      className="text-DARK_PURPLE dark:text-LIGHT_PURPLE"
+                    >
+                      {note.title}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                onClick={createNoteModal.open}
+                leftIcon={<BsPlus />}
+                className="w-full h-10 shrink-0 mt-auto sticky bottom-[12px]"
+                color={theme === "dark" ? "primary" : "secondary"}
+              >
+                Create note
+              </Button>
+            </>
+          )}
+          {notes.length === 0 && (
+            <div className="flex w-full mt-auto">
+              (
               <div className="flex flex-col justify-center items-center border-1 border-LIGHT_PURPLE dark:border-DARK_PURPLE rounded-[12px] py-[32px] w-full bg-emptyNoteBg dark:bg-MAIN_DARK p-[24px] pb-[16px]">
                 <div className="w-[64px] h-[64px] shrink-0 text-PINK bg-DARK_PURPLE rounded-full flex items-center justify-center">
                   <FaRegStickyNote fontSize={24} />
@@ -123,8 +160,9 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                   Create note
                 </Button>
               </div>
-            )}
-          </div>
+              )
+            </div>
+          )}
         </div>
       </div>
       <div

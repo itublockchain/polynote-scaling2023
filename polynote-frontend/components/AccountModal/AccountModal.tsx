@@ -38,10 +38,7 @@ export const AccountModal = () => {
     },
     domain: DOMAIN,
     types: TYPES,
-    value: getSignatureValue(
-      address as `0x${string}`,
-      "I accept creating Polynote account"
-    ),
+    value: getSignatureValue(address as `0x${string}`, "Register"),
   });
 
   const { signTypedData: signTypeDataForAuth, isLoading: isSigningAuth } =
@@ -100,9 +97,7 @@ export const AccountModal = () => {
         >
           Create your account on Polynote by signing the message below:
           <br />
-          <code className="mt-2 text-sm block">
-            I accept creating Polynote account
-          </code>
+          <code className="mt-2 text-sm block">Register</code>
         </Typography>
         <Button
           loading={

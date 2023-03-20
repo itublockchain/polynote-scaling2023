@@ -19,16 +19,18 @@ export const useNotesQuery = () => {
 
         for (const note of notes) {
           if (
-            note.author != null &&
-            note.content != null &&
+            note.id != null &&
+            note.address != null &&
+            note.title != null &&
             note.emoji != null &&
-            note.headline != null
+            note.content != null
           ) {
             _notes.push({
-              author: note.author,
+              id: note.id,
+              address: note.address,
               content: note.content,
               emoji: note.emoji,
-              headline: note.headline,
+              title: note.title,
             });
           }
         }

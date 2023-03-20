@@ -17,3 +17,10 @@ export type AuthUserDto = {
 export type UpdatePolybaseUserNameDto = {
   name: string;
 };
+
+export type CreateNoteDto = {
+  address: string;
+  emoji: string;
+  title: string;
+  content: string;
+};

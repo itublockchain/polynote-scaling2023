@@ -1,6 +1,7 @@
 import Axios from "axios";
 import {
   AuthUserDto,
+  CreateNoteDto,
   CreatePolybaseUserDto,
   UpdatePolybaseUserNameDto,
 } from "restapi/types";
@@ -45,6 +46,10 @@ export const apiCreatePolybaseUser = (data: CreatePolybaseUserDto) => {
 
 export const apiAuthUser = (data: AuthUserDto) => {
   return axios.post(`/user/auth`, data);
+};
+
+export const apiCreateNote = (data: CreateNoteDto) => {
+  return axios.post(`/notes`, data);
 };
 
 export const POLYBASE_USER_QUERY = ["polybase_user"];
