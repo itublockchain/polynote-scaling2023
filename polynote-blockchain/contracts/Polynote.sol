@@ -9,10 +9,7 @@ contract Polynote {
 
     function addPartners(uint _notId, address[] memory _partners) public {
         for (uint256 i = 0; i < _partners.length; ++i) {
-            require(
-                sharedAddresses[msg.sender][_notId][_partners[i]] == false,
-                "Already shared!"
-            );
+
             sharedAddresses[msg.sender][_notId][_partners[i]] = true;
 
             emit Shared(msg.sender, _notId, _partners[i]);
@@ -21,10 +18,7 @@ contract Polynote {
 
     function removePartners(uint _notId, address[] memory _partners) public {
         for (uint256 i = 0; i < _partners.length; ++i) {
-            require(
-                sharedAddresses[msg.sender][_notId][_partners[i]] == true,
-                "This address is not your partner."
-            );
+
             sharedAddresses[msg.sender][_notId][_partners[i]] = false;
 
             emit Shared(msg.sender, _notId, _partners[i]);
