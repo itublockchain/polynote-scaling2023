@@ -57,5 +57,9 @@ export const apiUpdateNote = (id: string, data: UpdateNoteDto) => {
   return axios.post(`/notes/${id}`, data);
 };
 
+export const apiDeleteNote = (id: string) => {
+  return axios.delete(`/notes/${id}`);
+};
+
 export const POLYBASE_USER_QUERY = ["polybase_user"];
 export const NOTES_QUERY = ["notes"];

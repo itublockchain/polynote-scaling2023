@@ -114,7 +114,7 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       </div>
 
       <input
-        style={{ fontSize: "48px", fontWeight: "700" }}
+        style={{ fontSize: "48px", fontWeight: "700", marginBottom: "24px" }}
         className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK"
         value={selectedNoteCopy.title}
         onChange={(e) => modifyTitle(e.target.value)}

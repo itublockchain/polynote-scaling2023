@@ -3,6 +3,7 @@ import { BsChevronLeft, BsChevronRight, BsTrash } from "react-icons/bs";
 import { useNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
 import { Note } from "recoil/notes/types";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
+import { useDeleteNoteMutation } from "restapi/queries/useDeleteNoteMutation";
 import { Button, Spinner, Typography } from "ui";
 
 type Props = { selectedNote: Note; updating: boolean };
@@ -40,6 +41,8 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
       setSelectedNote(notes[notes.length - 1]);
     }
   };
+
+  const deleteNoteMutation = useDeleteNoteMutation();
 
   return (
     <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px]">
@@ -81,6 +84,8 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
         </Button>
 
         <Button
+          loading={deleteNoteMutation.isLoading}
+          onClick={() => deleteNoteMutation.mutate(selectedNote.id)}
           leftIcon={<BsTrash />}
           className="h-8 px-[14px]"
           color={"danger"}
