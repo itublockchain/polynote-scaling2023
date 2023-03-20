@@ -44,7 +44,8 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     selectedNoteCopy.content,
     2000
   );
-  const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 1000);
+  const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 2000);
+  const debouncedNoteEmoji = useDebounce<string>(selectedNoteCopy.emoji, 2000);
 
   useEffect(() => {
     if (!readyRef.current) {
@@ -54,11 +55,11 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     updateNoteMutation.mutate({
       content: debouncedNoteContent,
       title: debouncedNoteTitle,
-      emoji: selectedNoteCopy.emoji,
+      emoji: debouncedNoteEmoji,
     });
 
     // eslint-disable-next-line
-  }, [debouncedNoteContent, selectedNoteCopy.emoji, debouncedNoteTitle]);
+  }, [debouncedNoteContent, debouncedNoteTitle, debouncedNoteEmoji]);
 
   useEffect(() => {
     readyRef.current = false;
