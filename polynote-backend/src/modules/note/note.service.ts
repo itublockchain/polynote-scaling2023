@@ -73,4 +73,8 @@ export class NoteService {
 
     return await this.genNoteById(id);
   }
+
+  public async deleteNoteById(id: string) {
+    return await this.collection.record(id).call('deleteNote');
+  }
 }

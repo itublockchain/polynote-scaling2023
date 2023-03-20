@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -81,5 +82,23 @@ export class NoteController {
     }
 
     return await this.noteService.createNote(notesCreateDto);
+  }
+
+  @Delete('/:id')
+  @ApiOperation({ summary: 'Delete a note' })
+  public async deleteNote(@Param() param: NotesIdParam, @Req() req: Request) {
+    const { address } = getTokenData(req);
+
+    const note = await this.noteService.genNoteById(param.id);
+
+    if (note == null) {
+      throw new HttpException('Note does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    if (address !== note.address) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    return await this.noteService.deleteNoteById(param.id);
   }
 }
