@@ -1,11 +1,15 @@
+import EmojiPicker from "@emoji-mart/react";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor } from "components/Editor/Editor";
 import { useDebounce } from "hooks/useDebounce";
+import { useDropdown } from "hooks/useDropdown";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Note } from "recoil/notes/types";
+import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
+import data from "@emoji-mart/data";
 
 type Props = {
   selectedNote: Note;
@@ -15,7 +19,7 @@ type Props = {
 export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
   const [selectedNoteCopy, setSelectedNoteCopy] = useState<Note>(selectedNote);
   const updateNoteMutation = useUpdateNoteMutation(selectedNote, setUpdating);
-
+  const theme = useTheme();
   const readyRef = useRef(false);
 
   useEffect(() => {
@@ -29,12 +33,18 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     [setSelectedNoteCopy, selectedNoteCopy]
   );
 
+  const modifyEmoji = useCallback(
+    (emoji: string) => {
+      setSelectedNoteCopy({ ...selectedNoteCopy, emoji });
+    },
+    [setSelectedNoteCopy, selectedNoteCopy]
+  );
+
   const debouncedNoteContent = useDebounce<string>(
     selectedNoteCopy.content,
     2000
   );
   const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 2000);
-  const debouncedNoteEmoji = useDebounce<string>(selectedNoteCopy.emoji, 2000);
 
   useEffect(() => {
     if (!readyRef.current) {
@@ -44,11 +54,11 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     updateNoteMutation.mutate({
       content: debouncedNoteContent,
       title: debouncedNoteTitle,
-      emoji: debouncedNoteEmoji,
+      emoji: selectedNoteCopy.emoji,
     });
 
     // eslint-disable-next-line
-  }, [debouncedNoteContent, debouncedNoteEmoji, debouncedNoteTitle]);
+  }, [debouncedNoteContent, selectedNoteCopy.emoji, debouncedNoteTitle]);
 
   useEffect(() => {
     readyRef.current = false;
@@ -71,6 +81,9 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     content: selectedNoteCopy.content,
   });
 
+  const { floating, reference, popperStyles, isOpen, toggle, closeRef, close } =
+    useDropdown();
+
   useEffect(() => {
     if (editor == null) return;
     editor.commands.setContent(selectedNote.content);
@@ -78,7 +91,28 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
 
   return (
     <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[20%] pr-[20%] overflow-auto">
-      <div className="text-4xl">{selectedNote.emoji}</div>
+      <div ref={closeRef}>
+        <div
+          onClick={toggle}
+          ref={reference}
+          className="text-4xl cursor-pointer"
+        >
+          {selectedNoteCopy.emoji}
+        </div>
+        {isOpen && (
+          <div ref={floating} style={popperStyles}>
+            <EmojiPicker
+              theme={theme}
+              data={data}
+              onEmojiSelect={(res: any) => {
+                modifyEmoji(res.native);
+                close();
+              }}
+            />
+          </div>
+        )}
+      </div>
+
       <input
         style={{ fontSize: "48px", fontWeight: "500" }}
         className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK"
