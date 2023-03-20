@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Collection, Polybase } from '@polybase/client';
-import { NotesCreateDto } from 'src/modules/note/note.dto';
+import {
+  NotesCreateDto,
+  NotesResponseData,
+  NotesUpdateDto,
+} from 'src/modules/note/note.dto';
 import { getPolybaseInstance } from 'src/utils/getPolybaseInstance';
 import { getTimestamp } from 'src/utils/getTimestamp';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,8 +28,33 @@ export class NoteService {
     });
   }
 
-  public async genNoteById(id: string): Promise<NotesCreateDto> {
+  public async genNoteById(id: string): Promise<NotesResponseData> {
     const response = await this.collection.record(id).get();
+    return response.data;
+  }
+
+  public async updateNote(
+    id: string,
+    noteUpdateDto: NotesUpdateDto,
+  ): Promise<NotesResponseData> {
+    const note = await this.genNoteById(id);
+
+    if (
+      noteUpdateDto.content === note.content &&
+      noteUpdateDto.title === note.title &&
+      noteUpdateDto.emoji === note.emoji
+    ) {
+      return note;
+    }
+
+    const response = await this.collection
+      .record(id)
+      .call('updateNote', [
+        noteUpdateDto.title,
+        noteUpdateDto.emoji,
+        noteUpdateDto.content,
+        getTimestamp(),
+      ]);
     return response.data;
   }
 
