@@ -59,7 +59,9 @@ export class UserService {
       throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
     }
 
-    await this.collection.record(user.id).call('updateName', [name.slice(64)]);
+    await this.collection
+      .record(user.id)
+      .call('updateName', [name.slice(0, 64)]);
 
     return await this.genUserByAddress(address);
   }
