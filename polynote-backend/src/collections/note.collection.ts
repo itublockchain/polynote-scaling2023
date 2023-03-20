@@ -2,16 +2,16 @@ export const NoteCollection = `@public
 collection Note {
   id: string;
   publicKey: PublicKey;
-  author: string;
+  address: string;
   emoji: string;
-  headline: string;
+  title: string;
   content: string;
 
-  constructor (id: string, author: string, emoji: string, headline: string, content: string) {
+  constructor (id: string, address: string, emoji: string, title: string, content: string) {
     this.id = id;
-    this.author = author;
+    this.address = address;
     this.emoji = emoji;
-    this.headline = headline;
+    this.title = title;
     this.content = content;
 
     this.publicKey = ctx.publicKey;

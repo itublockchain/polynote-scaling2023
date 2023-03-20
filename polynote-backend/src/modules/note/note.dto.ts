@@ -7,3 +7,52 @@ export class NotesParams {
   @IsString()
   address: string;
 }
+
+export class NotesCreateDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  emoji: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+}
+
+export class NotesResponseData {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  id: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  emoji: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+}

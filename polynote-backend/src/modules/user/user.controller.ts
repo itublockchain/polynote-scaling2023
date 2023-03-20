@@ -3,15 +3,16 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   Req,
-  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import {
   UserAddressDto,
@@ -30,12 +31,14 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all users' })
   public async genUsers() {
     const result = await this.userService.genUsers();
     return result;
   }
 
   @Get('/:address')
+  @ApiOperation({ summary: 'Get user with an address' })
   public async genUserByAddress(@Param() userAddressDto: UserAddressDto) {
     const result = await this.userService.genUserByAddress(
       userAddressDto.address,
@@ -44,18 +47,21 @@ export class UserController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create new user' })
   @UsePipes(new ValidationPipe())
   public async createUser(@Body() userCreateDto: UserCreateDto) {
     return await this.userService.createUser(userCreateDto);
   }
 
   @Post('/auth')
+  @ApiOperation({ summary: 'Authorize user with signature' })
   @UsePipes(new ValidationPipe())
   public async authUser(@Body() userAuthDto: UserAuthDto) {
     return await this.userService.authUser(userAuthDto);
   }
 
   @Put('/:address')
+  @ApiOperation({ summary: 'Update user name' })
   @UsePipes(new ValidationPipe())
   public async updateUserName(
     @Param() userAddressDto: UserAddressDto,
@@ -65,7 +71,7 @@ export class UserController {
     const { address } = getTokenData(req);
 
     if (userAddressDto.address !== address) {
-      throw new UnauthorizedException();
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
     return await this.userService.updateUserName(
@@ -75,6 +81,7 @@ export class UserController {
   }
 
   @Delete('/:address')
+  @ApiOperation({ summary: 'Delete user with address (only admin)' })
   @UsePipes(new ValidationPipe())
   public async deleteUser(
     @Param() userAddressDto: UserDeleteDto,
@@ -83,11 +90,11 @@ export class UserController {
     const { address } = getTokenData(req);
 
     if (!checkAdmin(address)) {
-      throw new UnauthorizedException();
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
     if (userAddressDto.address !== address) {
-      throw new UnauthorizedException();
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
     return await this.userService.deleteUser(userAddressDto.address);

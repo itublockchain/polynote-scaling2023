@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Collection, Polybase } from '@polybase/client';
 import { ethers } from 'ethers';
@@ -54,12 +59,26 @@ export class UserService {
       throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
     }
 
-    await this.collection.record(user.id).call('updateName', [name]);
+    await this.collection.record(user.id).call('updateName', [name.slice(64)]);
 
     return await this.genUserByAddress(address);
   }
 
   public async createUser(userCreateDto: UserCreateDto) {
+    const signer = ethers.utils.verifyTypedData(
+      DOMAIN,
+      TYPES,
+      {
+        address: userCreateDto.address,
+        message: 'Register',
+      },
+      userCreateDto.signature,
+    );
+
+    if (signer !== userCreateDto.address) {
+      throw new UnauthorizedException();
+    }
+
     const response = await this.collection.create([
       uuidv4(),
       userCreateDto.signature,
