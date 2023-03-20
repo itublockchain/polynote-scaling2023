@@ -59,6 +59,14 @@ export class NoteService {
     return response.data;
   }
 
+  public async genDecryptedNoteById(id: string): Promise<NotesResponseData> {
+    const response = await this.collection.record(id).get();
+
+    const decryptedContent = await this.decryptString(response.data.content);
+
+    return { ...response.data, content: decryptedContent };
+  }
+
   public async updateNote(
     id: string,
     noteUpdateDto: NotesUpdateDto,
