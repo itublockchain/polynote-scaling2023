@@ -37,8 +37,8 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       <SettingsModal modalController={modal} />
       <div
         className={clsnm(
-          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute md:w-[320px] lg:relative left-0 top-0 shrink-0 z-10",
-          collapsed && "hidden md:flex"
+          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute lg:w-[320px] max-w-[320px] lg:relative left-0 top-0 shrink-0 z-10",
+          collapsed && "hidden lg:flex"
         )}
       >
         <div className="flex items-center justify-between py-[12px] px-[16px] border-0 border-b-1 border-r-1  border-PINK dark:border-DARK_PURPLE">
@@ -57,7 +57,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
             </Button>
             <Button
               onClick={() => setCollapsed(true)}
-              className="w-[36px] h-[32px] md:hidden"
+              className="w-[36px] h-[32px] lg:hidden"
               color={theme === "dark" ? "primary" : "secondary"}
             >
               <BsChevronLeft />
@@ -130,7 +130,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       <div
         className={clsnm(
           "flex-col fixed left-[12px] top-[12px]",
-          collapsed ? "flex md:hidden" : "hidden"
+          collapsed ? "flex lg:hidden" : "hidden"
         )}
       >
         <Button

@@ -3,7 +3,6 @@ import { Button, Input, Modal, Typography } from "ui";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
-import { usePopper } from "hooks/usePopper";
 import { useDropdown } from "hooks/useDropdown";
 import { useEffect, useState } from "react";
 
@@ -44,7 +43,7 @@ export const CreateNoteModal = ({ modalController }: Props) => {
 
         <div ref={closeRef} className="mt-4 2 w-max">
           <Typography variant="body2" className="text-MAIN_DARK dark:text-PINK">
-            Emoji
+            Emoji describing your note
           </Typography>
           <div ref={reference} className="mt-2">
             <Button
