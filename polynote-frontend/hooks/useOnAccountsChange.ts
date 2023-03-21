@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
 
-export const useOnAccountsChange = (callback: () => void, interval = 1000) => {
+export const useOnAccountsChange = (callback: () => void) => {
   const { address } = useAccount();
 
   const firstAddressRef = useRef<null | string>(null);
