@@ -22,7 +22,16 @@ contract Polynote {
         address[] memory _partners
     ) public {
         for (uint256 i = 0; i < _partners.length; ++i) {
-            delete sharedAddresses[msg.sender][_noteId][i];
+            for (
+                uint256 x = 0;
+                i < sharedAddresses[msg.sender][_noteId].length;
+                ++i
+            ) {
+                if (sharedAddresses[msg.sender][_noteId][x] == _partners[i]) {
+                    delete sharedAddresses[msg.sender][_noteId][x];
+                    emit Unshared(msg.sender, _noteId, _partners[i]);
+                }
+            }
         }
     }
 
@@ -30,8 +39,7 @@ contract Polynote {
         string memory _noteId,
         address[] memory _partners
     ) public {
-        this.removePartners(_noteId, _partners);
-        this.addPartners(_noteId, _partners);
+        sharedAddresses[msg.sender][_noteId] = _partners;
     }
 
     function isShared(
