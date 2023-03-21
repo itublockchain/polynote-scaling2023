@@ -25,6 +25,9 @@ import { scroll } from "consts/chains";
 import { ACCESS_TOKEN_KEY } from "consts/storage";
 import { useSetPolybaseUser, useSetToken } from "recoil/user/UserStoreHooks";
 import { useSetNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
+import { useOnAccountsChange } from "hooks/useOnAccountsChange";
+import { useRouter } from "next/router";
+import { Paths } from "consts/paths";
 
 export const queryClient = new QueryClient();
 
@@ -92,8 +95,9 @@ function InitHooks({
   const setSelectedNote = useSetSelectedNote();
   const setPolybaseUser = useSetPolybaseUser();
   const setNotes = useSetNotes();
+  const router = useRouter();
 
-  useAccount({
+  const { address } = useAccount({
     onDisconnect: () => {
       setToken(null);
       setSelectedNote(null);
@@ -101,6 +105,12 @@ function InitHooks({
       setNotes([]);
       localStorage.removeItem(ACCESS_TOKEN_KEY);
     },
+  });
+
+  useOnAccountsChange(() => {
+    router.replace(Paths.CONNECT_WALLET);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    setToken(null);
   });
 
   useEffect(() => {

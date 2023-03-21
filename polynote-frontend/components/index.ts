@@ -4,3 +4,6 @@ export { Sidebar } from "./Sidebar/Sidebar";
 export { SettingsModal } from "./SettingsModal/SettingsModal";
 export { AccountModal } from "./AccountModal/AccountModal";
 export { Main } from "./Main/Main";
+export { ShareModal } from "./ShareModal/ShareModal";
+export { NoteEditor } from "./NoteEditor/NoteEditor";
+export { NoteHeader } from "./NoteHeader/NoteHeader";

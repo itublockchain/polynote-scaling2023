@@ -7,10 +7,8 @@ import { useToken } from "recoil/user/UserStoreHooks";
 import { Spinner, Typography } from "ui";
 import { useAccount } from "wagmi";
 
-enum Page {}
-
 const Dashboard: NextPage = () => {
-  const { isConnected, isReconnecting, isConnecting } = useAccount();
+  const { isConnected, isReconnecting, isConnecting, address } = useAccount();
   const router = useRouter();
   const token = useToken();
 

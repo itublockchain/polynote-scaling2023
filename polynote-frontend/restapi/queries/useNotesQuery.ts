@@ -1,13 +1,19 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
+import { Paths } from "consts/paths";
+import { ACCESS_TOKEN_KEY } from "consts/storage";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useSetNotes } from "recoil/notes/NotesStoreHooks";
 import { Note } from "recoil/notes/types";
+import { useSetToken } from "recoil/user/UserStoreHooks";
 import { apiGetNotes, NOTES_QUERY } from "restapi";
 import { useAccount } from "wagmi";
 
 export const useNotesQuery = () => {
   const { address } = useAccount();
   const setNotes = useSetNotes();
+  const router = useRouter();
+  const setToken = useSetToken();
 
   const { data, ...rest } = useQuery({
     queryKey: NOTES_QUERY,
@@ -48,6 +54,13 @@ export const useNotesQuery = () => {
       }),
     cacheTime: 0,
     refetchOnWindowFocus: false,
+    onError: (err: AxiosError) => {
+      if (err.response?.status === HttpStatusCode.Unauthorized) {
+        router.replace(Paths.CONNECT_WALLET);
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+        setToken(null);
+      }
+    },
   });
 
   return { notes: data, ...rest };

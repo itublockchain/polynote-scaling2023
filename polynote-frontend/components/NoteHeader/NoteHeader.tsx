@@ -1,3 +1,5 @@
+import { ShareModal } from "components";
+import { useModal } from "hooks/useModal";
 import { useMemo } from "react";
 import { BsChevronLeft, BsChevronRight, BsTrash } from "react-icons/bs";
 import { useNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
@@ -12,6 +14,7 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
   const theme = useTheme();
   const notes = useNotes();
   const setSelectedNote = useSetSelectedNote();
+  const shareModal = useModal();
 
   const currentIndex = useMemo(() => {
     let index = -1;
@@ -45,52 +48,56 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
   const deleteNoteMutation = useDeleteNoteMutation();
 
   return (
-    <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px]">
-      <div className="flex space-x-1">
-        <Button
-          onClick={decreaseIndex}
-          className="h-8 w-8"
-          color={theme === "dark" ? "primary" : "secondary"}
-        >
-          <BsChevronLeft />
-        </Button>
-        <Button
-          onClick={increaseIndex}
-          className="h-8 w-8"
-          color={theme === "dark" ? "primary" : "secondary"}
-        >
-          <BsChevronRight />
-        </Button>
-      </div>
-      <div className="flex items-center space-x-[8px]">
-        {updating ? (
-          <Spinner />
-        ) : (
-          <Typography
-            variant="caption"
-            weight="semibold"
-            className="text-PURPLE hidden md:flex"
+    <>
+      <ShareModal modalController={shareModal} selectedNote={selectedNote} />
+      <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px]">
+        <div className="flex space-x-1">
+          <Button
+            onClick={decreaseIndex}
+            className="h-8 w-8"
+            color={theme === "dark" ? "primary" : "secondary"}
           >
-            last updated at{" "}
-            {new Date(selectedNote.updated * 1000).toLocaleString()}
-          </Typography>
-        )}
+            <BsChevronLeft />
+          </Button>
+          <Button
+            onClick={increaseIndex}
+            className="h-8 w-8"
+            color={theme === "dark" ? "primary" : "secondary"}
+          >
+            <BsChevronRight />
+          </Button>
+        </div>
+        <div className="flex items-center space-x-[8px]">
+          {updating ? (
+            <Spinner />
+          ) : (
+            <Typography
+              variant="caption"
+              weight="semibold"
+              className="text-PURPLE hidden md:flex"
+            >
+              last updated at{" "}
+              {new Date(selectedNote.updated * 1000).toLocaleString()}
+            </Typography>
+          )}
 
-        <Button
-          className="h-8 px-[24px]"
-          color={theme === "dark" ? "primary" : "secondary"}
-        >
-          Share
-        </Button>
+          <Button
+            onClick={shareModal.open}
+            className="h-8 px-[24px]"
+            color={theme === "dark" ? "primary" : "secondary"}
+          >
+            Share
+          </Button>
 
-        <Button
-          loading={deleteNoteMutation.isLoading}
-          onClick={() => deleteNoteMutation.mutate(selectedNote.id)}
-          leftIcon={<BsTrash />}
-          className="h-8 px-[14px]"
-          color={"danger"}
-        />
+          <Button
+            loading={deleteNoteMutation.isLoading}
+            onClick={() => deleteNoteMutation.mutate(selectedNote.id)}
+            leftIcon={<BsTrash />}
+            className="h-8 px-[14px]"
+            color={"danger"}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };

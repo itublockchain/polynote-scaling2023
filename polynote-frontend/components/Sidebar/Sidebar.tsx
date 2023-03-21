@@ -19,7 +19,7 @@ import {
   useSetSelectedNote,
 } from "recoil/notes/NotesStoreHooks";
 import { useMemo, useState } from "react";
-import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
+import { BsChevronLeft, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
 
 type Props = {
