@@ -91,7 +91,7 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
   }, [selectedNote, editor]);
 
   return (
-    <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[20%] pr-[20%] overflow-auto">
+    <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[24px] pr-[24px] md:pl-[20%] md:pr-[20%] overflow-y-auto">
       <div ref={closeRef}>
         <div
           onClick={toggle}
@@ -115,8 +115,8 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       </div>
 
       <input
-        style={{ fontSize: "48px", fontWeight: "700", marginBottom: "24px" }}
-        className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK"
+        style={{ fontSize: "48px", fontWeight: "700", marginBottom: "12px" }}
+        className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK max-w-[90vw]"
         value={selectedNoteCopy.title}
         onChange={(e) => modifyTitle(e.target.value)}
       />
