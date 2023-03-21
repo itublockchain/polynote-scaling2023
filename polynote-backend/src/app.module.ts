@@ -4,10 +4,8 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CONFIG } from 'src/config';
 import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
 import { NoteModule } from 'src/modules/note/note.module';
 import { UserModule } from 'src/modules/user/user.module';
@@ -15,13 +13,6 @@ import { UserModule } from 'src/modules/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: () => {
-        return CONFIG.MYSQL;
-      },
-    }),
     JwtModule.register({ secret: process.env.PRIVATE_KEY }),
 
     UserModule,
