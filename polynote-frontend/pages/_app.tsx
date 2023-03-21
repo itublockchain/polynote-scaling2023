@@ -28,6 +28,8 @@ import { useSetNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
 import { useOnAccountsChange } from "hooks/useOnAccountsChange";
 import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export const queryClient = new QueryClient();
 
@@ -62,6 +64,7 @@ function PolynoteApp({ Component, pageProps }: AppProps) {
             >
               <InitHooks setTheme={_setTheme} />
               <Component {...pageProps} />
+              <ToastContainer draggable theme={_theme} />
             </RainbowKitProvider>
           </WagmiConfig>
         </RecoilRoot>

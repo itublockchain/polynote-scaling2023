@@ -11,7 +11,7 @@ export const POLYNOTE_ABI = [
       {
         indexed: false,
         internalType: "string",
-        name: "notId",
+        name: "noteId",
         type: "string",
       },
       {
@@ -36,7 +36,7 @@ export const POLYNOTE_ABI = [
       {
         indexed: false,
         internalType: "string",
-        name: "notId",
+        name: "noteId",
         type: "string",
       },
       {
@@ -53,7 +53,7 @@ export const POLYNOTE_ABI = [
     inputs: [
       {
         internalType: "string",
-        name: "_notId",
+        name: "_noteId",
         type: "string",
       },
       {
@@ -76,7 +76,7 @@ export const POLYNOTE_ABI = [
       },
       {
         internalType: "string",
-        name: "_notId",
+        name: "_noteId",
         type: "string",
       },
     ],
@@ -100,7 +100,7 @@ export const POLYNOTE_ABI = [
       },
       {
         internalType: "string",
-        name: "_notId",
+        name: "_noteId",
         type: "string",
       },
       {
@@ -124,7 +124,7 @@ export const POLYNOTE_ABI = [
     inputs: [
       {
         internalType: "string",
-        name: "_notId",
+        name: "_noteId",
         type: "string",
       },
       {
@@ -134,6 +134,24 @@ export const POLYNOTE_ABI = [
       },
     ],
     name: "removePartners",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_noteId",
+        type: "string",
+      },
+      {
+        internalType: "address[]",
+        name: "_partners",
+        type: "address[]",
+      },
+    ],
+    name: "setPartners",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

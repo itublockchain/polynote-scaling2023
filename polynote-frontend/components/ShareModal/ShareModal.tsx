@@ -4,15 +4,14 @@ import { ethers } from "ethers";
 import { useContractFunction } from "hooks/useContractFunction";
 import { ModalController } from "hooks/useModal";
 import { useEffect, useMemo, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { Note } from "recoil/notes/types";
 import { Button, Input, Modal, Typography } from "ui";
 import { formatAddress } from "utils/formatAddress";
-import {
-  useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-} from "wagmi";
+import { useContractRead, useSwitchNetwork, useProvider } from "wagmi";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useCopyText } from "hooks/useCopyText";
+import { scroll } from "consts/chains";
 
 type Props = {
   modalController: ModalController;
@@ -21,8 +20,14 @@ type Props = {
 
 export const ShareModal = ({ modalController, selectedNote }: Props) => {
   const [whitelist, setWhitelist] = useState<string[]>([]);
-
   const [addingAddress, setAddingAddress] = useState("");
+  const { switchNetwork } = useSwitchNetwork({
+    chainId: scroll.id,
+  });
+  const provider = useProvider();
+  const [isChainIdCorrect, setIsChainIdCorrect] = useState(true);
+
+  const [copied, onCopy] = useCopyText();
 
   const { data, refetch } = useContractRead<any, "getSharedAddress", string[]>({
     abi: POLYNOTE_ABI,
@@ -34,7 +39,7 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
   const { write, isLoading: isLoadingSet } = useContractFunction({
     abi: POLYNOTE_ABI,
     address: POLYNOTE_CONTRACT_SCROLL,
-    method: "addPartners",
+    method: "setPartners",
     onSuccess: () => {
       setTimeout(() => {
         refetch();
@@ -62,6 +67,14 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
 
     return null;
   }, [whitelist, addingAddress]);
+
+  useEffect(() => {
+    const fn = async () => {
+      const network = await provider.getNetwork();
+      setIsChainIdCorrect(network.chainId === scroll.id);
+    };
+    fn();
+  }, [provider]);
 
   return (
     <Modal width="540px" modalController={modalController}>
@@ -124,26 +137,43 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
               </div>
             );
           })}
+          {whitelist.length === 0 && (
+            <Typography
+              variant="body2"
+              className="text-MAIN_DARK dark:text-PINK"
+            >
+              There is no user in whitelist
+            </Typography>
+          )}
         </div>
 
-        {whitelist.length > 0 && (
-          <Button
-            loading={isLoadingSet}
-            onClick={() => write(selectedNote.id, whitelist)}
-            color="primary"
-            className="h-10 mt-4"
-          >
-            Update whitelist
-          </Button>
-        )}
-
-        <Typography
-          className="cursor-pointer mt-4 text-blue-400 text-center"
-          variant="caption"
-          weight="regular"
+        <Button
+          loading={isLoadingSet}
+          onClick={() => {
+            if (isChainIdCorrect) {
+              write(selectedNote.id, whitelist);
+            } else {
+              switchNetwork?.();
+            }
+          }}
+          color="primary"
+          className="h-10 mt-4"
         >
-          Copy share link
-        </Typography>
+          {isChainIdCorrect ? "Update whitelist" : "Wrong network"}
+        </Button>
+
+        <div className="flex w-full justify-center space-x-1 items-center mt-4">
+          <CopyToClipboard onCopy={onCopy} text={"asfaf"}>
+            <Typography
+              className="cursor-pointer text-blue-400 text-center"
+              variant="caption"
+              weight="regular"
+            >
+              Copy share link
+            </Typography>
+          </CopyToClipboard>
+          {copied ? <AiOutlineCheck className="text-green-500" /> : null}
+        </div>
       </div>
     </Modal>
   );
