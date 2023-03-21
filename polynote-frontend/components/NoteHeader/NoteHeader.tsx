@@ -49,7 +49,9 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
 
   return (
     <>
-      <ShareModal modalController={shareModal} selectedNote={selectedNote} />
+      {shareModal.isOpen && (
+        <ShareModal modalController={shareModal} selectedNote={selectedNote} />
+      )}
       <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px]">
         <div className="flex space-x-1">
           <Button

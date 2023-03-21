@@ -31,7 +31,7 @@ export function Input({
             <Typography
               variant="body2"
               weight="regular"
-              className="ml-1 mb-1 text-MAIN_DARK dark:text-PINK"
+              className="mb-1 text-MAIN_DARK dark:text-PINK"
             >
               {label}
             </Typography>
