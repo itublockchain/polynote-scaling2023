@@ -40,6 +40,9 @@ contract Polynote {
         address[] memory _partners
     ) public {
         sharedAddresses[msg.sender][_noteId] = _partners;
+        for (uint256 i = 0; i < _partners.length; ++i) {
+            emit Shared(msg.sender, _noteId, _partners[i]);
+        }
     }
 
     function isShared(
