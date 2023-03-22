@@ -7,6 +7,7 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
+import { ListenerModule } from 'src/modules/listener/listener.module';
 import { NoteModule } from 'src/modules/note/note.module';
 import { UserModule } from 'src/modules/user/user.module';
 
@@ -17,6 +18,7 @@ import { UserModule } from 'src/modules/user/user.module';
 
     UserModule,
     NoteModule,
+    ListenerModule,
   ],
   controllers: [],
   providers: [],

@@ -16,9 +16,11 @@ export const CONFIG: Config = {
     autoLoadEntities: true,
   } as TypeOrmModuleOptions,
   PORT: Number(process.env.APP_PORT),
+  POLYNOTE_CONTRACT_SCROLL: process.env.POLYNOTE_CONTRACT_SCROLL,
 };
 
 type Config = {
   MYSQL: TypeOrmModuleOptions;
   PORT: number;
+  POLYNOTE_CONTRACT_SCROLL: string;
 };

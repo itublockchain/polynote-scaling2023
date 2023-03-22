@@ -78,7 +78,7 @@ export class UserService {
     );
 
     if (signer !== userCreateDto.address) {
-      throw new UnauthorizedException();
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
     const response = await this.collection.create([

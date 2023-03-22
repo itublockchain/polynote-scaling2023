@@ -10,16 +10,23 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ethers } from 'ethers';
 import { Request } from 'express';
+import { CONFIG } from 'src/config';
 import {
   NotesCreateDto,
   NotesIdParam,
   NotesParams,
+  NotesSharedParam,
   NotesUpdateDto,
   NotesUpdateParams,
 } from 'src/modules/note/note.dto';
 import { NoteService } from 'src/modules/note/note.service';
+import { UserCreateDto } from 'src/modules/user/user.dto';
+import { POLYNOTE_ABI } from 'src/utils/abi';
+import { getRpcProvider } from 'src/utils/getRpcProvider';
 import { getTokenData } from 'src/utils/getTokenData';
+import { DOMAIN, TYPES } from 'src/utils/signature';
 
 @ApiTags('Notes')
 @Controller('notes')
@@ -100,5 +107,41 @@ export class NoteController {
     }
 
     return await this.noteService.deleteNoteById(param.id);
+  }
+
+  @Post('/shared/:id')
+  @ApiOperation({ summary: 'Get shared note with signature' })
+  public async getSharedNote(
+    @Param() param: NotesIdParam,
+    @Body() sharedNoteParam: NotesSharedParam,
+  ) {
+    const signer = ethers.utils.verifyTypedData(
+      DOMAIN,
+      TYPES,
+      {
+        address: sharedNoteParam.address,
+        message: 'See shared note',
+      },
+      sharedNoteParam.signature,
+    );
+
+    const contract = new ethers.Contract(
+      CONFIG.POLYNOTE_CONTRACT_SCROLL,
+      POLYNOTE_ABI,
+      getRpcProvider(),
+    );
+
+    const note = await this.noteService.genDecryptedNoteById(param.id);
+    const isShared = await contract.isShared(note.address, param.id, signer);
+
+    if (note == null) {
+      throw new HttpException('Note does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    if (isShared !== true) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    return note;
   }
 }

@@ -15,6 +15,18 @@ export class NotesIdParam {
   id: string;
 }
 
+export class NotesSharedParam {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  signature: string;
+}
+
 export class NotesUpdateParams {
   @ApiProperty()
   @IsNotEmpty()
