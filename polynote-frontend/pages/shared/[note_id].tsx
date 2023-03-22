@@ -8,7 +8,7 @@ import { apiGetSharedNote } from "restapi";
 import { useEffect, useState } from "react";
 import { Note } from "recoil/notes/types";
 import { AxiosError, AxiosResponse } from "axios";
-import { Spinner, Typography } from "ui";
+import { CustomConnectButton, Spinner, Typography } from "ui";
 import Image from "next/image";
 import EmptyStateIllustration from "assets/empty-state-illustration.png";
 
@@ -18,6 +18,7 @@ const NoteId: NextPage = () => {
   const { address } = useAccount();
   const [note, setNote] = useState<Note | null>(null);
   const [errorCode, setErrorCode] = useState<number>(-1);
+  const { isConnected } = useAccount();
 
   const mutation = useMutation({
     mutationFn: (args: string[]) =>
@@ -47,7 +48,7 @@ const NoteId: NextPage = () => {
   });
 
   useEffect(() => {
-    if (note_id == null || address == null) {
+    if (note_id == null || address == null || isConnected == false) {
       return;
     }
 
@@ -60,7 +61,21 @@ const NoteId: NextPage = () => {
     };
 
     // eslint-disable-next-line
-  }, [note_id, address]);
+  }, [note_id, address, isConnected]);
+
+  if (!isConnected) {
+    return (
+      <div className="flex flex-col h-[100vh] justify-center items-center pl-[24px] pr-[24px] w-[90%] md:w-[400px] ml-auto mr-auto">
+        <div className="w-[200px] px-6 pt-6">
+          <Image src={EmptyStateIllustration} alt="Connect Page Illustration" />
+        </div>
+        <CustomConnectButton
+          containerClassName="w-[220px] md:w-[90%] mt-[32px]"
+          className="w-full h-10 rounded-lg"
+        />
+      </div>
+    );
+  }
 
   if (mutation.isError) {
     return (
