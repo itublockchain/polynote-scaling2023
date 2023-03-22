@@ -61,5 +61,11 @@ export const apiDeleteNote = (id: string) => {
   return axios.delete(`/notes/${id}`);
 };
 
+export const apiGetSharedNote = (
+  id: string,
+  data: { address: string; signature: string }
+) => {
+  return axios.post(`/notes/shared/${id}`, data);
+};
 export const POLYBASE_USER_QUERY = ["polybase_user"];
 export const NOTES_QUERY = ["notes"];
