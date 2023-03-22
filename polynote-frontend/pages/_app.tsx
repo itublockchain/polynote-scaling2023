@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useListenNetworkChange } from "hooks/useListenNetworkChange";
 
 export const queryClient = new QueryClient();
 
@@ -100,7 +101,7 @@ function InitHooks({
   const setNotes = useSetNotes();
   const router = useRouter();
 
-  const { address } = useAccount({
+  useAccount({
     onDisconnect: () => {
       setToken(null);
       setSelectedNote(null);
@@ -115,6 +116,8 @@ function InitHooks({
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     setToken(null);
   });
+
+  useListenNetworkChange();
 
   useEffect(() => {
     setTheme(theme);

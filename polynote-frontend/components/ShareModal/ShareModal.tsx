@@ -8,10 +8,17 @@ import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { Note } from "recoil/notes/types";
 import { Button, Input, Modal, Typography } from "ui";
 import { formatAddress } from "utils/formatAddress";
-import { useContractRead, useSwitchNetwork, useProvider } from "wagmi";
+import {
+  useContractRead,
+  useSwitchNetwork,
+  useProvider,
+  useConnect,
+} from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useCopyText } from "hooks/useCopyText";
 import { scroll } from "consts/chains";
+import { formatRpcErrorMessage } from "utils/formatRPCErrorMessage";
+import { getSharedMessage } from "utils/getSharedMessage";
 
 type Props = {
   modalController: ModalController;
@@ -47,6 +54,9 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
       setTimeout(() => {
         refetch();
       }, 4000);
+    },
+    onFail: (err) => {
+      formatRpcErrorMessage(err);
     },
   });
 
@@ -163,7 +173,10 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
         </Button>
 
         <div className="flex w-full justify-center space-x-1 items-center mt-4">
-          <CopyToClipboard onCopy={onCopy} text={"asfaf"}>
+          <CopyToClipboard
+            onCopy={onCopy}
+            text={getSharedMessage(selectedNote.id)}
+          >
             <Typography
               className="cursor-pointer text-blue-400 text-center"
               variant="caption"
