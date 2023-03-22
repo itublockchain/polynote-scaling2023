@@ -11,12 +11,14 @@ type Props = {
   editor: EditorProp;
   selectedNoteCopy: Note;
   setSelectedNoteCopy: Dispatch<SetStateAction<Note>>;
+  isUpdating: boolean;
 };
 
 export const Editor = ({
   selectedNoteCopy,
   setSelectedNoteCopy,
   editor,
+  isUpdating,
 }: Props) => {
   useEffect(() => {
     if (editor == null) {
@@ -33,6 +35,15 @@ export const Editor = ({
       editor.off("update", changeFn);
     };
   }, [editor, selectedNoteCopy, setSelectedNoteCopy]);
+
+  useEffect(() => {
+    if (!isUpdating) {
+      editor.setEditable(true);
+      editor.commands.focus();
+    } else {
+      editor.setEditable(false);
+    }
+  }, [isUpdating, editor]);
 
   return (
     <>
@@ -115,6 +126,7 @@ export const Editor = ({
       )}
 
       <EditorContent
+        id="ContentWrapper"
         className="text-black dark:text-white w-full h-full"
         editor={editor}
       />

@@ -122,6 +122,7 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       />
       {editor != null && (
         <Editor
+          isUpdating={updateNoteMutation.isLoading}
           editor={editor}
           selectedNoteCopy={selectedNoteCopy}
           setSelectedNoteCopy={setSelectedNoteCopy}

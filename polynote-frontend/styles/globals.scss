@@ -38,10 +38,14 @@ body.dark {
 }
 
 .ProseMirror:focus {
-  outline: none;
+  outline: none !important;
 }
 
-.ProseMirror p.is-editor-empty:first-child::before {
+#ContentWrapper:focus {
+  outline: none !important;
+}
+
+#ContentWrapper p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   float: left;
