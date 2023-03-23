@@ -12,14 +12,16 @@ import { CustomConnectButton, Spinner, Typography } from "ui";
 import Image from "next/image";
 import EmptyStateIllustration from "assets/empty-state-illustration.png";
 import { Header } from "components";
+import { formatAddress } from "utils/formatAddress";
+import { useAccountModal } from "@rainbow-me/rainbowkit";
 
 const NoteId: NextPage = () => {
   const router = useRouter();
   const { note_id } = router.query;
-  const { address } = useAccount();
   const [note, setNote] = useState<Note | null>(null);
   const [errorCode, setErrorCode] = useState<number>(-1);
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
+  const { openAccountModal } = useAccountModal();
 
   const mutation = useMutation({
     mutationFn: (args: string[]) =>
@@ -97,13 +99,27 @@ const NoteId: NextPage = () => {
           />
 
           {errorCode === 401 ? (
-            <Typography
-              weight="medium"
-              variant="title4"
-              className="text-MAIN_DARK dark:text-PINK mt-4 text-center"
-            >
-              You are not authorized to see this content
-            </Typography>
+            <>
+              <Typography
+                weight="medium"
+                variant="title4"
+                className="text-MAIN_DARK dark:text-PINK mt-4 text-center"
+              >
+                You are not authorized to see this content
+              </Typography>
+              <Typography
+                variant="body2"
+                className="text-MAIN_DARK dark:text-PINK mt-2 text-center"
+              >
+                Connected as{" "}
+                <span
+                  className="cursor-pointer text-blue-400"
+                  onClick={openAccountModal}
+                >
+                  {formatAddress(address as string)}
+                </span>
+              </Typography>
+            </>
           ) : errorCode === 404 ? (
             <Typography
               weight="medium"

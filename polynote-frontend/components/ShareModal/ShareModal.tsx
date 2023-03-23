@@ -8,12 +8,7 @@ import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { Note } from "recoil/notes/types";
 import { Button, Input, Modal, Typography } from "ui";
 import { formatAddress } from "utils/formatAddress";
-import {
-  useContractRead,
-  useSwitchNetwork,
-  useProvider,
-  useConnect,
-} from "wagmi";
+import { useContractRead, useSwitchNetwork, useProvider } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useCopyText } from "hooks/useCopyText";
 import { scroll } from "consts/chains";
