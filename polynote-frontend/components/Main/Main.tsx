@@ -48,6 +48,7 @@ export const Main = () => {
       const find = notes.find((note) => note.id === id);
       if (find != null) {
         setSelectedNote(find);
+        openedRef.current = true;
       }
     }
   }, [notes, setSelectedNote]);

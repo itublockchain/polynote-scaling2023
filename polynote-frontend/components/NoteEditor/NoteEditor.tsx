@@ -11,7 +11,6 @@ import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
 import data from "@emoji-mart/data";
 import { UpdateNoteDto } from "restapi/types";
-import { title } from "process";
 
 type Props = {
   selectedNote: Note;
@@ -98,8 +97,6 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     editor.commands.setContent(selectedNote.content);
   }, [selectedNote, editor]);
 
-  const [lastFocused, setLastFocused] = useState<"title" | "note">("note");
-
   return (
     <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[24px] pr-[24px] lg:pl-[20%] lg:pr-[20%] overflow-y-auto">
       <div ref={closeRef}>
@@ -125,9 +122,6 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       </div>
 
       <input
-        onFocus={() => {
-          setLastFocused("title");
-        }}
         style={{ fontSize: "48px", fontWeight: "700", marginBottom: "12px" }}
         className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK max-w-[90vw] max-h-max"
         value={selectedNoteCopy.title}
@@ -135,9 +129,6 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       />
       {editor != null && (
         <Editor
-          setLastFocused={setLastFocused}
-          lastFocused={lastFocused}
-          isUpdating={updateNoteMutation.isLoading}
           editor={editor}
           selectedNoteCopy={selectedNoteCopy}
           setSelectedNoteCopy={setSelectedNoteCopy}

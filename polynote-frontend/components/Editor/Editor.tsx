@@ -4,7 +4,7 @@ import {
   BubbleMenu,
   FloatingMenu,
 } from "@tiptap/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Note } from "recoil/notes/types";
 import { clsnm } from "utils/clsnm";
 
@@ -12,18 +12,12 @@ type Props = {
   editor: EditorProp;
   selectedNoteCopy: Note;
   setSelectedNoteCopy: Dispatch<SetStateAction<Note>>;
-  isUpdating: boolean;
-  setLastFocused: Dispatch<SetStateAction<"title" | "note">>;
-  lastFocused: "title" | "note";
 };
 
 export const Editor = ({
   selectedNoteCopy,
   setSelectedNoteCopy,
   editor,
-  isUpdating,
-  lastFocused,
-  setLastFocused,
 }: Props) => {
   useEffect(() => {
     if (editor == null) {
@@ -41,25 +35,11 @@ export const Editor = ({
     };
   }, [editor, selectedNoteCopy, setSelectedNoteCopy]);
 
-  useEffect(() => {
-    if (!isUpdating) {
-      editor.setEditable(true);
-      if (lastFocused === "note") {
-        editor.commands.focus();
-      }
-    } else {
-      editor.setEditable(false);
-    }
-  }, [isUpdating, editor, lastFocused]);
-
   return (
     <>
       {editor && (
         <BubbleMenu
-          className={clsnm(
-            "bubble-menu bg-DARK_PURPLE",
-            isUpdating && "updating"
-          )}
+          className={clsnm("bubble-menu bg-DARK_PURPLE")}
           tippyOptions={{ duration: 100 }}
           editor={editor}
         >
@@ -100,10 +80,7 @@ export const Editor = ({
 
       {editor && (
         <FloatingMenu
-          className={clsnm(
-            "floating-menu bg-DARK_PURPLE",
-            isUpdating && "updating"
-          )}
+          className={clsnm("floating-menu bg-DARK_PURPLE")}
           tippyOptions={{ duration: 100 }}
           editor={editor}
         >
@@ -175,9 +152,6 @@ export const Editor = ({
       )}
 
       <EditorContent
-        onFocus={() => {
-          setLastFocused("note");
-        }}
         id="ContentWrapper"
         className="text-black dark:text-white w-full h-full"
         editor={editor}
