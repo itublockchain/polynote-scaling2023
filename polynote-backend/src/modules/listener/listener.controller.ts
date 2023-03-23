@@ -50,7 +50,7 @@ export class ListenerController implements OnApplicationBootstrap {
           body: `${formatAddress(
             sender,
           )} gave you an access to see the note with an ID of ${noteId}`,
-          cta: '',
+          cta: recipient,
           img: '',
         },
         recipients: [recipient],
