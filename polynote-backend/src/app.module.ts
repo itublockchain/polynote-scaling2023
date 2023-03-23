@@ -40,6 +40,10 @@ export class AppModule implements NestModule {
           path: '/api/v1/user/(.*)',
           method: RequestMethod.GET,
         },
+        {
+          path: '/api/v1/note/shared/(.*)',
+          method: RequestMethod.POST,
+        },
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
