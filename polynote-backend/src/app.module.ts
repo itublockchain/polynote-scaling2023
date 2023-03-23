@@ -41,7 +41,7 @@ export class AppModule implements NestModule {
           method: RequestMethod.GET,
         },
         {
-          path: '/api/v1/note/shared/(.*)',
+          path: '/api/v1/notes/shared/(.*)',
           method: RequestMethod.POST,
         },
       )
