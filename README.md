@@ -8,6 +8,61 @@ Private note taking application #buidl on [Polybase](https://polybase.xyz/) for 
 
 Polybase is a great tool for storing your scaling data on Web3. Our main goal is to create an application which reaches to end-users and used in daily basis. We decided to build a private note taking application on Polybase. The users will connect their wallets and start taking notes, which are going to be written to Polybase collections after being encrypted. Users will be able to whitelist wallets through a smart contract which is going to be deployed on Scroll testnet. We are sending a push notification to shared addresses through Push SDK to let them know about the note link.
 
+## Scroll smart contract
+
+[0x29e362244AB911d7Adc78dc08561a1C514D9096C](https://blockscout.scroll.io/address/0x29e362244AB911d7Adc78dc08561a1C514D9096C)
+
+## Build
+
+**Build frontend**
+
+```bash
+$ cd ./polynote-frontend
+$ npm install # Install dependencies
+$ npm run dev  # Run development server
+```
+
+**Build backend**
+
+**Step 1 - Create docker compose**
+
+1. Create `docker-compose.yaml` on `./polynote-backend` directory.
+
+2. Copy the file below and fill environment section
+
+```
+version: '3.8'
+services:
+  polynote-api:
+    image: asgarovfarhad/polynote-api:1.0.0
+    container_name: polynote-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      - APP_CORS=*
+      - APP_PORT=8000
+      - API_VERSION=1
+      - APP_VERSION=development
+      - PRIVATE_KEY= # Your private key
+      - ENCRYPTION_KEY=[] # Read more at https://polybase.xyz/docs/encrypt-data#encrypt-data-using-symmetric-encryption
+      - NETWORK_RPC_URL=https://alpha-rpc.scroll.io/l2
+      - POLYNOTE_CONTRACT_SCROLL= # Your scroll contract address (Default is 0x29e362244AB911d7Adc78dc08561a1C514D9096C)
+    platform: linux/amd64
+    restart: always
+```
+
+**Step 2 - Run Docker**
+
+```bash
+$ docker compose build
+$ docker compose up -d
+```
+
+The server will run on port specified in `docker-compose.yaml`, which defaults to 8000.
+
 ## Tech Stack
 
 | Tech                               | Field                |
