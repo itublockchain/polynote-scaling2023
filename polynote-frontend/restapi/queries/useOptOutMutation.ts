@@ -17,7 +17,7 @@ export const useOptOutMutation = (
     mutationFn: (data: PushNotificationDto) => apiOptOutNotificationsO(data),
     onSuccess: () => {
       onSuccess?.();
-      notify.success("Successfully opted in");
+      notify.success("Successfully opted out");
     },
     onError: (err: AxiosError) => {
       notify.error("Failed to opt out");
