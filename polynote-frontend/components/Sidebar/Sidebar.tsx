@@ -18,7 +18,7 @@ import {
   useSelectedNote,
   useSetSelectedNote,
 } from "recoil/notes/NotesStoreHooks";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BsBell, BsChevronLeft, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
 import { useOptInMutation } from "restapi/queries/useOptInMutation";
@@ -56,7 +56,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       topDistance: 8,
     });
 
-  const { notifications, isLoading } = usePushNotifications({
+  const { notifications, isLoading, refetch } = usePushNotifications({
     address,
   });
 
@@ -74,6 +74,20 @@ export const Sidebar = ({ createNoteModal }: Props) => {
 
     optOutMutation.mutate({ address });
   };
+
+  const filteredNotifications = useMemo(() => {
+    if (address == null) return [];
+
+    return notifications.filter((item) => {
+      return item.cta.toLowerCase() === address.toLowerCase();
+    });
+  }, [notifications, address]);
+
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
 
   return (
     <>
@@ -126,15 +140,15 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                     </div>
                   ) : (
                     <div className="flex flex-col min-h-[100px] overflow-y-auto max-h-[320px]">
-                      {notifications.length === 0 && (
+                      {filteredNotifications.length === 0 && (
                         <Typography
                           variant="caption"
-                          className="text-center text-MAIN_DARK dark:text-white"
+                          className="text-center text-MAIN_DARK dark:text-white mt-auto mb-auto"
                         >
                           No notifications recieved
                         </Typography>
                       )}
-                      {notifications.map((item) => (
+                      {filteredNotifications.map((item) => (
                         <div
                           onClick={() => {
                             const split = item.message.split(" ");

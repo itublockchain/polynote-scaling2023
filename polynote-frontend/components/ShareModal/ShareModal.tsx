@@ -19,6 +19,7 @@ import { useCopyText } from "hooks/useCopyText";
 import { scroll } from "consts/chains";
 import { formatRpcErrorMessage } from "utils/formatRPCErrorMessage";
 import { getSharedMessage } from "utils/getSharedMessage";
+import { useNotify } from "hooks/useNotify";
 
 type Props = {
   modalController: ModalController;
@@ -33,6 +34,7 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
   });
   const provider = useProvider();
   const [isChainIdCorrect, setIsChainIdCorrect] = useState(true);
+  const notify = useNotify();
 
   const [copied, onCopy] = useCopyText();
 
@@ -48,6 +50,7 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
     address: POLYNOTE_CONTRACT_SCROLL,
     method: "setPartners",
     onSuccess: () => {
+      notify.success("Note shared successfully");
       setTimeout(() => {
         refetch();
       }, 1000);

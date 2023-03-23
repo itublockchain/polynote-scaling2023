@@ -118,8 +118,11 @@ function InitHooks({
 
   useOnAccountsChange(() => {
     router.replace(Paths.CONNECT_WALLET);
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
     setToken(null);
+    setPolybaseUser(null);
+    setSelectedNote(null);
+    setNotes([]);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
   });
 
   useListenNetworkChange();

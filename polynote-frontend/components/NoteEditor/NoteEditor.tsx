@@ -5,11 +5,13 @@ import StarterKit from "@tiptap/starter-kit";
 import { Editor } from "components/Editor/Editor";
 import { useDebounce } from "hooks/useDebounce";
 import { useDropdown } from "hooks/useDropdown";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Note } from "recoil/notes/types";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
 import data from "@emoji-mart/data";
+import { UpdateNoteDto } from "restapi/types";
+import { title } from "process";
 
 type Props = {
   selectedNote: Note;
@@ -40,26 +42,32 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     [setSelectedNoteCopy, selectedNoteCopy]
   );
 
-  const debouncedNoteContent = useDebounce<string>(
+  const memoizedNotePayload = useMemo((): UpdateNoteDto => {
+    return {
+      content: selectedNoteCopy.content,
+      title: selectedNoteCopy.title,
+      emoji: selectedNoteCopy.emoji,
+    };
+  }, [
+    selectedNoteCopy.emoji,
+    selectedNoteCopy.title,
     selectedNoteCopy.content,
+  ]);
+
+  const debouncedNotePayload = useDebounce<UpdateNoteDto>(
+    memoizedNotePayload,
     2000
   );
-  const debouncedNoteTitle = useDebounce<string>(selectedNoteCopy.title, 2000);
-  const debouncedNoteEmoji = useDebounce<string>(selectedNoteCopy.emoji, 2000);
 
   useEffect(() => {
     if (!readyRef.current) {
       return;
     }
 
-    updateNoteMutation.mutate({
-      content: debouncedNoteContent,
-      title: debouncedNoteTitle,
-      emoji: debouncedNoteEmoji,
-    });
+    updateNoteMutation.mutate(debouncedNotePayload);
 
     // eslint-disable-next-line
-  }, [debouncedNoteContent, debouncedNoteTitle, debouncedNoteEmoji]);
+  }, [debouncedNotePayload]);
 
   useEffect(() => {
     readyRef.current = false;
@@ -90,8 +98,10 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
     editor.commands.setContent(selectedNote.content);
   }, [selectedNote, editor]);
 
+  const [lastFocused, setLastFocused] = useState<"title" | "note">("note");
+
   return (
-    <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[24px] pr-[24px] md:pl-[20%] md:pr-[20%] overflow-y-auto">
+    <div className="flex flex-col mt-[48px] w-full items-start justify-start pl-[24px] pr-[24px] lg:pl-[20%] lg:pr-[20%] overflow-y-auto">
       <div ref={closeRef}>
         <div
           onClick={toggle}
@@ -115,13 +125,18 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       </div>
 
       <input
+        onFocus={() => {
+          setLastFocused("title");
+        }}
         style={{ fontSize: "48px", fontWeight: "700", marginBottom: "12px" }}
-        className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK max-w-[90vw]"
+        className="bg-transparent mt-2 text-black dark:text-white outline-none caret-MAIN_DARK dark:caret-PINK max-w-[90vw] max-h-max"
         value={selectedNoteCopy.title}
         onChange={(e) => modifyTitle(e.target.value)}
       />
       {editor != null && (
         <Editor
+          setLastFocused={setLastFocused}
+          lastFocused={lastFocused}
           isUpdating={updateNoteMutation.isLoading}
           editor={editor}
           selectedNoteCopy={selectedNoteCopy}

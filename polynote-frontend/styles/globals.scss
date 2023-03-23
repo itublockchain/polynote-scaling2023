@@ -66,15 +66,21 @@ body.dark {
 
 .ProseMirror {
   h1 {
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 600;
   }
 
   h2 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 600;
   }
+
   h3 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  h4 {
     font-size: 20px;
     font-weight: 600;
   }
@@ -85,6 +91,11 @@ body.dark {
 
   ol {
     list-style: decimal;
+  }
+
+  blockquote {
+    margin-left: 8px;
+    font-style: italic;
   }
 }
 
@@ -132,5 +143,9 @@ body.dark {
     &.is-active {
       opacity: 1;
     }
+  }
+
+  &.updating {
+    pointer-events: none;
   }
 }
