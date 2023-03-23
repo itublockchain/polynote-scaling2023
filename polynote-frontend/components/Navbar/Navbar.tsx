@@ -20,6 +20,7 @@ export const Navbar = () => {
         <div className="flex justify-between">
           <div className="w-[150px] flex items-center">
             <Image
+              onClick={() => router.push("/")}
               alt="Logo"
               src={theme === "dark" ? LogoWhite : Logo}
               className="w-full shrink-0"

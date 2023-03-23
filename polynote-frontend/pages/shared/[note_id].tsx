@@ -11,7 +11,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { CustomConnectButton, Spinner, Typography } from "ui";
 import Image from "next/image";
 import EmptyStateIllustration from "assets/empty-state-illustration.png";
-import { Header } from "components";
+import { Header, Navbar } from "components";
 import { formatAddress } from "utils/formatAddress";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 
@@ -162,6 +162,7 @@ const NoteId: NextPage = () => {
   return (
     <>
       <Header title="Shared note" />
+      <Navbar />
       <div className="flex w-full min-h-screen max-h-screen overflow-y-auto pl-[24px] pr-[24px] md:pl-[20%] md:pr-[20%] pt-[32px] md:pt-[64px] pb-[32px] md:pb-[64px] md:mb-[32px]">
         <div className="flex flex-col">
           <div className="text-4xl cursor-pointer">{note.emoji}</div>

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSetTheme, useTheme } from "recoil/theme/ThemeStoreHooks";
 
 const identifier = "PolynoteTheme";
-const initialTheme = "dark";
+const initialTheme = "light";
 
 export const useInitializeTheme = () => {
   const setTheme = useSetTheme();
