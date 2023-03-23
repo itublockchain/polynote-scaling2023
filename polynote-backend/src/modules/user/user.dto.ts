@@ -33,6 +33,13 @@ export class UserUpdateDto {
   name: string;
 }
 
+export class UserPushNotificationDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+}
+
 export class UserDeleteDto {
   @ApiProperty()
   @IsNotEmpty()

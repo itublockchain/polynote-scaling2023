@@ -19,6 +19,7 @@ import {
   UserAuthDto,
   UserCreateDto,
   UserDeleteDto,
+  UserPushNotificationDto,
   UserUpdateDto,
 } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
@@ -44,6 +45,38 @@ export class UserController {
       userAddressDto.address,
     );
     return result;
+  }
+
+  @Post('/notifications/opt-in')
+  @ApiOperation({ summary: 'Opt in to push notifications' })
+  @UsePipes(new ValidationPipe())
+  public async optIn(
+    @Body() userPushNotificationDto: UserPushNotificationDto,
+    @Req() req: Request,
+  ) {
+    const { address } = getTokenData(req);
+
+    if (userPushNotificationDto.address !== address) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    return await this.userService.optIn(userPushNotificationDto.address);
+  }
+
+  @Post('/notifications/opt-out')
+  @ApiOperation({ summary: 'Opt out to push notifications' })
+  @UsePipes(new ValidationPipe())
+  public async optOut(
+    @Body() userPushNotificationDto: UserPushNotificationDto,
+    @Req() req: Request,
+  ) {
+    const { address } = getTokenData(req);
+
+    if (userPushNotificationDto.address !== address) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    return await this.userService.optOut(userPushNotificationDto.address);
   }
 
   @Post()

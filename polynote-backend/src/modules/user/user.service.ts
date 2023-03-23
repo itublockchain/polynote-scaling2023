@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Collection, Polybase } from '@polybase/client';
 import { ethers } from 'ethers';
@@ -15,6 +10,9 @@ import {
 import { getPolybaseInstance } from 'src/utils/getPolybaseInstance';
 import { DOMAIN, TYPES } from 'src/utils/signature';
 import { v4 as uuidv4 } from 'uuid';
+import * as PushAPI from '@pushprotocol/restapi';
+import { CONFIG } from 'src/config';
+import { ENV } from '@pushprotocol/restapi/src/lib/constants';
 
 @Injectable()
 export class UserService {
@@ -118,5 +116,30 @@ export class UserService {
     }
 
     await this.collection.record(user.id).call('deleteUser');
+  }
+
+  public async optIn(address: string) {
+    const PK = process.env.PRIVATE_KEY; // channel private key
+    const _signer = new ethers.Wallet(PK);
+    await PushAPI.channels.subscribe({
+      signer: _signer,
+      channelAddress: CONFIG.PUSH_CHANNEL_CAIP,
+      userAddress: `eip155:5:${address}`,
+      env: ENV.STAGING,
+    });
+
+    return { status: 'ok' };
+  }
+
+  public async optOut(address: string) {
+    const PK = process.env.PRIVATE_KEY; // channel private key
+    const _signer = new ethers.Wallet(PK);
+    await PushAPI.channels.unsubscribe({
+      signer: _signer,
+      channelAddress: CONFIG.PUSH_CHANNEL_CAIP,
+      userAddress: `eip155:5:${address}`,
+      env: ENV.STAGING,
+    });
+    return { status: 'ok' };
   }
 }

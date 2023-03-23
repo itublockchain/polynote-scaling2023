@@ -22,7 +22,6 @@ import {
   NotesUpdateParams,
 } from 'src/modules/note/note.dto';
 import { NoteService } from 'src/modules/note/note.service';
-import { UserCreateDto } from 'src/modules/user/user.dto';
 import { POLYNOTE_ABI } from 'src/utils/abi';
 import { getRpcProvider } from 'src/utils/getRpcProvider';
 import { getTokenData } from 'src/utils/getTokenData';
