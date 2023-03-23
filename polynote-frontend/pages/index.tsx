@@ -5,6 +5,8 @@ import { Button } from "ui";
 import LandingIllustrations from "assets/landing-illustrations.png";
 import Screens from "assets/screens.png";
 import ScreensLight from "assets/screens-light.png";
+import ScreensSmLight from "assets/screens-sm-light.png";
+import ScreensSm from "assets/screens-sm.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
@@ -25,8 +27,10 @@ const Home: NextPage = () => {
             <span className="text-orange-400">Document Sharing</span>, and{" "}
             <span className="text-green-600">Text Editing</span> Platform
           </h1>
-          <h4 className="text-center text-[18px] md:text-[24px] mt-[20px] md:mt-[24px] max-w-[512px] rubik text-MAIN_DARK dark:text-white">
-            We are such a good couple for anything you can imagine.
+          <h4 className="text-center text-[16px] md:text-[20px] mt-[20px] md:mt-[24px] max-w-[800px] rubik text-MAIN_DARK dark:text-white">
+            Polynote uses power of Polybase and encryption to create truly
+            decentralized note-taking application environment, combined with
+            Push Protocol and Scroll L2
           </h4>
           <Button
             onClick={() => router.push(Paths.CONNECT_WALLET)}
@@ -42,8 +46,13 @@ const Home: NextPage = () => {
             alt="Illustrations"
           />
           <Image
-            className="w-full -translate-y-2"
+            className="w-full -translate-y-2 hidden md:flex animate-custom-bounce"
             src={theme === "light" ? Screens : ScreensLight}
+            alt="Screens"
+          />
+          <Image
+            className="w-full -translate-y-2 flex md:hidden animate-custom-bounce"
+            src={theme === "light" ? ScreensSm : ScreensSmLight}
             alt="Screens"
           />
         </Container>

@@ -22,7 +22,7 @@ export const Navbar = () => {
             <Image
               alt="Logo"
               src={theme === "dark" ? LogoWhite : Logo}
-              className="w-full"
+              className="w-full shrink-0"
             />
           </div>
           <div className="flex space-x-3">
@@ -30,9 +30,9 @@ export const Navbar = () => {
               onClick={() => router.push(Paths.CONNECT_WALLET)}
               leftIcon={<AiOutlineWallet />}
               color="primary"
-              className="h-12 pl-4 pr-4"
+              className="h-12 w-[48px] md:w-max pl-2 md:pl-4 md:pr-4"
             >
-              Get started
+              <span className="hidden md:flex">Get started</span>
             </Button>
             <Button
               className="w-[48px]"
