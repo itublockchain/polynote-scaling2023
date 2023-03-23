@@ -31,6 +31,7 @@ import { Paths } from "consts/paths";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useListenNetworkChange } from "hooks/useListenNetworkChange";
+import { Header } from "components";
 
 export const queryClient = new QueryClient();
 
@@ -82,7 +83,11 @@ function ClientOnly({ children }: { children: ReactNode }) {
   }, []);
 
   if (!mounted) {
-    return null;
+    return (
+      <>
+        <Header />
+      </>
+    );
   }
 
   return <>{children}</>;

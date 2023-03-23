@@ -1,7 +1,7 @@
 import LogoLarge from "assets/logo/logo-large.png";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import Image from "next/image";
-import { Button, Input, Typography } from "ui";
+import { Button, Input, Spinner, Typography } from "ui";
 import { AiOutlineSearch, AiOutlineSetting } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
@@ -19,8 +19,13 @@ import {
   useSetSelectedNote,
 } from "recoil/notes/NotesStoreHooks";
 import { useMemo, useState } from "react";
-import { BsChevronLeft, BsPlus } from "react-icons/bs";
+import { BsBell, BsChevronLeft, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
+import { useOptInMutation } from "restapi/queries/useOptInMutation";
+import { useOptOutMutation } from "restapi/queries/useOptOutMutation";
+import { useDropdown } from "hooks/useDropdown";
+import { usePushNotifications } from "restapi/queries/usePushNotifications";
+import { Paths } from "consts/paths";
 
 type Props = {
   createNoteModal: ModalController;
@@ -45,6 +50,31 @@ export const Sidebar = ({ createNoteModal }: Props) => {
     );
   }, [notes, search]);
 
+  const { floating, toggle, reference, isOpen, popperStyles, closeRef } =
+    useDropdown({
+      placement: "bottom-start",
+      topDistance: 8,
+    });
+
+  const { notifications, isLoading } = usePushNotifications({
+    address,
+  });
+
+  const optInMutation = useOptInMutation();
+  const optOutMutation = useOptOutMutation();
+
+  const optInNotifications = async () => {
+    if (address == null) return;
+
+    optInMutation.mutate({ address });
+  };
+
+  const optOutNotifications = async () => {
+    if (address == null) return;
+
+    optOutMutation.mutate({ address });
+  };
+
   return (
     <>
       <SettingsModal modalController={modal} />
@@ -68,6 +98,89 @@ export const Sidebar = ({ createNoteModal }: Props) => {
             >
               <AiOutlineSetting />
             </Button>
+            <div ref={closeRef}>
+              <div ref={reference}>
+                <Button
+                  onClick={toggle}
+                  className="h-8 px-[12px]"
+                  color={theme === "dark" ? "primary" : "secondary"}
+                  leftIcon={<BsBell />}
+                />
+              </div>
+              {isOpen && (
+                <div
+                  className="p-[12px] rounded-[12px] shadow-md max-h-[420px] w-[200px] md:w-[512px] bg-white dark:bg-DARK_PURPLE"
+                  ref={floating}
+                  style={popperStyles}
+                >
+                  <Typography
+                    variant="body2"
+                    weight="medium"
+                    className="text-MAIN_DARK dark:text-white mb-1 block"
+                  >
+                    Notifications
+                  </Typography>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-[100px]">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <div className="flex flex-col min-h-[100px] overflow-y-auto max-h-[320px]">
+                      {notifications.length === 0 && (
+                        <Typography
+                          variant="caption"
+                          className="text-center text-MAIN_DARK dark:text-white"
+                        >
+                          No notifications recieved
+                        </Typography>
+                      )}
+                      {notifications.map((item) => (
+                        <div
+                          onClick={() => {
+                            const split = item.message.split(" ");
+                            const noteId = split[split.length - 1];
+                            window.open(Paths.SHARED + `/${noteId}`, "_blank");
+                          }}
+                          className="bg-neutral-100 hover:bg-neutral-200 dark:bg-MAIN_DARK dark:hover:bg-PURPLE py-1 px-2 rounded-md mb-2 flex items-center cursor-pointer"
+                          key={item.sid}
+                        >
+                          <div className="shrink-0 mr-2">
+                            <img
+                              alt="notification"
+                              src={item.icon}
+                              className="w-[32px] h-[32px] rounded-md"
+                            />
+                          </div>
+                          <span className="text-MAIN_DARK dark:text-PINK">
+                            {item.message}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex items-center space-x-1 mt-2">
+                    <Button
+                      loading={optInMutation.isLoading}
+                      color="primary"
+                      className="w-full h-6"
+                      onClick={optInNotifications}
+                    >
+                      Opt in
+                    </Button>
+
+                    <Button
+                      loading={optOutMutation.isLoading}
+                      color="primary"
+                      className="w-full h-6"
+                      onClick={optOutNotifications}
+                    >
+                      Opt out
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
             <Button
               onClick={() => setCollapsed(true)}
               className="w-[36px] h-[32px] lg:hidden"

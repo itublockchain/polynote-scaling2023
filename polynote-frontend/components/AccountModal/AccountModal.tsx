@@ -41,21 +41,20 @@ export const AccountModal = () => {
     value: getSignatureValue(address as `0x${string}`, "Register"),
   });
 
-  const { signTypedData: signTypeDataForAuth, isLoading: isSigningAuth } =
-    useSignTypedData({
-      onSuccess: (res) => {
-        authUserMutation.mutate({
-          address: address as string,
-          signature: res,
-        });
-      },
-      onError: () => {
-        router.replace(Paths.CONNECT_WALLET);
-      },
-      domain: DOMAIN,
-      types: TYPES,
-      value: getSignatureValue(address as `0x${string}`, "Sign in"),
-    });
+  const { signTypedData: signTypeDataForAuth } = useSignTypedData({
+    onSuccess: (res) => {
+      authUserMutation.mutate({
+        address: address as string,
+        signature: res,
+      });
+    },
+    onError: () => {
+      router.replace(Paths.CONNECT_WALLET);
+    },
+    domain: DOMAIN,
+    types: TYPES,
+    value: getSignatureValue(address as `0x${string}`, "Sign in"),
+  });
 
   useEffect(() => {
     if (checkedRef.current) {

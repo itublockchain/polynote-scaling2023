@@ -3,6 +3,7 @@ import {
   AuthUserDto,
   CreateNoteDto,
   CreatePolybaseUserDto,
+  PushNotificationDto,
   UpdateNoteDto,
   UpdatePolybaseUserNameDto,
 } from "restapi/types";
@@ -67,5 +68,15 @@ export const apiGetSharedNote = (
 ) => {
   return axios.post(`/notes/shared/${id}`, data);
 };
+
+export const apiOptInNotifications = (data: PushNotificationDto) => {
+  return axios.post(`/user/notifications/opt-in`, data);
+};
+
+export const apiOptOutNotificationsO = (data: PushNotificationDto) => {
+  return axios.post(`/user/notifications/opt-out`, data);
+};
+
 export const POLYBASE_USER_QUERY = ["polybase_user"];
 export const NOTES_QUERY = ["notes"];
+export const NOTIFICATIONS = ["notifications"];

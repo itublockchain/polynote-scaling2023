@@ -24,6 +24,7 @@ export const useAuthUserMutation = () => {
         setToken(null);
       }
     },
+    retry: false,
   });
 
   return mutation;
