@@ -11,6 +11,10 @@ import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { useUpdateNoteMutation } from "restapi/queries/useUpdateNoteMutation";
 import data from "@emoji-mart/data";
 import { UpdateNoteDto } from "restapi/types";
+import Link from "@tiptap/extension-link";
+import Color from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import ListItem from "@tiptap/extension-list-item";
 
 type Props = {
   selectedNote: Note;
@@ -85,6 +89,11 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
         placeholder: "Enter your note here...",
         emptyEditorClass: "is-editor-empty",
       }),
+      Link.configure({
+        protocols: [],
+      }),
+      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      TextStyle.configure({ types: [ListItem.name] } as any),
     ],
     content: selectedNoteCopy.content,
   });

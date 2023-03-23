@@ -4,7 +4,7 @@ import {
   BubbleMenu,
   FloatingMenu,
 } from "@tiptap/react";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { Note } from "recoil/notes/types";
 import { clsnm } from "utils/clsnm";
 
@@ -35,6 +35,32 @@ export const Editor = ({
     };
   }, [editor, selectedNoteCopy, setSelectedNoteCopy]);
 
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+
+    if (url === null) {
+      return;
+    }
+
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+      return;
+    }
+
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }, [editor]);
+
+  const setHighlight = useCallback(() => {
+    if (editor.isActive("textStyle", { color: "#FFBF00" })) {
+      editor.chain().focus().setColor("none").run();
+      return;
+    }
+
+    editor.chain().focus().setColor("#FFBF00").run();
+  }, [editor]);
+
   return (
     <>
       {editor && (
@@ -43,37 +69,59 @@ export const Editor = ({
           tippyOptions={{ duration: 100 }}
           editor={editor}
         >
-          <div className="flex space-x-1">
-            <button
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              className={editor.isActive("bold") ? "is-active" : ""}
-            >
-              Bold
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={editor.isActive("italic") ? "is-active" : ""}
-            >
-              Italic
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive("strike") ? "is-active" : ""}
-            >
-              Strike
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-              className={editor.isActive("codeBlock") ? "is-active" : ""}
-            >
-              Code
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className={editor.isActive("blockquote") ? "is-active" : ""}
-            >
-              Blockquote
-            </button>
+          <div className="flex flex-col items-center">
+            <div className="flex space-x-1">
+              <button
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                className={editor.isActive("bold") ? "is-active" : ""}
+              >
+                Bold
+              </button>
+              <button
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                className={editor.isActive("italic") ? "is-active" : ""}
+              >
+                Italic
+              </button>
+              <button
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+                className={editor.isActive("strike") ? "is-active" : ""}
+              >
+                Strike
+              </button>
+            </div>
+            <div className="flex mt-2 space-x-1">
+              <button
+                onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                className={editor.isActive("codeBlock") ? "is-active" : ""}
+              >
+                Code
+              </button>
+              <button
+                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                className={editor.isActive("blockquote") ? "is-active" : ""}
+              >
+                Blockquote
+              </button>
+              <button
+                onClick={setLink}
+                className={editor.isActive("link") ? "is-active" : ""}
+              >
+                Link
+              </button>
+              {editor?.can().chain().focus().setColor("#FFBF00").run() && (
+                <button
+                  onClick={setHighlight}
+                  className={
+                    editor.isActive("textStyle", { color: "#FFBF00" })
+                      ? "is-active"
+                      : ""
+                  }
+                >
+                  Higlight
+                </button>
+              )}
+            </div>
           </div>
         </BubbleMenu>
       )}
@@ -84,8 +132,8 @@ export const Editor = ({
           tippyOptions={{ duration: 100 }}
           editor={editor}
         >
-          <div className="flex flex-col">
-            <div className="flex border-b-1 p-1">
+          <div className="flex flex-col p-1 items-center">
+            <div className="flex space-x-3">
               <button
                 onClick={() =>
                   editor.chain().focus().toggleHeading({ level: 1 }).run()
@@ -128,7 +176,7 @@ export const Editor = ({
                 H4
               </button>
             </div>
-            <div className="flex p-1">
+            <div className="flex mt-1 space-x-1">
               <button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={editor.isActive("bulletList") ? "is-active" : ""}

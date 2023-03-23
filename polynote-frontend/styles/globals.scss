@@ -97,6 +97,10 @@ body.dark {
     margin-left: 8px;
     font-style: italic;
   }
+
+  a {
+    color: rgb(89, 89, 255);
+  }
 }
 
 .bubble-menu {
@@ -116,6 +120,7 @@ body.dark {
     &:hover,
     &.is-active {
       opacity: 1;
+      transform: scale(1.05);
     }
   }
 }
@@ -136,16 +141,19 @@ body.dark {
     padding: 0 0.2rem;
     opacity: 0.6;
     white-space: nowrap;
-    margin-left: 8px;
-    margin-right: 8px;
 
     &:hover,
     &.is-active {
       opacity: 1;
+      transform: scale(1.05);
     }
   }
 
   &.updating {
     pointer-events: none;
   }
+}
+
+.rubik {
+  font-family: "Rubik", sans-serif !important;
 }
