@@ -1,17 +1,5 @@
-import {
-  EditorContent,
-  Editor as EditorProp,
-  BubbleMenu,
-  FloatingMenu,
-} from "@tiptap/react";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-import { Note } from "recoil/notes/types";
+import { Editor as EditorProp, FloatingMenu } from "@tiptap/react";
+import { useRef } from "react";
 import { clsnm } from "utils/clsnm";
 import { Web3Storage } from "web3.storage";
 
@@ -28,13 +16,35 @@ export const FloatingMenuEditor = ({ editor }: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
 
   const selectFile = async () => {
-    if (!imageInput.current || imageInput.current.files === null) return;
+    if (
+      !imageInput.current ||
+      imageInput.current.files === null ||
+      !(imageInput.current.files.length === 1)
+    )
+      return;
+    const fileMb = imageInput.current?.files[0].size / 1024 ** 2;
+    if (fileMb > 2) {
+      console.log("More than 2 MB!");
+      return;
+    }
     try {
-      const urlRoot: string = "https://dweb.link/ipfs/";
       const fileName: string = imageInput.current?.files[0]?.name;
-      const rootCid = await client.put(imageInput.current?.files);
-      const url: string = urlRoot + rootCid.toString() + "/" + fileName;
-      editor.chain().focus().setImage({ src: url }).run();
+      const extention = fileName.split(".").pop();
+      console.log(extention);
+      if (
+        extention === "png" ||
+        extention === "jpg" ||
+        extention === "jpeg" ||
+        extention === "svg" ||
+        extention === "pdf"
+      ) {
+        const urlRoot: string = "https://dweb.link/ipfs/";
+        const rootCid = await client.put(imageInput.current?.files);
+        const url: string = urlRoot + rootCid.toString() + "/" + fileName;
+        editor.chain().focus().setImage({ src: url }).run();
+      } else {
+        console.log("buradayim");
+      }
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -120,6 +130,7 @@ export const FloatingMenuEditor = ({ editor }: Props) => {
             onClick={() => {
               if (!imageInput.current) return;
               imageInput.current.click();
+              console.log("ehre");
             }}
           >
             Image
