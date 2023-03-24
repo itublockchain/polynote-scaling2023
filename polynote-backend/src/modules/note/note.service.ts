@@ -100,17 +100,19 @@ export class NoteService {
   public async createNote(notesCreateDto: NotesCreateDto) {
     const id = uuidv4();
 
+    const encryptedContent = await this.encyptString(notesCreateDto.content);
+
     await this.collection.create([
       id,
       notesCreateDto.address,
       notesCreateDto.emoji,
       notesCreateDto.title,
-      notesCreateDto.content,
+      encryptedContent,
       getTimestamp(),
       getTimestamp(),
     ]);
 
-    return await this.genNoteById(id);
+    return await this.genDecryptedNoteById(id);
   }
 
   public async deleteNoteById(id: string) {
