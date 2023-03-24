@@ -3,6 +3,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor } from "components/Editor/Editor";
+import Image from '@tiptap/extension-image'
 import { useDebounce } from "hooks/useDebounce";
 import { useDropdown } from "hooks/useDropdown";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -94,6 +95,7 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] } as any),
+      Image
     ],
     content: selectedNoteCopy.content,
   });
