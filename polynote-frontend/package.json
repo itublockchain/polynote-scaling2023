@@ -18,6 +18,7 @@
     "@pushprotocol/restapi": "^0.8.3",
     "@rainbow-me/rainbowkit": "0.11.1",
     "@tiptap/extension-color": "^2.0.0-beta.220",
+    "@tiptap/extension-image": "^2.0.0-beta.220",
     "@tiptap/extension-link": "^2.0.0-beta.220",
     "@tiptap/extension-list-item": "^2.0.0-beta.220",
     "@tiptap/extension-placeholder": "2.0.0-beta.220",
@@ -28,16 +29,19 @@
     "axios": "1.3.4",
     "emoji-mart": "5.5.2",
     "ethers": "5.7.1",
+    "minimist": "^1.2.8",
     "next": "13.0.6",
     "next-seo": "5.15.0",
     "nextjs-progressbar": "0.0.16",
+    "process": "^0.11.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.8.0",
     "react-query": "3.39.3",
     "react-toastify": "9.1.1",
     "recoil": "0.7.7",
-    "wagmi": "0.11.7"
+    "wagmi": "0.11.7",
+    "web3.storage": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "17.0.35",

@@ -4,9 +4,16 @@ import {
   BubbleMenu,
   FloatingMenu,
 } from "@tiptap/react";
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { Note } from "recoil/notes/types";
 import { clsnm } from "utils/clsnm";
+import { Web3Storage } from "web3.storage";
 
 type Props = {
   editor: EditorProp;
@@ -19,6 +26,26 @@ export const Editor = ({
   setSelectedNoteCopy,
   editor,
 }: Props) => {
+  const client = new Web3Storage({
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDBEOGJBZTQxNzdiOTA4NzQwNThkMWJEODgzMTI3ZTllRkRiM2RDNGIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk2NjA4MjM5NTcsIm5hbWUiOiJwb2x5bm90ZSJ9.2iMv6-3ZxYxlqR4efJLsD06BeLEegZ0nKKRe2FvXPmc",
+  });
+
+  const imageInput = useRef<HTMLInputElement>(null);
+
+  const selectFile = async () => {
+    if (!imageInput.current || imageInput.current.files === null) return;
+    try {
+      const urlRoot: string = "https://dweb.link/ipfs/";
+      const fileName: string = imageInput.current?.files[0]?.name;
+      const rootCid = await client.put(imageInput.current?.files);
+      const url: string = urlRoot + rootCid.toString() + "/" + fileName;
+      editor.chain().focus().setImage({ src: url }).run();
+    } catch (err) {
+      console.log("Error: ", err);
+    }
+  };
+
   useEffect(() => {
     if (editor == null) {
       return;
@@ -193,6 +220,22 @@ export const Editor = ({
                 onClick={() => editor.chain().focus().setHorizontalRule().run()}
               >
                 Line
+              </button>
+            </div>
+            <div className="flex mt-1 space-x-1">
+              <input
+                type="file"
+                ref={imageInput}
+                className="hidden"
+                onChange={selectFile}
+              />
+              <button
+                onClick={() => {
+                  if (!imageInput.current) return;
+                  imageInput.current.click();
+                }}
+              >
+                Image
               </button>
             </div>
           </div>
