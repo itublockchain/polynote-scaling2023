@@ -41,7 +41,6 @@ export const Editor = ({
       const rootCid = await client.put(imageInput.current?.files);
       const url: string = urlRoot + rootCid.toString() + "/" + fileName;
       editor.chain().focus().setImage({ src: url }).run();
-      console.log(url);
     } catch (err) {
       console.log("Error: ", err);
     }
