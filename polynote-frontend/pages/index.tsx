@@ -68,8 +68,8 @@ const Home: NextPage = () => {
             Main Features
           </h2>
           <h4 className="text-center mt-[24px] text-[14px] md:text-[20px] font-[400] rubik text-neutral-500 dark:text-neutral-100 max-w-[512px] ml-auto mr-auto">
-            Our application make it easy to work with notes with continiously
-            evolving features.
+            Our application make it easy to work with notes by offering
+            continiously evolving features
           </h4>
         </Container>
       </section>
