@@ -31,6 +31,10 @@ export class ListenerController implements OnApplicationBootstrap {
   }
 
   async sendNotification(sender: string, noteId: string, recipient: string) {
+    if (CONFIG.APP_VERSION === 'development') {
+      return;
+    }
+
     const PK = process.env.PRIVATE_KEY; // channel private key
     const _signer = new ethers.Wallet(PK);
 

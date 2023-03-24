@@ -17,5 +17,6 @@ services:
       - ENCRYPTION_KEY=[]
       - NETWORK_RPC_URL=https://alpha-rpc.scroll.io/l2
       - POLYNOTE_CONTRACT_SCROLL=
+      - DB_NAMESPACE=polybase
     platform: linux/amd64
     restart: always
