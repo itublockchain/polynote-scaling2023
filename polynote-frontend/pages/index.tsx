@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
+import FeaturesIllustration from "assets/features-illustration.png";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -54,6 +55,14 @@ const Home: NextPage = () => {
             className="w-full -translate-y-2 flex md:hidden animate-custom-bounce"
             src={theme === "light" ? ScreensSm : ScreensSmLight}
             alt="Screens"
+          />
+        </Container>
+
+        <Container>
+          <Image
+            alt="Features"
+            className="w-full -translate-y-2 flex md:hidden animate-ping"
+            src={FeaturesIllustration}
           />
         </Container>
       </section>

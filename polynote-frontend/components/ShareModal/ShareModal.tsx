@@ -15,6 +15,7 @@ import { scroll } from "consts/chains";
 import { formatRpcErrorMessage } from "utils/formatRPCErrorMessage";
 import { getSharedMessage } from "utils/getSharedMessage";
 import { useNotify } from "hooks/useNotify";
+import { useListenNetworkChange } from "hooks/useListenNetworkChange";
 
 type Props = {
   modalController: ModalController;
@@ -30,6 +31,8 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
   const provider = useProvider();
   const [isChainIdCorrect, setIsChainIdCorrect] = useState(true);
   const notify = useNotify();
+
+  useListenNetworkChange(1000, !modalController.isOpen);
 
   const [copied, onCopy] = useCopyText();
 
