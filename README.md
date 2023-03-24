@@ -50,6 +50,7 @@ services:
       - ENCRYPTION_KEY=[] # Read more at https://polybase.xyz/docs/encrypt-data#encrypt-data-using-symmetric-encryption
       - NETWORK_RPC_URL=https://alpha-rpc.scroll.io/l2
       - POLYNOTE_CONTRACT_SCROLL= # Your scroll contract address (Default is 0x29e362244AB911d7Adc78dc08561a1C514D9096C)
+      - DB_NAMESPACE= # Your unique namespace string (default is polynote)
     platform: linux/amd64
     restart: always
 ```
