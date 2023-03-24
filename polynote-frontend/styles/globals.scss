@@ -101,6 +101,22 @@ body.dark {
   a {
     color: rgb(89, 89, 255);
   }
+
+  pre:has(code) {
+    padding: 0.5rem;
+  }
+}
+
+body.light .ProseMirror {
+  pre:has(code) {
+    background-color: rgb(229, 229, 229);
+  }
+}
+
+body.dark .ProseMirror {
+  pre:has(code) {
+    background-color: #210c33;
+  }
 }
 
 .bubble-menu {

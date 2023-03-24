@@ -61,9 +61,16 @@ const Home: NextPage = () => {
         <Container>
           <Image
             alt="Features"
-            className="w-full -translate-y-2 flex md:hidden animate-ping"
+            className="max-w-[200px] md:max-w-[400px] ml-auto mr-auto flex hover:animate-pulse mt-[48px]"
             src={FeaturesIllustration}
           />
+          <h2 className="text-center mt-[64px] text-[24px] md:text-[48px] font-[600] rubik text-MAIN_DARK dark:text-white">
+            Main Features
+          </h2>
+          <h4 className="text-center mt-[24px] text-[14px] md:text-[20px] font-[400] rubik text-neutral-500 dark:text-neutral-100 max-w-[512px] ml-auto mr-auto">
+            Our application make it easy to work with notes with continiously
+            evolving features.
+          </h4>
         </Container>
       </section>
     </>
