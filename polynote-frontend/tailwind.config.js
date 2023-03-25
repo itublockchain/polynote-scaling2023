@@ -53,6 +53,9 @@ module.exports = {
       minHeight: {
         "screen-overflow": "calc(100vh + 120px)",
       },
+      scale: {
+        102: "1.02",
+      },
     },
   },
   darkMode: "class",
