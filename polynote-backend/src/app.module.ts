@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthMiddleware } from 'src/middlewares/AuthMiddleware';
 import { ListenerModule } from 'src/modules/listener/listener.module';
 import { NoteModule } from 'src/modules/note/note.module';
+import { UploadModule } from 'src/modules/upload/upload.module';
 import { UserModule } from 'src/modules/user/user.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { UserModule } from 'src/modules/user/user.module';
     UserModule,
     NoteModule,
     ListenerModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [],

@@ -20,6 +20,7 @@ export const CONFIG: Config = {
   PUSH_CHANNEL_CAIP: `eip155:5:0xA63A810228a180767d3502EF8d21DbF4Da0D6b43`,
   APP_VERSION: process.env.APP_VERSION as 'development' | 'production',
   DB_NAMESPACE: process.env.DB_NAMESPACE,
+  WEB3_STORAGE_TOKEN: process.env.WEB3_STORAGE_TOKEN,
 };
 
 type Config = {
@@ -29,4 +30,5 @@ type Config = {
   PUSH_CHANNEL_CAIP: string;
   APP_VERSION: 'development' | 'production';
   DB_NAMESPACE: string;
+  WEB3_STORAGE_TOKEN: string;
 };
