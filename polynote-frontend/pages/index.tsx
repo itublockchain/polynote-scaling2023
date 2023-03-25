@@ -268,7 +268,7 @@ const Home: NextPage = () => {
           <div className="flex translate-x-1 mt-4 md:mt-0">
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
-              href="https://github.com/itublockchain/polynote-scaling2023/tree/master/polynote-backend"
+              href="https://github.com/itublockchain/polynote-scaling2023"
               rel="noreferrer"
               target={"_blank"}
             >
