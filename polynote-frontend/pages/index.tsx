@@ -183,6 +183,7 @@ const Home: NextPage = () => {
                   key={item.url}
                   href={item.url}
                   target="_blank"
+                  rel="noreferrer"
                   className="col flex bg-white dark:bg-DARK_PURPLE p-4 lg:p-8 rounded-xl shadow-lg h-[128px] w-[128px] hover:-translate-y-2 duration-150 mt-8"
                 >
                   <Image
