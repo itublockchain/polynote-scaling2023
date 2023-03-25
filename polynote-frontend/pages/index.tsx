@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import FeaturesIllustration from "assets/features-illustration.png";
+import FeaturesIllustrationLight from "assets/features-illustration-light.png";
 import { BsFillShareFill, BsGithub, BsTwitter } from "react-icons/bs";
 import Polybase from "assets/partners/polybase.png";
 import Scroll from "assets/partners/scroll.png";
@@ -59,7 +60,7 @@ const Home: NextPage = () => {
       if (diff > 0) {
         imageRef.current.style.transform = `translateX(-${diff / 1.15}px)`;
       } else {
-        imageRef.current.style.transform = "translateX(0px)";
+        imageRef.current.style.transform = "translateX(100px)";
       }
     };
 
@@ -84,7 +85,7 @@ const Home: NextPage = () => {
           <h4 className="text-center text-[16px] md:text-[20px] mt-[20px] md:mt-[24px] max-w-[800px] rubik text-MAIN_DARK dark:text-white">
             Polynote uses power of Polybase and encryption to create truly
             decentralized note-taking application environment, combined with
-            Push Protocol and Scroll L2
+            Push Protocol, Scroll L2, and Filecoin Virtual Machine
           </h4>
           <Button
             onClick={() => router.push(Paths.CONNECT_WALLET)}
@@ -115,7 +116,11 @@ const Home: NextPage = () => {
           <Image
             alt="Features"
             className="max-w-[200px] md:max-w-[300px] ml-auto mr-auto flex hover:animate-pulse mt-[48px]"
-            src={FeaturesIllustration}
+            src={
+              theme === "dark"
+                ? FeaturesIllustrationLight
+                : FeaturesIllustration
+            }
           />
           <h2 className="text-center mt-[40px] text-[24px] md:text-[48px] font-[600] rubik text-MAIN_DARK dark:text-white rubik">
             Main Features
