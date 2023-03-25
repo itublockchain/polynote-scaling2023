@@ -12,7 +12,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import {
   UserAddressDto,
@@ -20,6 +20,9 @@ import {
   UserCreateDto,
   UserDeleteDto,
   UserPushNotificationDto,
+  UserResponse,
+  UserResponseDto,
+  UserTokenResponse,
   UserUpdateDto,
 } from 'src/modules/user/user.dto';
 import { UserService } from 'src/modules/user/user.service';
@@ -32,14 +35,21 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
+  @ApiResponse({
+    type: UserResponseDto,
+    isArray: true,
+  })
   @ApiOperation({ summary: 'Get all users' })
-  public async genUsers() {
+  public async genUsers(): Promise<UserResponseDto[]> {
     const result = await this.userService.genUsers();
     return result;
   }
 
   @Get('/:address')
   @ApiOperation({ summary: 'Get user with an address' })
+  @ApiResponse({
+    type: UserResponse,
+  })
   public async genUserByAddress(@Param() userAddressDto: UserAddressDto) {
     const result = await this.userService.genUserByAddress(
       userAddressDto.address,
@@ -81,6 +91,9 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: 'Create new user' })
+  @ApiResponse({
+    type: UserResponseDto,
+  })
   @UsePipes(new ValidationPipe())
   public async createUser(@Body() userCreateDto: UserCreateDto) {
     return await this.userService.createUser(userCreateDto);
@@ -88,6 +101,9 @@ export class UserController {
 
   @Post('/auth')
   @ApiOperation({ summary: 'Authorize user with signature' })
+  @ApiResponse({
+    type: UserTokenResponse,
+  })
   @UsePipes(new ValidationPipe())
   public async authUser(@Body() userAuthDto: UserAuthDto) {
     return await this.userService.authUser(userAuthDto);
@@ -95,6 +111,9 @@ export class UserController {
 
   @Put('/:address')
   @ApiOperation({ summary: 'Update user name' })
+  @ApiResponse({
+    type: UserResponseDto,
+  })
   @UsePipes(new ValidationPipe())
   public async updateUserName(
     @Param() userAddressDto: UserAddressDto,

@@ -9,7 +9,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ethers } from 'ethers';
 import { Request } from 'express';
 import { CONFIG } from 'src/config';
@@ -17,6 +17,7 @@ import {
   NotesCreateDto,
   NotesIdParam,
   NotesParams,
+  NotesResponseData,
   NotesSharedParam,
   NotesUpdateDto,
   NotesUpdateParams,
@@ -34,6 +35,10 @@ export class NoteController {
 
   @Get('/:address')
   @ApiOperation({ summary: 'Get notes of a user with address' })
+  @ApiResponse({
+    type: NotesResponseData,
+    isArray: true,
+  })
   public async getNotesForUser(
     @Param() params: NotesParams,
     @Req() req: Request,
@@ -48,12 +53,18 @@ export class NoteController {
   }
 
   @Get('/id/:id')
+  @ApiResponse({
+    type: NotesResponseData,
+  })
   @ApiOperation({ summary: 'Get note with an ID' })
   public async genNote(@Param() params: NotesIdParam) {
     return await this.noteService.genNoteById(params.id);
   }
 
   @Post('/:id')
+  @ApiResponse({
+    type: NotesResponseData,
+  })
   @ApiOperation({ summary: 'Update note' })
   public async syncNote(
     @Param() params: NotesUpdateParams,
@@ -76,6 +87,9 @@ export class NoteController {
   }
 
   @Post()
+  @ApiResponse({
+    type: NotesResponseData,
+  })
   @ApiOperation({ summary: 'Create a new note' })
   public async createNote(
     @Body() notesCreateDto: NotesCreateDto,
@@ -109,6 +123,9 @@ export class NoteController {
   }
 
   @Post('/shared/:id')
+  @ApiResponse({
+    type: NotesResponseData,
+  })
   @ApiOperation({ summary: 'Get shared note with signature' })
   public async getSharedNote(
     @Param() param: NotesIdParam,

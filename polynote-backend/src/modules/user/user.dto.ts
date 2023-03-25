@@ -67,3 +67,13 @@ export class UserResponseDto {
   @ApiProperty()
   name: string;
 }
+
+export class UserResponse {
+  @ApiProperty({ nullable: true })
+  user: UserResponseDto | null;
+}
+
+export class UserTokenResponse {
+  @ApiProperty()
+  token: string;
+}

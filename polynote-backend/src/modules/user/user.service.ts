@@ -24,7 +24,7 @@ export class UserService {
     this.collection = this.db.collection('User');
   }
 
-  public async genUsers() {
+  public async genUsers(): Promise<UserResponseDto[]> {
     const response = await this.collection.get();
 
     return response.data.map((item) => {
