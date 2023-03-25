@@ -52,23 +52,26 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
       {shareModal.isOpen && (
         <ShareModal modalController={shareModal} selectedNote={selectedNote} />
       )}
-      <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px]">
-        <div className="flex space-x-1">
-          <Button
-            onClick={decreaseIndex}
-            className="h-8 w-8"
-            color={theme === "dark" ? "primary" : "secondary"}
-          >
-            <BsChevronLeft />
-          </Button>
-          <Button
-            onClick={increaseIndex}
-            className="h-8 w-8"
-            color={theme === "dark" ? "primary" : "secondary"}
-          >
-            <BsChevronRight />
-          </Button>
-        </div>
+      <div className="h-[58px] flex justify-between items-center pl-[64px] pr-[12px] lg:px-[24px] sticky top-0 left-0 z-50">
+        {notes.length > 1 && (
+          <div className="flex space-x-1">
+            <Button
+              onClick={decreaseIndex}
+              className="h-8 w-8"
+              color={theme === "dark" ? "primary" : "secondary"}
+            >
+              <BsChevronLeft />
+            </Button>
+            <Button
+              onClick={increaseIndex}
+              className="h-8 w-8"
+              color={theme === "dark" ? "primary" : "secondary"}
+            >
+              <BsChevronRight />
+            </Button>
+          </div>
+        )}
+
         <div className="flex items-center space-x-[8px]">
           {updating ? (
             <Spinner />
