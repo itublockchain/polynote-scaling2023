@@ -1,10 +1,11 @@
 import { scroll } from "consts/chains";
+import { POLYNOTE_CONTRACT_SCROLL } from "consts/contracts";
 
 export const DOMAIN = {
   name: "Polynote",
   version: "1",
   chainId: scroll.id,
-  verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+  verifyingContract: POLYNOTE_CONTRACT_SCROLL,
 } as const;
 
 // The named list of all type definitions

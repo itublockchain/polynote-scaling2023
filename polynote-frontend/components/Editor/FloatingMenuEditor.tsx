@@ -27,7 +27,7 @@ export const FloatingMenuEditor = ({ editor }: Props) => {
     },
     onSuccess: (res) => {
       const url = res.data.url;
-      editor.chain().focus().setImage({ src: url, alt: "Loading..." }).run();
+      editor.chain().focus().setImage({ src: url, alt: "Pinning..." }).run();
     },
   });
 

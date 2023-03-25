@@ -14,6 +14,7 @@ import EmptyStateIllustration from "assets/empty-state-illustration.png";
 import { Header, Navbar } from "components";
 import { formatAddress } from "utils/formatAddress";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
+import { Paths } from "consts/paths";
 
 const NoteId: NextPage = () => {
   const router = useRouter();
@@ -44,6 +45,9 @@ const NoteId: NextPage = () => {
   const { signTypedData, isLoading } = useSignTypedData({
     onSuccess: (res) => {
       mutation.mutate([note_id as string, address as string, res]);
+    },
+    onError: () => {
+      router.replace(Paths.CONNECT_WALLET);
     },
     domain: DOMAIN,
     types: TYPES,
