@@ -1,5 +1,10 @@
 import { Editor as EditorProp, FloatingMenu } from "@tiptap/react";
-import { useRef } from "react";
+import { MB } from "consts/numbers";
+import { allowedFileTypes } from "consts/upload";
+import { useNotify } from "hooks/useNotify";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useUploadMutation } from "restapi/queries/useUploadMutation";
+import { Spinner } from "ui";
 import { clsnm } from "utils/clsnm";
 import { Web3Storage } from "web3.storage";
 
@@ -8,47 +13,59 @@ type Props = {
 };
 
 export const FloatingMenuEditor = ({ editor }: Props) => {
-  const client = new Web3Storage({
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDBEOGJBZTQxNzdiOTA4NzQwNThkMWJEODgzMTI3ZTllRkRiM2RDNGIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Nzk2NjA4MjM5NTcsIm5hbWUiOiJwb2x5bm90ZSJ9.2iMv6-3ZxYxlqR4efJLsD06BeLEegZ0nKKRe2FvXPmc",
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (selectedFile == null) return;
+  }, [selectedFile]);
+
+  const imageInput = useRef<HTMLInputElement | null>(null);
+  const notify = useNotify();
+
+  const uploadMutation = useUploadMutation({
+    onError: () => {
+      setSelectedFile(null);
+    },
+    onSuccess: (res) => {
+      const url = res.data.url;
+      editor.chain().focus().setImage({ src: url, alt: "Loading..." }).run();
+    },
   });
 
-  const imageInput = useRef<HTMLInputElement>(null);
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file == null) {
+      setSelectedFile(null);
+      return;
+    }
 
-  const selectFile = async () => {
-    if (
-      !imageInput.current ||
-      imageInput.current.files === null ||
-      !(imageInput.current.files.length === 1)
-    )
-      return;
-    const fileMb = imageInput.current?.files[0].size / 1024 ** 2;
-    if (fileMb > 2) {
-      console.log("More than 2 MB!");
+    const fileSizeInMB = file.size / MB;
+
+    if (fileSizeInMB > 2) {
+      setSelectedFile(null);
+      notify.error("Please upload a file smaller than 2MB");
       return;
     }
-    try {
-      const fileName: string = imageInput.current?.files[0]?.name;
-      const extention = fileName.split(".").pop();
-      console.log(extention);
-      if (
-        extention === "png" ||
-        extention === "jpg" ||
-        extention === "jpeg" ||
-        extention === "svg" ||
-        extention === "pdf"
-      ) {
-        const urlRoot: string = "https://dweb.link/ipfs/";
-        const rootCid = await client.put(imageInput.current?.files);
-        const url: string = urlRoot + rootCid.toString() + "/" + fileName;
-        editor.chain().focus().setImage({ src: url }).run();
-      } else {
-        console.log("buradayim");
-      }
-    } catch (err) {
-      console.log("Error: ", err);
+
+    const extension = file.name.split(".").pop();
+
+    if (extension == null || !allowedFileTypes.includes(extension)) {
+      notify.error("You can only upload an image");
+      return;
     }
+
+    setSelectedFile(file);
   };
+
+  useEffect(() => {
+    if (selectedFile == null) return;
+
+    const formData = new FormData();
+
+    formData.append("file", selectedFile);
+
+    uploadMutation.mutate(formData);
+  }, [selectedFile]);
 
   return (
     <FloatingMenu
@@ -121,19 +138,26 @@ export const FloatingMenuEditor = ({ editor }: Props) => {
         </div>
         <div className="flex mt-1 space-x-1">
           <input
+            value={""}
             type="file"
             ref={imageInput}
             className="hidden"
-            onChange={selectFile}
+            onChange={onFileChange}
           />
           <button
+            disabled={uploadMutation.isLoading}
             onClick={() => {
               if (!imageInput.current) return;
               imageInput.current.click();
-              console.log("ehre");
             }}
           >
-            Image
+            {uploadMutation.isLoading ? (
+              <span className="my-[4px]">
+                <Spinner />
+              </span>
+            ) : (
+              "Image"
+            )}
           </button>
         </div>
       </div>

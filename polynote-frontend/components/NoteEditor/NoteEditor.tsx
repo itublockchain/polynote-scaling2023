@@ -3,7 +3,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor } from "components/Editor/Editor";
-import Image from '@tiptap/extension-image'
+import Image from "@tiptap/extension-image";
 import { useDebounce } from "hooks/useDebounce";
 import { useDropdown } from "hooks/useDropdown";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -16,6 +16,7 @@ import Link from "@tiptap/extension-link";
 import Color from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import ListItem from "@tiptap/extension-list-item";
+import Dropcursor from "@tiptap/extension-dropcursor";
 
 type Props = {
   selectedNote: Note;
@@ -95,7 +96,11 @@ export const NoteEditor = ({ selectedNote, setUpdating }: Props) => {
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] } as any),
-      Image
+      Image,
+      Dropcursor.configure({
+        width: 2,
+        class: "polynote-image",
+      }),
     ],
     content: selectedNoteCopy.content,
   });

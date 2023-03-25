@@ -77,6 +77,10 @@ export const apiOptOutNotificationsO = (data: PushNotificationDto) => {
   return axios.post(`/user/notifications/opt-out`, data);
 };
 
+export const apiUploadFile = (data: FormData) => {
+  return axios.post(`/upload`, data);
+};
+
 export const POLYBASE_USER_QUERY = ["polybase_user"];
 export const NOTES_QUERY = ["notes"];
 export const NOTIFICATIONS = ["notifications"];
