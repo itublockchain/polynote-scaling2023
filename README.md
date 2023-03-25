@@ -84,6 +84,6 @@ The server will run on port specified in `docker-compose.yaml`, which defaults t
 | ----------------------------------------------------- | --------------- |
 | [Farhad Asgarov](https://twitter.com/asgarovf)        | Full stack      |
 | [Alim Sahin](https://twitter.com/aalimsahin)          | Smart Contracts |
-| [Bahri Bugra Meydan](https://twitter.com/weckleth)    | Frontend        |
+| [Bahri Bugra Meydan](https://twitter.com/weckleth)    | Research        |
 | [Eylul Sahin](https://twitter.com/eyllshn007)         | Designer        |
 | [Feyzi Taylan Unal](https://twitter.com/unalf_Taylan) | Research        |
