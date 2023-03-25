@@ -66,15 +66,16 @@ The server will run on port specified in `docker-compose.yaml`, which defaults t
 
 ## Tech Stack
 
-| Tech                               | Field                |
-| ---------------------------------- | -------------------- |
-| [Polybase](https://polybase.xyz/)  | Web3 Database        |
-| [NestJS](https://nestjs.com/)      | Backend              |
-| [ReactJS](https://react.dev/)      | Frontend             |
-| [Hardhat](https://hardhat.org/)    | Smart Contracts      |
-| [Scroll](https://scroll.io/)       | L2                   |
-| [Push Protocol](https://push.org/) | Notification service |
-| [TiptapJS](https://tiptap.dev/)    | Text Editor          |
+| Tech                               | Field                 |
+| ---------------------------------- | --------------------- |
+| [Polybase](https://polybase.xyz/)  | Web3 Database         |
+| [Filecoin](https://filecoin.io/)   | Decentralized Storage |
+| [NestJS](https://nestjs.com/)      | Backend               |
+| [ReactJS](https://react.dev/)      | Frontend              |
+| [Hardhat](https://hardhat.org/)    | Smart Contracts       |
+| [Scroll](https://scroll.io/)       | L2                    |
+| [Push Protocol](https://push.org/) | Notification service  |
+| [TiptapJS](https://tiptap.dev/)    | Text Editor           |
 
 ## Team Members
 
