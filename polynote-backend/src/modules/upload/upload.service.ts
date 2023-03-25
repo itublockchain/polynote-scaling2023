@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CONFIG } from 'src/config';
 import { MB } from 'src/utils/numbers';
-import { File, Web3Storage } from 'web3.storage';
+import { Blob, File, Web3Storage } from 'web3.storage';
 
 @Injectable()
 export class UploadService {
@@ -16,7 +16,7 @@ export class UploadService {
   }
 
   public async uploadImage(file: Express.Multer.File) {
-    const allowedFileTypes = ['png', 'jpg', 'jpeg', 'svg'];
+    const allowedFileTypes = ['png', 'jpg', 'jpeg', 'svg', 'webp'];
 
     const fileSizeInMB = file.size / MB;
     if (fileSizeInMB > 2) {
