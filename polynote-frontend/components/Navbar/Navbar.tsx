@@ -15,7 +15,7 @@ export const Navbar = () => {
   const toggleTheme = useToggleTheme();
 
   return (
-    <div className="sticky top-0 h-[72px] flex items-center border-b-1 border-[#e7e7e7] dark:border-none bg-[#ffffffC0] dark:bg-[#bd97e910] z-50">
+    <div className="sticky top-0 h-[72px] flex items-center border-b-1 border-[#e7e7e7] dark:border-none bg-[#ffffffC0] dark:bg-[#bd97e910] z-10">
       <Container>
         <div className="flex justify-between">
           <div className="w-[150px] flex items-center">

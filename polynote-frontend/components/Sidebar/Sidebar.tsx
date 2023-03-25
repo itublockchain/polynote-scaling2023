@@ -94,7 +94,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       <SettingsModal modalController={modal} />
       <div
         className={clsnm(
-          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute lg:w-[320px] max-w-[320px] lg:relative left-0 top-0 shrink-0 z-10",
+          "flex flex-col h-screen max-h-screen bg-sidebarLight dark:bg-sidebarDark w-[90vw] absolute lg:w-[320px] max-w-[320px] lg:relative left-0 top-0 shrink-0 z-50",
           collapsed && "hidden lg:flex"
         )}
       >
@@ -319,7 +319,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       </div>
       <div
         className={clsnm(
-          "flex-col fixed left-[12px] top-[12px]",
+          "flex-col fixed left-[12px] top-[12px] z-20",
           collapsed ? "flex lg:hidden" : "hidden"
         )}
       >
