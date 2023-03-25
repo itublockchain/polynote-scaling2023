@@ -182,7 +182,7 @@ const Home: NextPage = () => {
                   href={item.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="col flex bg-white dark:bg-DARK_PURPLE p-4 lg:p-8 rounded-xl shadow-lg h-[96px] w-[96px] hover:-translate-y-2 duration-150 mt-8 mx-2 md:mx-3"
+                  className="col flex bg-white dark:bg-DARK_PURPLE p-4 lg:p-8 rounded-xl shadow-lg h-[64px] w-[64px] md:w-[112px] md:h-[112px] hover:-translate-y-2 duration-150 mt-4 md:mt-8 mx-2 md:mx-3"
                 >
                   <Image
                     alt="image"
