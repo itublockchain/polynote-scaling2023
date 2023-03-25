@@ -61,7 +61,7 @@ const Home: NextPage = () => {
       }
     };
 
-    const scroll = window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -165,8 +165,8 @@ const Home: NextPage = () => {
         </Container>
 
         <div className="sticky top-0">
-          <Container className="min-h-screen justify-center flex flex-col overflow-hidden">
-            <h2 className="text-center mt-[96px] text-[24px] md:text-[48px] font-[600] rubik text-MAIN_DARK dark:text-white rubik">
+          <Container className="min-h-screen-overflow md:min-h-screen md:justify-center flex flex-col overflow-hidden">
+            <h2 className="text-center mt-[120px] text-[24px] md:text-[48px] font-[600] rubik text-MAIN_DARK dark:text-white rubik">
               Tech Stack
             </h2>
             <h4 className="text-center mt-[24px] text-[14px] md:text-[20px] font-[400] rubik text-neutral-500 dark:text-neutral-100 max-w-[512px] ml-auto mr-auto rubik">
@@ -175,16 +175,14 @@ const Home: NextPage = () => {
               contributions!
             </h4>
 
-            <div
-              className={`flex flex-wrap space-x-4 lg:space-x-8 mt-[12px] justify-center`}
-            >
+            <div className={`flex flex-wrap mt-[12px] justify-center`}>
               {partners.map((item) => (
                 <a
                   key={item.url}
                   href={item.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="col flex bg-white dark:bg-DARK_PURPLE p-4 lg:p-8 rounded-xl shadow-lg h-[128px] w-[128px] hover:-translate-y-2 duration-150 mt-8"
+                  className="col flex bg-white dark:bg-DARK_PURPLE p-4 lg:p-8 rounded-xl shadow-lg h-[96px] w-[96px] hover:-translate-y-2 duration-150 mt-8 mx-2 md:mx-3"
                 >
                   <Image
                     alt="image"
@@ -195,7 +193,7 @@ const Home: NextPage = () => {
               ))}
             </div>
 
-            <div className="lg:px-[80px] hidden md:flex">
+            <div className="lg:px-[80px]">
               <Image
                 ref={imageRef}
                 src={Flying}
@@ -206,7 +204,8 @@ const Home: NextPage = () => {
           </Container>
         </div>
 
-        <div className="h-screen hidden md:flex"></div>
+        <div className="h-screen"></div>
+        <div className="h-screen-half hidden md:flex"></div>
 
         <div className="min-h-screen sticky bg-[#fafafa] dark:bg-[#130b1b]">
           <Container className="flex flex-col min-h-screen justify-center">
@@ -246,7 +245,7 @@ const Home: NextPage = () => {
             </div>
           </Container>
         </div>
-      </section>{" "}
+      </section>
       <div className="flex justify-center items-center mt-[108px] py-6 border-t-1 border-neutral-200 dark:border-DARK_PURPLE">
         <Image
           src={LogoSm}
@@ -304,7 +303,7 @@ const team = [
   },
   {
     name: "Feyzi Taylan Unal",
-    role: "UI/UX Designer",
+    role: "Researcher",
     image: Taylan,
   },
   {

@@ -46,6 +46,13 @@ module.exports = {
       borderWidth: {
         1: "1px",
       },
+      height: {
+        "screen-overflow": "calc(100vh + 120px)",
+        "screen-half": "calc(100vh / 2)",
+      },
+      minHeight: {
+        "screen-overflow": "calc(100vh + 120px)",
+      },
     },
   },
   darkMode: "class",
