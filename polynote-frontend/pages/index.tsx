@@ -40,7 +40,8 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (imageRef.current == null) return;
 
-    initialPos.current = imageRef.current.getBoundingClientRect().top;
+    initialPos.current =
+      window.scrollY + imageRef.current.getBoundingClientRect().top;
     offsetTop.current = imageRef.current.offsetTop;
   }, []);
 
