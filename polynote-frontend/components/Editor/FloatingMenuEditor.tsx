@@ -6,7 +6,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useUploadMutation } from "restapi/queries/useUploadMutation";
 import { Spinner } from "ui";
 import { clsnm } from "utils/clsnm";
-import { Web3Storage } from "web3.storage";
 
 type Props = {
   editor: EditorProp;
