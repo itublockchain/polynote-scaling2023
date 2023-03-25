@@ -1,8 +1,10 @@
+import { CONFIG } from 'src/config';
+
 export const DOMAIN = {
   name: 'Polynote',
   version: '1',
   chainId: 534353,
-  verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+  verifyingContract: CONFIG.POLYNOTE_CONTRACT_SCROLL,
 } as const;
 
 // The named list of all type definitions
