@@ -1,1 +1,1 @@
-export const allowedFileTypes = ["png", "jpg", "jpeg", "svg"];
+export const allowedFileTypes = ["png", "jpg", "jpeg", "svg", "webp"];
