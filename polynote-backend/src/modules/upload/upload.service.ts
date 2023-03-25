@@ -16,7 +16,7 @@ export class UploadService {
   }
 
   public async uploadImage(file: Express.Multer.File) {
-    const allowedFileTypes = ['png', 'jpg', 'jpeg', 'svg', 'webp'];
+    const allowedFileTypes = ['png', 'jpg', 'jpeg', 'svg'];
 
     const fileSizeInMB = file.size / MB;
     if (fileSizeInMB > 2) {
