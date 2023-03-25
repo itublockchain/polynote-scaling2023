@@ -137,6 +137,7 @@ export const FloatingMenuEditor = ({ editor }: Props) => {
         </div>
         <div className="flex mt-1 space-x-1">
           <input
+            accept="image/*"
             value={""}
             type="file"
             ref={imageInput}
