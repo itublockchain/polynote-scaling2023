@@ -354,7 +354,7 @@ const team = [
   },
   {
     name: "Bahri Bugra Meydan",
-    role: "Frontend Developer",
+    role: "Researcher",
     image: Bugra,
   },
   {
