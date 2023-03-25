@@ -269,7 +269,7 @@ const Home: NextPage = () => {
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
               href="https://github.com/itublockchain/polynote-scaling2023/tree/master/polynote-backend"
-              referrerPolicy="no-referrer"
+              rel="noreferrer"
               target={"_blank"}
             >
               <BsGithub
@@ -280,7 +280,7 @@ const Home: NextPage = () => {
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
               href="https://polynote-api.itublockchain.com/docs"
-              referrerPolicy="no-referrer"
+              rel="noreferrer"
               target={"_blank"}
             >
               <SiDocsdotrs
@@ -291,7 +291,7 @@ const Home: NextPage = () => {
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
               href="https://twitter.com/ITUblockchain"
-              referrerPolicy="no-referrer"
+              rel="noreferrer"
               target={"_blank"}
             >
               <BsTwitter
