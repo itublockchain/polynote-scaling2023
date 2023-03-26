@@ -145,10 +145,6 @@ export class UserController {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
-    if (userAddressDto.address !== address) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    }
-
     return await this.userService.deleteUser(userAddressDto.address);
   }
 }
