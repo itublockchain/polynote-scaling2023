@@ -72,7 +72,7 @@ export const NoteHeader = ({ selectedNote, updating }: Props) => {
           </div>
         )}
 
-        <div className="flex items-center space-x-[8px]">
+        <div className="flex items-center space-x-[8px] ml-auto">
           {updating ? (
             <Spinner />
           ) : (
