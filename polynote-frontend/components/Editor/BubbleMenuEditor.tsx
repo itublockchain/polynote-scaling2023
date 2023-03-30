@@ -114,7 +114,7 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
                     : ""
                 }
               >
-                Higlight
+                Highlight
               </button>
             )}
           </div>
