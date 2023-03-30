@@ -15,7 +15,7 @@ export class ListenerController implements OnApplicationBootstrap {
     this.provider = getRpcProvider();
   }
 
-  onApplicationBootstrap() {
+  public async onApplicationBootstrap() {
     const contract = new ethers.Contract(
       CONFIG.POLYNOTE_CONTRACT_SCROLL,
       POLYNOTE_ABI,
@@ -24,8 +24,8 @@ export class ListenerController implements OnApplicationBootstrap {
 
     contract.on(
       'Shared',
-      (sender: string, noteId: string, recipient: string) => {
-        this.sendNotification(sender, noteId, recipient);
+      async (sender: string, noteId: string, recipient: string) => {
+        await this.sendNotification(sender, noteId, recipient);
       },
     );
   }
