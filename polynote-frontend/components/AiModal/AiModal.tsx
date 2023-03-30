@@ -56,7 +56,7 @@ export const AiModal = ({ modalController }: Props) => {
         Polynote AI - {mode}
       </Typography>
 
-      <div className="flex bg-pink-50 dark:bg-PINK rounded-md p-2 mt-2">
+      <div className="flex bg-pink-50 dark:bg-pink-200 rounded-md p-2 mt-2">
         Welcome to PolynoteAI! We are offering various AI features for your text
         editor, currently only in English.
       </div>
@@ -91,7 +91,10 @@ export const AiModal = ({ modalController }: Props) => {
               {seeOriginal ? "Hide" : "See"} original
             </Typography>
             {seeOriginal && (
-              <Typography variant="caption" className="mt-2">
+              <Typography
+                variant="caption"
+                className="mt-2 text-MAIN_PURPLE dark:text-PINK"
+              >
                 {selection}
               </Typography>
             )}
