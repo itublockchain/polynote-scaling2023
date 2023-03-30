@@ -125,10 +125,10 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
 
             <div className="flex absolute flex-col space-y-6 top-0 left-0 -translate-y-[100%] bg-DARK_PURPLE w-max rounded-md border-1 border-MAIN_DARK p-2 polynote-inside">
               <button
-                onClick={() => selectText("summerize")}
+                onClick={() => selectText("summarize")}
                 className="text-xs"
               >
-                Summerize
+                summarize
               </button>
               <button
                 onClick={() => selectText("fix-grammar")}

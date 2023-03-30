@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { EditorSelectionRange } from "types";
 
-export type AiModalMode = "make-longer" | "summerize" | "fix-grammar";
+export type AiModalMode = "make-longer" | "summarize" | "fix-grammar";
 
 export const AiModalContext = React.createContext<{
   selectionRange: EditorSelectionRange;
