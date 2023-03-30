@@ -16,7 +16,7 @@ export class AiService {
 
   public async makeLonger(text: string) {
     const res = await this.openai.createEdit({
-      model: DEFAULT_AI_MODEL,
+      model: 'text-davinci-edit-001',
       input: text,
       instruction: 'Make the given text longer in one paragraph',
     });
@@ -44,6 +44,7 @@ export class AiService {
       prompt: `Correct this to standard English:${text}`,
       temperature: 0,
       top_p: 1.0,
+      max_tokens: 1000,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
     });

@@ -8,21 +8,19 @@ import { ApiTags } from '@nestjs/swagger';
 export class AiController {
   constructor(private aiService: AiService) {}
 
-  @Post('/make-longer')
+  @Post()
   public async makeLonger(@Body() aiTextDto: AITextDto) {
-    const data = await this.aiService.makeLonger(aiTextDto.text);
-    return { text: data };
-  }
-
-  @Post('/summarize')
-  public async summarize(@Body() aiTextDto: AITextDto) {
-    const data = await this.aiService.summarize(aiTextDto.text);
-    return { text: data };
-  }
-
-  @Post('/fix-grammar')
-  public async fixGrammar(@Body() aiTextDto: AITextDto) {
-    const data = await this.aiService.fixGrammar(aiTextDto.text);
-    return { text: data };
+    if (aiTextDto.mode === 'fix-grammar') {
+      const data = await this.aiService.fixGrammar(aiTextDto.text);
+      return { text: data };
+    } else if (aiTextDto.mode === 'make-longer') {
+      const data = await this.aiService.makeLonger(aiTextDto.text);
+      return { text: data };
+    } else if (aiTextDto.mode === 'summerize') {
+      const data = await this.aiService.summarize(aiTextDto.text);
+      return { text: data };
+    } else {
+      return { text: '' };
+    }
   }
 }

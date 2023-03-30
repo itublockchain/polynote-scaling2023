@@ -6,4 +6,9 @@ export class AITextDto {
   @IsNotEmpty()
   @IsString()
   text: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  mode: 'make-longer' | 'summerize' | 'fix-grammar';
 }
