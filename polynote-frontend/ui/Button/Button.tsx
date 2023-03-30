@@ -69,7 +69,7 @@ export function Button({
             loading && "opacity-0"
           )}
         >
-          {leftIcon}
+          {rightIcon}
         </div>
       ) : null}
     </button>

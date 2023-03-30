@@ -1,3 +1,4 @@
+import { Editor } from "@tiptap/react";
 import React, {
   Dispatch,
   ReactNode,
@@ -16,6 +17,10 @@ export const AiModalContext = React.createContext<{
   setSelection: Dispatch<SetStateAction<string | null>>;
   mode: AiModalMode | null;
   setMode: Dispatch<SetStateAction<AiModalMode | null>>;
+  suggestion: string | null;
+  setSuggestion: Dispatch<SetStateAction<string | null>>;
+  editor: Editor | null;
+  setEditor: Dispatch<SetStateAction<Editor | null>>;
 }>({
   selectionRange: { from: 0, to: 0 },
   setSelectionRange: () => undefined,
@@ -23,6 +28,10 @@ export const AiModalContext = React.createContext<{
   setSelection: () => undefined,
   mode: null,
   setMode: () => undefined,
+  suggestion: null,
+  setSuggestion: () => undefined,
+  editor: null,
+  setEditor: () => undefined,
 });
 
 export const AiModalContextProvider = ({
@@ -38,7 +47,9 @@ export const AiModalContextProvider = ({
     to: 0,
   });
   const [selection, setSelection] = useState<string | null>(null);
+  const [suggestion, setSuggestion] = useState<string | null>(null);
   const [mode, setMode] = useState<AiModalMode | null>(null);
+  const [editor, setEditor] = useState<Editor | null>(null);
 
   return (
     <AiModalContext.Provider
@@ -49,6 +60,10 @@ export const AiModalContextProvider = ({
         setSelectionRange,
         mode,
         setMode,
+        suggestion,
+        setSuggestion,
+        editor,
+        setEditor,
       }}
     >
       {children}

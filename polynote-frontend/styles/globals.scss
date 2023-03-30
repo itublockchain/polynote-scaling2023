@@ -207,6 +207,19 @@ body.dark .ProseMirror {
   transform: translateY(-10px);
   animation: bounce 5s infinite;
 }
+
+.polynote-outside {
+  & .polynote-inside {
+    display: none;
+  }
+
+  &:hover {
+    & .polynote-inside {
+      display: flex;
+    }
+  }
+}
+
 @keyframes bounce {
   0% {
     transform: translateY(-10px);

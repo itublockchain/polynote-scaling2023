@@ -1,3 +1,5 @@
+import { AiModalMode } from "utils/AiModalContext";
+
 export type PolybaseUser = {
   address: string;
   name: string;
@@ -29,6 +31,10 @@ export type PushNotificationDto = {
   address: string;
 };
 
+export type AITextDto = {
+  text: string;
+};
+
 export type UpdateNoteDto = {
   emoji: string;
   title: string;
@@ -50,4 +56,9 @@ export type PushNotificationsResponseData = {
     title: string;
   };
   secret: string;
+};
+
+export type AiTextDto = {
+  text: string;
+  mode: AiModalMode;
 };

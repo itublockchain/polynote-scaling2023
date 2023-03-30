@@ -3,9 +3,8 @@ import { ModalController } from "hooks/useModal";
 import { useNotify } from "hooks/useNotify";
 import { useCallback } from "react";
 import { BsStars } from "react-icons/bs";
-import { useAiModalContext } from "utils/AiModalContext";
+import { AiModalMode, useAiModalContext } from "utils/AiModalContext";
 import { clsnm } from "utils/clsnm";
-
 type Props = {
   editor: EditorProp;
   aiModal: ModalController;
@@ -41,7 +40,7 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
     editor.chain().focus().setColor("#FFBF00").run();
   }, [editor]);
 
-  const selectText = () => {
+  const selectText = (mode: AiModalMode) => {
     const { from, to } = editor.state.selection;
     if (from == null || to == null || to == 0) {
       notify.info("Invalid selection");
@@ -54,6 +53,8 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
 
     const selection = editor.state.doc.textBetween(from, to);
     aiModalContext.setSelection(selection.trim());
+    aiModalContext.setMode(mode);
+    aiModalContext.setEditor(editor);
     aiModal.open();
   };
 
@@ -117,13 +118,31 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
               </button>
             )}
           </div>
-          <div className="flex mt-2 space-x-1">
-            <button
-              className="flex space-x-1 items-center"
-              onClick={selectText}
-            >
+          <div className="flex mt-2 relative polynote-outside">
+            <button className="flex space-x-1 items-center">
               <span>PoynoteAI</span> <BsStars />
             </button>
+
+            <div className="flex absolute flex-col space-y-6 top-0 left-0 -translate-y-[100%] bg-DARK_PURPLE w-max rounded-md border-1 border-MAIN_DARK p-2 polynote-inside">
+              <button
+                onClick={() => selectText("summerize")}
+                className="text-xs"
+              >
+                Summerize
+              </button>
+              <button
+                onClick={() => selectText("fix-grammar")}
+                className="text-xs"
+              >
+                Fix grammar
+              </button>
+              <button
+                className="text-xs"
+                onClick={() => selectText("make-longer")}
+              >
+                Make longer
+              </button>
+            </div>
           </div>
         </div>
       </BubbleMenu>
