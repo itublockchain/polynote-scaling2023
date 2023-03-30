@@ -128,7 +128,7 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
                 onClick={() => selectText("summarize")}
                 className="text-xs"
               >
-                summarize
+                Summarize
               </button>
               <button
                 onClick={() => selectText("fix-grammar")}
