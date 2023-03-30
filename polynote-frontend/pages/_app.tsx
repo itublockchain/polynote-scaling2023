@@ -6,7 +6,13 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import type { AppProps } from "next/app";
-import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
+import {
+  configureChains,
+  createClient,
+  goerli,
+  useAccount,
+  WagmiConfig,
+} from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import "styles/globals.scss";
 import { RecoilRoot } from "recoil";
@@ -35,7 +41,7 @@ import { Header } from "components";
 export const queryClient = new QueryClient();
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [scroll],
+  [scroll, goerli],
   [publicProvider()]
 );
 

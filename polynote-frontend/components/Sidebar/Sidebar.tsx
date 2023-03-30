@@ -60,19 +60,19 @@ export const Sidebar = ({ createNoteModal }: Props) => {
     address,
   });
 
-  const optInMutation = useOptInMutation();
-  const optOutMutation = useOptOutMutation();
+  const { optIn, isLoading: isLoadingOptIn } = useOptInMutation();
+  const { optOut, isLoading: isLoadingOptOut } = useOptOutMutation();
 
   const optInNotifications = async () => {
     if (address == null) return;
 
-    optInMutation.mutate({ address });
+    await optIn();
   };
 
   const optOutNotifications = async () => {
     if (address == null) return;
 
-    optOutMutation.mutate({ address });
+    await optOut();
   };
 
   const filteredNotifications = useMemo(() => {
@@ -175,7 +175,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
 
                   <div className="flex items-center space-x-1 mt-2">
                     <Button
-                      loading={optInMutation.isLoading}
+                      loading={isLoadingOptIn}
                       color="primary"
                       className="w-full h-6"
                       onClick={optInNotifications}
@@ -184,7 +184,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                     </Button>
 
                     <Button
-                      loading={optOutMutation.isLoading}
+                      loading={isLoadingOptOut}
                       color="primary"
                       className="w-full h-6"
                       onClick={optOutNotifications}

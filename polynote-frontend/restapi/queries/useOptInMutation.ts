@@ -1,8 +1,15 @@
-import { AxiosError } from "axios";
 import { useNotify } from "hooks/useNotify";
-import { useMutation } from "react-query";
-import { apiOptInNotifications } from "restapi";
-import { PushNotificationDto } from "restapi/types";
+import * as PushAPI from "@pushprotocol/restapi";
+import {
+  goerli,
+  useAccount,
+  useChainId,
+  useSigner,
+  useSwitchNetwork,
+} from "wagmi";
+import { ENV } from "@pushprotocol/restapi/src/lib/constants";
+import { CONFIG } from "config";
+import { useState } from "react";
 
 export const useOptInMutation = (
   {
@@ -12,17 +19,34 @@ export const useOptInMutation = (
   } = { onSuccess: () => undefined }
 ) => {
   const notify = useNotify();
+  const { data: signer } = useSigner();
+  const { address } = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
+  const { switchNetworkAsync } = useSwitchNetwork();
+  const chainId = useChainId();
 
-  const mutation = useMutation({
-    mutationFn: (data: PushNotificationDto) => apiOptInNotifications(data),
-    onSuccess: () => {
-      onSuccess?.();
-      notify.success("Successfully opted in");
-    },
-    onError: (err: AxiosError) => {
-      notify.error("Failed to opt in");
-    },
-  });
+  const optIn = async () => {
+    if (chainId !== goerli.id) {
+      await switchNetworkAsync?.(goerli.id);
+    }
+    setIsLoading(true);
 
-  return mutation;
+    await PushAPI.channels.subscribe({
+      signer: signer as any,
+      channelAddress: CONFIG.PUSH_CHANNEL_CAIP,
+      userAddress: `eip155:5:${address}`,
+      onSuccess: async () => {
+        onSuccess?.();
+        notify.success("Successfully opted in");
+      },
+      onError: () => {
+        notify.error("Failed to opt in");
+      },
+      env: ENV.STAGING,
+    });
+
+    setIsLoading(false);
+  };
+
+  return { optIn, isLoading };
 };
