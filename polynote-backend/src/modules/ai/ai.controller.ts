@@ -1,28 +1,28 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AiService } from './ai.service';
 import { AITextDto } from './ai.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('AI')
 @Controller('ai')
 export class AiController {
   constructor(private aiService: AiService) {}
 
-  @Get('/make-longer/:text')
-  public async makeLonger(@Param() param: AITextDto) {
-    const data = await this.aiService.makeLonger(param.text);
-    console.log(data);
+  @Post('/make-longer')
+  public async makeLonger(@Body() aiTextDto: AITextDto) {
+    const data = await this.aiService.makeLonger(aiTextDto.text);
     return { text: data };
   }
 
-  @Get('/summarize/:text')
-  public async summarize(@Param() param: AITextDto) {
-    const data = await this.aiService.summarize(param.text);
-    console.log('gelen body: ', await param.text);
+  @Post('/summarize')
+  public async summarize(@Body() aiTextDto: AITextDto) {
+    const data = await this.aiService.summarize(aiTextDto.text);
     return { text: data };
   }
 
-  @Get('/fix-grammer/:text')
-  public async fixGrammer(@Param() param: AITextDto) {
-    const data = await this.aiService.fixGrammer(param.text);
+  @Post('/fix-grammar')
+  public async fixGrammar(@Body() aiTextDto: AITextDto) {
+    const data = await this.aiService.fixGrammar(aiTextDto.text);
     return { text: data };
   }
 }

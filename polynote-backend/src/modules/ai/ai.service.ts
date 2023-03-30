@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CONFIG } from '../../config';
 import { Configuration, OpenAIApi } from 'openai';
+import { CONFIG } from 'src/config';
 
+const DEFAULT_AI_MODEL = 'text-davinci-003';
 @Injectable()
 export class AiService {
   openai: any;
 
   constructor() {
     const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: CONFIG.OPENAI_API_KEY,
     });
     this.openai = new OpenAIApi(configuration);
   }
 
   public async makeLonger(text: string) {
     const res = await this.openai.createEdit({
-      model: 'text-davinci-003',
+      model: DEFAULT_AI_MODEL,
       input: text,
       instruction: 'Make the given text longer in one paragraph',
     });
@@ -25,7 +26,7 @@ export class AiService {
 
   public async summarize(text: string) {
     const res = await this.openai.createCompletion({
-      model: 'text-davinci-003',
+      model: DEFAULT_AI_MODEL,
       prompt: `${text}\n\nSummarize this text`,
       temperature: 0.7,
       max_tokens: 1000,
@@ -37,9 +38,9 @@ export class AiService {
     return res.data.choices[0].text;
   }
 
-  public async fixGrammer(text: string) {
+  public async fixGrammar(text: string) {
     const res = await this.openai.createCompletion({
-      model: 'text-davinci-003',
+      model: DEFAULT_AI_MODEL,
       prompt: `Correct this to standard English:${text}`,
       temperature: 0,
       top_p: 1.0,

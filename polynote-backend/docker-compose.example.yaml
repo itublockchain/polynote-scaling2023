@@ -19,5 +19,6 @@ services:
       - POLYNOTE_CONTRACT_SCROLL=
       - DB_NAMESPACE=polybase
       - WEB3_STORAGE_TOKEN=
+      - OPEN_AI_KEY=sk-
     platform: linux/amd64
     restart: always
