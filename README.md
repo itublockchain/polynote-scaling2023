@@ -6,11 +6,15 @@ Private note taking application #buidl on [Polybase](https://polybase.xyz/) for 
 
 ## Project description
 
-Polybase is a great tool for storing your scaling data on Web3. Our main goal is to create an application which reaches to end-users and used in daily basis. We decided to build a private note taking application on Polybase. The users will connect their wallets and start taking notes, which are going to be written to Polybase collections after being encrypted. Users will be able to whitelist wallets through a smart contract which is going to be deployed on Scroll testnet. We are sending a push notification to shared addresses through Push SDK to let them know about the note link.
+Polybase is a great tool for storing your scaling data on Web3. Our main goal is to create an application which reaches to end-users and used in daily basis. We decided to build a private note taking application on Polybase. The users will connect their wallets and start taking notes, which are going to be written to Polybase collections after being encrypted. Users will be able to whitelist wallets through a smart contract which is going to be deployed on Scroll Testnet (also Optimism mainnet). We are sending a push notification to shared addresses through Push SDK to let them know about the note link. Our text editor supports various features like image upload, text highlighting, headlines, code blocks, and more.
 
 ## Scroll smart contract
 
 [0x29e362244AB911d7Adc78dc08561a1C514D9096C](https://blockscout.scroll.io/address/0x29e362244AB911d7Adc78dc08561a1C514D9096C)
+
+## Optimism smart contract
+
+[0xBcB0e9D11Dd172035645680b3D6350eFB8B8f33f](https://optimistic.etherscan.io/address/0xBcB0e9D11Dd172035645680b3D6350eFB8B8f33f)
 
 ## Build
 
