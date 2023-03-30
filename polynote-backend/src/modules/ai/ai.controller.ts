@@ -16,7 +16,7 @@ export class AiController {
     } else if (aiTextDto.mode === 'make-longer') {
       const data = await this.aiService.makeLonger(aiTextDto.text);
       return { text: data };
-    } else if (aiTextDto.mode === 'summerize') {
+    } else if (aiTextDto.mode === 'summarize') {
       const data = await this.aiService.summarize(aiTextDto.text);
       return { text: data };
     } else {
