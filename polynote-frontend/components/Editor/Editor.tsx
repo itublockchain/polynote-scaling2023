@@ -1,32 +1,24 @@
-import {
-  EditorContent,
-  Editor as EditorProp,
-  BubbleMenu,
-  FloatingMenu,
-} from "@tiptap/react";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { EditorContent, Editor as EditorProp } from "@tiptap/react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Note } from "recoil/notes/types";
-import { clsnm } from "utils/clsnm";
-import { Web3Storage } from "web3.storage";
+
 import { FloatingMenuEditor } from "./FloatingMenuEditor";
 import { BubbleMenuEditor } from "components/Editor/BubbleMenuEditor";
+import { ModalController } from "hooks/useModal";
+import { EditorSelectionRange } from "types";
 
 type Props = {
   editor: EditorProp;
   selectedNoteCopy: Note;
   setSelectedNoteCopy: Dispatch<SetStateAction<Note>>;
+  modalController: ModalController;
 };
 
 export const Editor = ({
   selectedNoteCopy,
   setSelectedNoteCopy,
   editor,
+  modalController,
 }: Props) => {
   useEffect(() => {
     if (editor == null) {
@@ -46,7 +38,7 @@ export const Editor = ({
 
   return (
     <>
-      {editor && <BubbleMenuEditor editor={editor} />}
+      {editor && <BubbleMenuEditor aiModal={modalController} editor={editor} />}
 
       {editor && <FloatingMenuEditor editor={editor} />}
 

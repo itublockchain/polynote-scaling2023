@@ -9,3 +9,4 @@ export { NoteEditor } from "./NoteEditor/NoteEditor";
 export { NoteHeader } from "./NoteHeader/NoteHeader";
 export { Navbar } from "./Navbar/Navbar";
 export { Container } from "./Container/Container";
+export { AiModal } from "./AiModal/AiModal";
