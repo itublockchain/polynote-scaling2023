@@ -60,19 +60,19 @@ export const Sidebar = ({ createNoteModal }: Props) => {
     address,
   });
 
-  const optInMutation = useOptInMutation();
-  const optOutMutation = useOptOutMutation();
+  const { optIn, isLoading: isLoadingOptIn } = useOptInMutation();
+  const { optOut, isLoading: isLoadingOptOut } = useOptOutMutation();
 
   const optInNotifications = async () => {
     if (address == null) return;
 
-    optInMutation.mutate({ address });
+    await optIn();
   };
 
   const optOutNotifications = async () => {
     if (address == null) return;
 
-    optOutMutation.mutate({ address });
+    await optOut();
   };
 
   const filteredNotifications = useMemo(() => {
@@ -158,16 +158,18 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                           className="bg-neutral-100 hover:bg-neutral-200 dark:bg-MAIN_DARK dark:hover:bg-PURPLE py-1 px-2 rounded-md mb-2 flex items-center cursor-pointer"
                           key={item.sid}
                         >
-                          <div className="shrink-0 mr-2">
-                            <img
-                              alt="notification"
-                              src={item.icon}
-                              className="w-[32px] h-[32px] rounded-md"
-                            />
+                          <div className="flex items-center">
+                            <div className="shrink-0 mr-2">
+                              <img
+                                alt="notification"
+                                src={item.icon}
+                                className="w-[32px] h-[32px] rounded-md"
+                              />
+                            </div>
+                            <span className="text-MAIN_DARK dark:text-PINK">
+                              {item.message}
+                            </span>
                           </div>
-                          <span className="text-MAIN_DARK dark:text-PINK">
-                            {item.message}
-                          </span>
                         </div>
                       ))}
                     </div>
@@ -175,7 +177,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
 
                   <div className="flex items-center space-x-1 mt-2">
                     <Button
-                      loading={optInMutation.isLoading}
+                      loading={isLoadingOptIn}
                       color="primary"
                       className="w-full h-6"
                       onClick={optInNotifications}
@@ -184,7 +186,7 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                     </Button>
 
                     <Button
-                      loading={optOutMutation.isLoading}
+                      loading={isLoadingOptOut}
                       color="primary"
                       className="w-full h-6"
                       onClick={optOutNotifications}

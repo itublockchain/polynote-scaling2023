@@ -4,7 +4,6 @@ import { POLYNOTE_CONTRACT_SCROLL } from "consts/contracts";
 export const DOMAIN = {
   name: "Polynote",
   version: "1",
-  chainId: scroll.id,
   verifyingContract: POLYNOTE_CONTRACT_SCROLL,
 } as const;
 
