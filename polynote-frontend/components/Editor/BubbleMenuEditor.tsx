@@ -120,7 +120,7 @@ export const BubbleMenuEditor = ({ editor, aiModal }: Props) => {
           </div>
           <div className="flex mt-2 relative polynote-outside">
             <button className="flex space-x-1 items-center">
-              <span>PoynoteAI</span> <BsStars />
+              <span>PolynoteAI</span> <BsStars />
             </button>
 
             <div className="flex absolute flex-col space-y-6 top-0 left-0 -translate-y-[100%] bg-DARK_PURPLE w-max rounded-md border-1 border-MAIN_DARK p-2 polynote-inside">
