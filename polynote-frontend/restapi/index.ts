@@ -8,6 +8,7 @@ import {
   UpdatePolybaseUserNameDto,
 } from "restapi/types";
 import { getToken } from "utils/getToken";
+import { AITextDto } from "./types";
 
 const apiURL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
@@ -79,6 +80,18 @@ export const apiOptOutNotificationsO = (data: PushNotificationDto) => {
 
 export const apiUploadFile = (data: FormData) => {
   return axios.post(`/upload`, data);
+};
+
+export const apiAISummarize = (data: string) => {
+  return axios.get(`/ai/summarize/${data}`);
+};
+
+export const apiAIMakeLonger = (data: AITextDto) => {
+  return axios.get(`/ai/make-longer/${data}`);
+};
+
+export const apiAIFixGrammer = (data: string) => {
+  return axios.get(`/ai/fix-grammer/${data}`);
 };
 
 export const POLYBASE_USER_QUERY = ["polybase_user"];

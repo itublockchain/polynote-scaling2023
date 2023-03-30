@@ -1,12 +1,12 @@
 import { Editor as EditorProp, BubbleMenu } from "@tiptap/react";
 import { useCallback } from "react";
 import { clsnm } from "utils/clsnm";
-
 type Props = {
   editor: EditorProp;
 };
 
 export const BubbleMenuEditor = ({ editor }: Props) => {
+  
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
@@ -91,6 +91,28 @@ export const BubbleMenuEditor = ({ editor }: Props) => {
               Higlight
             </button>
           )}
+        </div>
+        <div className="flex mt-2 space-x-1">
+          <button
+            // onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            className={editor.isActive("codeBlock") ? "is-active" : ""}
+          >
+            Make Longer
+          </button>
+          <button
+            // onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            className={editor.isActive("blockquote") ? "is-active" : ""}
+          >
+            Fix Grammer
+          </button>
+          <button
+            onClick={() => {
+
+            }}
+            className={editor.isActive("link") ? "is-active" : ""}
+          >
+            Summarize
+          </button>
         </div>
       </div>
     </BubbleMenu>

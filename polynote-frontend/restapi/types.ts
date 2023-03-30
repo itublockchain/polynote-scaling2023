@@ -29,6 +29,10 @@ export type PushNotificationDto = {
   address: string;
 };
 
+export type AITextDto = {
+  text: string;
+};
+
 export type UpdateNoteDto = {
   emoji: string;
   title: string;
