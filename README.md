@@ -56,6 +56,7 @@ services:
       - POLYNOTE_CONTRACT_SCROLL= # Your scroll contract address (Default is 0x29e362244AB911d7Adc78dc08561a1C514D9096C)
       - DB_NAMESPACE= # Your unique namespace string (default is polynote)
       - WEB3_STORAGE_TOKEN= # Read more at https://web3.storage/
+      - OPEN_AI_KEY=sk-
     platform: linux/amd64
     restart: always
 ```
