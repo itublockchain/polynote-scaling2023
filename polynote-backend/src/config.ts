@@ -21,6 +21,7 @@ export const CONFIG: Config = {
   APP_VERSION: process.env.APP_VERSION as 'development' | 'production',
   DB_NAMESPACE: process.env.DB_NAMESPACE,
   WEB3_STORAGE_TOKEN: process.env.WEB3_STORAGE_TOKEN,
+  OPENAI_API_KEY: process.env.GPT_TOKEN,
 };
 
 type Config = {
@@ -31,4 +32,5 @@ type Config = {
   APP_VERSION: 'development' | 'production';
   DB_NAMESPACE: string;
   WEB3_STORAGE_TOKEN: string;
+  OPENAI_API_KEY: string;
 };

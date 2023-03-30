@@ -37,6 +37,7 @@
     "helmet": "6.0.1",
     "minimist": "^1.2.8",
     "mysql2": "2.3.3",
+    "openai": "^3.2.1",
     "process": "^0.11.10",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
