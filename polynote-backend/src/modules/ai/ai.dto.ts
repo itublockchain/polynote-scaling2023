@@ -10,5 +10,5 @@ export class AITextDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  mode: 'make-longer' | 'summerize' | 'fix-grammar';
+  mode: 'make-longer' | 'summarize' | 'fix-grammar';
 }

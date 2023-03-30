@@ -46,18 +46,6 @@ export class AppModule implements NestModule {
           path: '/api/v1/notes/shared/(.*)',
           method: RequestMethod.POST,
         },
-        {
-          path: '/api/v1/ai/make-longer',
-          method: RequestMethod.GET,
-        },
-        {
-          path: '/api/v1/ai/summarize',
-          method: RequestMethod.GET,
-        },
-        {
-          path: '/api/v1/ai/fix-grammer',
-          method: RequestMethod.GET,
-        },
       )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
