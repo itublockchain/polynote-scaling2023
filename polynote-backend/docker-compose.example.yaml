@@ -15,7 +15,7 @@ services:
       - APP_VERSION=development
       - PRIVATE_KEY=
       - ENCRYPTION_KEY=[]
-      - NETWORK_RPC_URL=https://alpha-rpc.scroll.io/l2
+      - NETWORK_RPC_URL=https://testnet.era.zksync.dev/
       - POLYNOTE_CONTRACT=
       - DB_NAMESPACE=polybase
       - WEB3_STORAGE_TOKEN=

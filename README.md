@@ -49,7 +49,7 @@ services:
       - PRIVATE_KEY= # Your private key
       - ENCRYPTION_KEY=[] # Read more at https://polybase.xyz/docs/encrypt-data#encrypt-data-using-symmetric-encryption
       - NETWORK_RPC_URL=https://testnet.era.zksync.dev
-      - POLYNOTE_CONTRACT= # Your scroll contract address (Default is 0x0A5E4DC67A9b3878a5be6B2163F7D33b943F1282)
+      - POLYNOTE_CONTRACT= # Your zksync contract address (Default is 0x0A5E4DC67A9b3878a5be6B2163F7D33b943F1282)
       - DB_NAMESPACE= # Your unique namespace string (default is polynote)
       - WEB3_STORAGE_TOKEN= # Read more at https://web3.storage/
       - OPEN_AI_KEY=sk-
