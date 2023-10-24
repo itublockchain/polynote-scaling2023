@@ -3,11 +3,10 @@ import { Button, Modal, Typography } from "ui";
 import LogoLargeWhite from "assets/logo/logo-large-white.png";
 import LogoLarge from "assets/logo/logo-large.png";
 import Image from "next/image";
-import { useAccount, useSignTypedData } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { useCreatePolybaseUserMutation } from "restapi/queries/useCreatePolybaseUserMutation";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
 import { usePolybaseUser, useSetToken } from "recoil/user/UserStoreHooks";
-import { DOMAIN, getSignatureValue, TYPES } from "utils/signature";
 import { useEffect, useRef } from "react";
 import { ACCESS_TOKEN_KEY } from "consts/storage";
 import { useAuthUserMutation } from "restapi/queries/useAuthUserMutation";
@@ -27,21 +26,22 @@ export const AccountModal = () => {
   const authUserMutation = useAuthUserMutation();
 
   const {
-    signTypedData: signTypedDataForRegister,
     isLoading: isSigningRegistration,
-  } = useSignTypedData({
+    signMessage: signMessageForRegister,
+  } = useSignMessage({
+    message: "Polynote - Create account",
     onSuccess: (res) => {
       createPolybaseUserMutation.mutate({
         address: address as string,
         signature: res,
       });
     },
-    domain: DOMAIN,
-    types: TYPES,
-    value: getSignatureValue(address as `0x${string}`, "Register"),
+    onError: () => {
+      router.replace(Paths.CONNECT_WALLET);
+    },
   });
 
-  const { signTypedData: signTypeDataForAuth } = useSignTypedData({
+  const { signMessage: signMessageForAuth } = useSignMessage({
     onSuccess: (res) => {
       authUserMutation.mutate({
         address: address as string,
@@ -51,9 +51,7 @@ export const AccountModal = () => {
     onError: () => {
       router.replace(Paths.CONNECT_WALLET);
     },
-    domain: DOMAIN,
-    types: TYPES,
-    value: getSignatureValue(address as `0x${string}`, "Sign in"),
+    message: "Polynote - Sign in",
   });
 
   useEffect(() => {
@@ -63,7 +61,7 @@ export const AccountModal = () => {
     if (polybaseUser?.address != null) {
       const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
       if (access_token == null) {
-        signTypeDataForAuth();
+        signMessageForAuth();
         checkedRef.current = true;
       } else {
         setToken(access_token);
@@ -103,7 +101,7 @@ export const AccountModal = () => {
             createPolybaseUserMutation.isLoading || isSigningRegistration
           }
           onClick={() => {
-            signTypedDataForRegister();
+            signMessageForRegister();
           }}
           className="w-[90%] ml-auto mr-auto h-10 mt-5"
           color={theme === "dark" ? "secondary" : "primary"}

@@ -3,7 +3,7 @@ import { CONFIG } from 'src/config';
 export const DOMAIN = {
   name: 'Polynote',
   version: '1',
-  verifyingContract: CONFIG.POLYNOTE_CONTRACT_SCROLL,
+  verifyingContract: CONFIG.POLYNOTE_CONTRACT,
 } as const;
 
 // The named list of all type definitions

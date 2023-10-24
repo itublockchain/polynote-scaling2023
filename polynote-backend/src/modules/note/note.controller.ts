@@ -24,9 +24,9 @@ import {
 } from 'src/modules/note/note.dto';
 import { NoteService } from 'src/modules/note/note.service';
 import { POLYNOTE_ABI } from 'src/utils/abi';
-import { getRpcProvider } from 'src/utils/getRpcProvider';
 import { getTokenData } from 'src/utils/getTokenData';
-import { DOMAIN, TYPES } from 'src/utils/signature';
+import { verifyR1Signature } from 'src/utils/verifyR1Signature';
+import { Provider } from 'zksync-web3';
 
 @ApiTags('Notes')
 @Controller('notes')
@@ -131,24 +131,24 @@ export class NoteController {
     @Param() param: NotesIdParam,
     @Body() sharedNoteParam: NotesSharedParam,
   ) {
-    const signer = ethers.utils.verifyTypedData(
-      DOMAIN,
-      TYPES,
-      {
-        address: sharedNoteParam.address,
-        message: 'See shared note',
-      },
+    await verifyR1Signature(
+      'See shared note',
       sharedNoteParam.signature,
+      sharedNoteParam.address,
     );
 
     const contract = new ethers.Contract(
-      CONFIG.POLYNOTE_CONTRACT_SCROLL,
+      CONFIG.POLYNOTE_CONTRACT,
       POLYNOTE_ABI,
-      getRpcProvider(),
+      new Provider(process.env.NETWORK_RPC_URL),
     );
 
     const note = await this.noteService.genDecryptedNoteById(param.id);
-    const isShared = await contract.isShared(note.address, param.id, signer);
+    const isShared = await contract.isShared(
+      note.address,
+      param.id,
+      sharedNoteParam.address,
+    );
 
     if (note == null) {
       throw new HttpException('Note does not exist', HttpStatus.NOT_FOUND);

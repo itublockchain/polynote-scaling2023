@@ -17,7 +17,7 @@ export class ListenerController implements OnApplicationBootstrap {
 
   public async onApplicationBootstrap() {
     const contract = new ethers.Contract(
-      CONFIG.POLYNOTE_CONTRACT_SCROLL,
+      CONFIG.POLYNOTE_CONTRACT,
       POLYNOTE_ABI,
       this.provider,
     );

@@ -7,34 +7,6 @@ contract Polynote {
     event Shared(address owner, string noteId, address partner);
     event Unshared(address owner, string noteId, address partner);
 
-    function addPartners(
-        string memory _noteId,
-        address[] memory _partners
-    ) public {
-        for (uint256 i = 0; i < _partners.length; ++i) {
-            sharedAddresses[msg.sender][_noteId].push(_partners[i]);
-            emit Shared(msg.sender, _noteId, _partners[i]);
-        }
-    }
-
-    function removePartners(
-        string memory _noteId,
-        address[] memory _partners
-    ) public {
-        for (uint256 i = 0; i < _partners.length; ++i) {
-            for (
-                uint256 x = 0;
-                i < sharedAddresses[msg.sender][_noteId].length;
-                ++i
-            ) {
-                if (sharedAddresses[msg.sender][_noteId][x] == _partners[i]) {
-                    delete sharedAddresses[msg.sender][_noteId][x];
-                    emit Unshared(msg.sender, _noteId, _partners[i]);
-                }
-            }
-        }
-    }
-
     function setPartners(
         string memory _noteId,
         address[] memory _partners

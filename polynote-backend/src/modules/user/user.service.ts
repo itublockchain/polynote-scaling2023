@@ -8,11 +8,11 @@ import {
   UserResponseDto,
 } from 'src/modules/user/user.dto';
 import { getPolybaseInstance } from 'src/utils/getPolybaseInstance';
-import { DOMAIN, TYPES } from 'src/utils/signature';
 import { v4 as uuidv4 } from 'uuid';
 import * as PushAPI from '@pushprotocol/restapi';
 import { CONFIG } from 'src/config';
 import { ENV } from '@pushprotocol/restapi/src/lib/constants';
+import { verifyR1Signature } from 'src/utils/verifyR1Signature';
 
 @Injectable()
 export class UserService {
@@ -65,17 +65,13 @@ export class UserService {
   }
 
   public async createUser(userCreateDto: UserCreateDto) {
-    const signer = ethers.utils.verifyTypedData(
-      DOMAIN,
-      TYPES,
-      {
-        address: userCreateDto.address,
-        message: 'Register',
-      },
+    const verification = await verifyR1Signature(
+      'Polynote - Create account',
       userCreateDto.signature,
+      userCreateDto.address,
     );
 
-    if (signer !== userCreateDto.address) {
+    if (!verification) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
@@ -89,17 +85,13 @@ export class UserService {
   }
 
   public async authUser(userAuthDto: UserAuthDto) {
-    const signer = ethers.utils.verifyTypedData(
-      DOMAIN,
-      TYPES,
-      {
-        address: userAuthDto.address,
-        message: 'Sign in',
-      },
+    const verification = await verifyR1Signature(
+      'Polynote - Sign in',
       userAuthDto.signature,
+      userAuthDto.address,
     );
 
-    if (signer === userAuthDto.address) {
+    if (verification) {
       const token = this.jwtService.sign({ address: userAuthDto.address });
 
       return { token };

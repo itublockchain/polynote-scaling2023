@@ -1,8 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { getSignatureValue } from "utils/signature";
-import { useAccount, useSignTypedData } from "wagmi";
-import { DOMAIN, TYPES } from "utils/signature";
+import { useAccount, useSignMessage } from "wagmi";
 import { useMutation } from "react-query";
 import { apiGetSharedNote } from "restapi";
 import { useEffect, useState } from "react";
@@ -42,16 +40,14 @@ const NoteId: NextPage = () => {
     },
   });
 
-  const { signTypedData, isLoading } = useSignTypedData({
+  const { signMessage, isLoading } = useSignMessage({
     onSuccess: (res) => {
       mutation.mutate([note_id as string, address as string, res]);
     },
     onError: () => {
       router.replace(Paths.CONNECT_WALLET);
     },
-    domain: DOMAIN,
-    types: TYPES,
-    value: getSignatureValue(address as `0x${string}`, "See shared note"),
+    message: "See shared note",
   });
 
   useEffect(() => {
@@ -60,7 +56,7 @@ const NoteId: NextPage = () => {
     }
 
     const timeout = setTimeout(() => {
-      signTypedData();
+      signMessage();
     }, 1000);
 
     return () => {

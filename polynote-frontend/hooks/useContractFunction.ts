@@ -1,6 +1,9 @@
-import { Contract, ContractInterface, ethers, Signer } from "ethers";
+import { zksync_testnet } from "consts/chains";
+import { ContractInterface, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
-import { useProvider, useSigner } from "wagmi";
+import { Provider, Contract } from "zksync-web3";
+
+const provider = new Provider(zksync_testnet.rpcUrls.default.http[0]);
 
 export const useContractFunction = <T>({
   address,
@@ -17,8 +20,6 @@ export const useContractFunction = <T>({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
-  const provider = useProvider();
-  const signer = useSigner();
 
   const execute = useCallback(
     async <R extends Array<unknown>>(
@@ -27,13 +28,7 @@ export const useContractFunction = <T>({
     ) => {
       const isRead = type === "read";
       try {
-        const contract = new Contract(
-          address,
-          abi,
-          isRead
-            ? (provider as ethers.providers.Web3Provider)
-            : (signer.data as ethers.providers.JsonRpcSigner)
-        );
+        const contract = new Contract(address, abi, provider);
         setIsLoading(true);
         setIsFailed(false);
         const res = await contract[method](...args);
@@ -54,7 +49,7 @@ export const useContractFunction = <T>({
         console.error(err);
       }
     },
-    [abi, address, method, onFail, onSuccess, provider, signer]
+    [abi, address, method, onFail, onSuccess]
   );
 
   const write = useCallback(
@@ -74,11 +69,7 @@ export const useContractFunction = <T>({
   const readPromise = useCallback(
     async <T extends Array<unknown> = [], R = unknown>(...args: T) => {
       try {
-        const contract = new Contract(
-          address,
-          abi,
-          provider as ethers.providers.Web3Provider
-        );
+        const contract = new Contract(address, abi, provider);
         const res = await contract[method](...args);
 
         return res as R;
@@ -86,7 +77,7 @@ export const useContractFunction = <T>({
         console.error(err);
       }
     },
-    [abi, provider, address, method]
+    [abi, address, method]
   );
 
   return useMemo(

@@ -1,5 +1,4 @@
-import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
@@ -28,24 +27,10 @@ describe("Lock", function () {
 
     it("Share with partner", async function () {
       const { polynote, user1, user2 } = await loadFixture(deployFixture);
-      await polynote.connect(user1).addPartners("0", [user2.getAddress()]);
+      await polynote.connect(user1).setPartners("0", [user2.getAddress()]);
       expect(
         await polynote.isShared(user1.getAddress(), "0", user2.getAddress())
       ).to.equal(true);
-    });
-
-    it("Remove partner", async function () {
-      const { polynote, user1, user2 } = await loadFixture(deployFixture);
-      await polynote.connect(user1).addPartners("0", [user2.getAddress()]);
-      expect(
-        await polynote.isShared(user1.getAddress(), "0", user2.getAddress())
-      ).to.equal(true);
-
-      await polynote.connect(user1).removePartners("0", [user2.getAddress()]);
-
-      expect(
-        await polynote.isShared(user1.getAddress(), "0", user2.getAddress())
-      ).to.equal(false);
     });
   });
 });

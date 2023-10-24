@@ -18,13 +18,11 @@ import {
   useSelectedNote,
   useSetSelectedNote,
 } from "recoil/notes/NotesStoreHooks";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { BsBell, BsChevronLeft, BsPlus } from "react-icons/bs";
 import { clsnm } from "utils/clsnm";
-import { useOptInMutation } from "restapi/queries/useOptInMutation";
-import { useOptOutMutation } from "restapi/queries/useOptOutMutation";
+
 import { useDropdown } from "hooks/useDropdown";
-import { usePushNotifications } from "restapi/queries/usePushNotifications";
 import { Paths } from "consts/paths";
 
 type Props = {
@@ -56,39 +54,6 @@ export const Sidebar = ({ createNoteModal }: Props) => {
       topDistance: 8,
     });
 
-  const { notifications, isLoading, refetch } = usePushNotifications({
-    address,
-  });
-
-  const { optIn, isLoading: isLoadingOptIn } = useOptInMutation();
-  const { optOut, isLoading: isLoadingOptOut } = useOptOutMutation();
-
-  const optInNotifications = async () => {
-    if (address == null) return;
-
-    await optIn();
-  };
-
-  const optOutNotifications = async () => {
-    if (address == null) return;
-
-    await optOut();
-  };
-
-  const filteredNotifications = useMemo(() => {
-    if (address == null) return [];
-
-    return notifications.filter((item) => {
-      return item.cta.toLowerCase() === address.toLowerCase();
-    });
-  }, [notifications, address]);
-
-  useEffect(() => {
-    if (isOpen) {
-      refetch();
-    }
-  }, [isOpen, refetch]);
-
   return (
     <>
       <SettingsModal modalController={modal} />
@@ -112,16 +77,16 @@ export const Sidebar = ({ createNoteModal }: Props) => {
             >
               <AiOutlineSetting />
             </Button>
-            <div ref={closeRef}>
-              <div ref={reference}>
+            {/* <div ref={closeRef}> */}
+            {/* <div ref={reference}>
                 <Button
                   onClick={toggle}
                   className="h-8 px-[12px]"
                   color={theme === "dark" ? "primary" : "secondary"}
                   leftIcon={<BsBell />}
                 />
-              </div>
-              {isOpen && (
+              </div> */}
+            {/* {isOpen && (
                 <div
                   className="p-[12px] rounded-[12px] shadow-md max-h-[420px] w-[200px] md:w-[512px] bg-white dark:bg-DARK_PURPLE"
                   ref={floating}
@@ -195,8 +160,8 @@ export const Sidebar = ({ createNoteModal }: Props) => {
                     </Button>
                   </div>
                 </div>
-              )}
-            </div>
+              )} */}
+            {/* </div> */}
             <Button
               onClick={() => setCollapsed(true)}
               className="w-[36px] h-[32px] lg:hidden"

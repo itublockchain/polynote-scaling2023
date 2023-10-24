@@ -16,7 +16,7 @@ export const CONFIG: Config = {
     autoLoadEntities: true,
   } as TypeOrmModuleOptions,
   PORT: Number(process.env.APP_PORT),
-  POLYNOTE_CONTRACT_SCROLL: process.env.POLYNOTE_CONTRACT_SCROLL,
+  POLYNOTE_CONTRACT: process.env.POLYNOTE_CONTRACT,
   PUSH_CHANNEL_CAIP: `eip155:5:0xA63A810228a180767d3502EF8d21DbF4Da0D6b43`,
   APP_VERSION: process.env.APP_VERSION as 'development' | 'production',
   DB_NAMESPACE: process.env.DB_NAMESPACE,
@@ -27,7 +27,7 @@ export const CONFIG: Config = {
 type Config = {
   MYSQL: TypeOrmModuleOptions;
   PORT: number;
-  POLYNOTE_CONTRACT_SCROLL: string;
+  POLYNOTE_CONTRACT: string;
   PUSH_CHANNEL_CAIP: string;
   APP_VERSION: 'development' | 'production';
   DB_NAMESPACE: string;

@@ -16,7 +16,7 @@ services:
       - PRIVATE_KEY=
       - ENCRYPTION_KEY=[]
       - NETWORK_RPC_URL=https://alpha-rpc.scroll.io/l2
-      - POLYNOTE_CONTRACT_SCROLL=
+      - POLYNOTE_CONTRACT=
       - DB_NAMESPACE=polybase
       - WEB3_STORAGE_TOKEN=
       - OPEN_AI_KEY=sk-
