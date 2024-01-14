@@ -1,5 +1,6 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import {
+  connectorsForWallets,
   darkTheme,
   getDefaultWallets,
   lightTheme,
@@ -20,7 +21,6 @@ import {
 import { ThemeOption } from "recoil/theme/types";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useTheme } from "recoil/theme/ThemeStoreHooks";
-import { zksync_testnet } from "consts/chains";
 import { ACCESS_TOKEN_KEY } from "consts/storage";
 import { useSetPolybaseUser, useSetToken } from "recoil/user/UserStoreHooks";
 import { useSetNotes, useSetSelectedNote } from "recoil/notes/NotesStoreHooks";
@@ -32,6 +32,12 @@ import { ToastContainer } from "react-toastify";
 import { Header } from "components";
 import { publicProvider } from "wagmi/providers/public";
 import { CONFIG } from "config";
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  metaMaskWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 
 export const queryClient = new QueryClient();
 
@@ -39,12 +45,17 @@ const { chains, publicClient } = configureChains(CONFIG.CHAINS, [
   publicProvider(),
 ]);
 
-const { connectors } = getDefaultWallets({
-  appName: CONFIG.APP,
-  chains,
-  projectId: CONFIG.WC_PROJECT_ID,
-});
-
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      injectedWallet({ chains }),
+      walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+      rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+      metaMaskWallet({ chains, projectId: CONFIG.WC_PROJECT_ID }),
+    ],
+  },
+]);
 const config = createConfig({
   autoConnect: true,
   publicClient,
