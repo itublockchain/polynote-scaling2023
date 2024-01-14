@@ -1,4 +1,5 @@
-import { zksync_testnet } from "consts/chains";
+import { CONFIG } from "config";
+import { scroll_testnet } from "consts/chains";
 import { useEffect } from "react";
 import { useSwitchNetwork } from "wagmi";
 
@@ -7,7 +8,7 @@ export const useListenNetworkChange = (
   pauseExecution = false
 ) => {
   const { switchNetwork } = useSwitchNetwork({
-    chainId: zksync_testnet.id,
+    chainId: CONFIG.CHAINS[0].id,
   });
 
   useEffect(() => {

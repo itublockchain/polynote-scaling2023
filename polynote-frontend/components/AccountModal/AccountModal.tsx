@@ -12,6 +12,7 @@ import { ACCESS_TOKEN_KEY } from "consts/storage";
 import { useAuthUserMutation } from "restapi/queries/useAuthUserMutation";
 import { useRouter } from "next/router";
 import { Paths } from "consts/paths";
+import { Messages } from "consts";
 
 export const AccountModal = () => {
   const { isLoading } = usePolybaseUserQuery();
@@ -29,7 +30,7 @@ export const AccountModal = () => {
     isLoading: isSigningRegistration,
     signMessage: signMessageForRegister,
   } = useSignMessage({
-    message: "Polynote - Create account",
+    message: Messages.CREATE_ACCOUNT,
     onSuccess: (res) => {
       createPolybaseUserMutation.mutate({
         address: address as string,
@@ -51,7 +52,7 @@ export const AccountModal = () => {
     onError: () => {
       router.replace(Paths.CONNECT_WALLET);
     },
-    message: "Polynote - Sign in",
+    message: Messages.SIGN_IN,
   });
 
   useEffect(() => {

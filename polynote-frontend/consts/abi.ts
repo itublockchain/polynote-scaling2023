@@ -52,24 +52,6 @@ export const POLYNOTE_ABI = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "_noteId",
-        type: "string",
-      },
-      {
-        internalType: "address[]",
-        name: "_partners",
-        type: "address[]",
-      },
-    ],
-    name: "addPartners",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "_owner",
         type: "address",
@@ -118,24 +100,6 @@ export const POLYNOTE_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_noteId",
-        type: "string",
-      },
-      {
-        internalType: "address[]",
-        name: "_partners",
-        type: "address[]",
-      },
-    ],
-    name: "removePartners",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

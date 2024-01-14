@@ -8,7 +8,7 @@ import { Spinner, Typography } from "ui";
 import { useAccount } from "wagmi";
 
 const Dashboard: NextPage = () => {
-  const { isConnected, isReconnecting, isConnecting, address } = useAccount();
+  const { isConnected, isReconnecting, isConnecting } = useAccount();
   const router = useRouter();
   const token = useToken();
 

@@ -12,7 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 import * as PushAPI from '@pushprotocol/restapi';
 import { CONFIG } from 'src/config';
 import { ENV } from '@pushprotocol/restapi/src/lib/constants';
-import { verifyR1Signature } from 'src/utils/verifyR1Signature';
+import { Messages } from 'src/utils';
+import { verifySignature } from 'src/utils/verifySignature';
 
 @Injectable()
 export class UserService {
@@ -65,8 +66,8 @@ export class UserService {
   }
 
   public async createUser(userCreateDto: UserCreateDto) {
-    const verification = await verifyR1Signature(
-      'Polynote - Create account',
+    const verification = await verifySignature(
+      Messages.CREATE_ACCOUNT,
       userCreateDto.signature,
       userCreateDto.address,
     );
@@ -85,8 +86,8 @@ export class UserService {
   }
 
   public async authUser(userAuthDto: UserAuthDto) {
-    const verification = await verifyR1Signature(
-      'Polynote - Sign in',
+    const verification = await verifySignature(
+      Messages.SIGN_IN,
       userAuthDto.signature,
       userAuthDto.address,
     );

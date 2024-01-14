@@ -13,6 +13,7 @@ import { Header, Navbar } from "components";
 import { formatAddress } from "utils/formatAddress";
 import { useAccountModal } from "@rainbow-me/rainbowkit";
 import { Paths } from "consts/paths";
+import { Messages } from "consts";
 
 const NoteId: NextPage = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const NoteId: NextPage = () => {
     onError: () => {
       router.replace(Paths.CONNECT_WALLET);
     },
-    message: "See shared note",
+    message: Messages.SEE_SHARED_NOTE,
   });
 
   useEffect(() => {

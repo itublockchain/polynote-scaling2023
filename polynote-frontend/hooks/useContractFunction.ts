@@ -1,9 +1,8 @@
-import { zksync_testnet } from "consts/chains";
-import { ContractInterface, ethers } from "ethers";
+import { Contract, ContractInterface, ethers, Signer } from "ethers";
 import { useCallback, useMemo, useState } from "react";
-import { Provider, Contract } from "zksync-web3";
-
-const provider = new Provider(zksync_testnet.rpcUrls.default.http[0]);
+import { HexString } from "types";
+import { Abi } from "viem";
+import { usePublicClient, useWalletClient } from "wagmi";
 
 export const useContractFunction = <T>({
   address,
@@ -20,6 +19,8 @@ export const useContractFunction = <T>({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
+  const provider = usePublicClient();
+  const signer = useWalletClient();
 
   const execute = useCallback(
     async <R extends Array<unknown>>(
@@ -28,17 +29,28 @@ export const useContractFunction = <T>({
     ) => {
       const isRead = type === "read";
       try {
-        const contract = new Contract(address, abi, provider);
         setIsLoading(true);
         setIsFailed(false);
-        const res = await contract[method](...args);
-        let txn;
-        if (!isRead) {
-          txn = await res.wait();
+        let res;
+        if (isRead) {
+          res = await provider.readContract({
+            abi: abi as Abi,
+            address: address as HexString,
+            functionName: method,
+            args: args,
+          });
+        } else {
+          const walletClient = signer.data;
+          res = await walletClient?.writeContract({
+            abi: abi as Abi,
+            address: address as HexString,
+            functionName: method,
+            args: args,
+          });
         }
-        setIsLoading(false);
-        onSuccess?.(!isRead ? txn : res);
 
+        setIsLoading(false);
+        onSuccess?.(res as T);
         if (isRead) {
           return res;
         }
@@ -49,7 +61,7 @@ export const useContractFunction = <T>({
         console.error(err);
       }
     },
-    [abi, address, method, onFail, onSuccess]
+    [abi, address, method, onFail, onSuccess, provider, signer]
   );
 
   const write = useCallback(
@@ -69,15 +81,18 @@ export const useContractFunction = <T>({
   const readPromise = useCallback(
     async <T extends Array<unknown> = [], R = unknown>(...args: T) => {
       try {
-        const contract = new Contract(address, abi, provider);
-        const res = await contract[method](...args);
-
+        const res = await provider.readContract({
+          abi: abi as Abi,
+          address: address as HexString,
+          functionName: method,
+          args: args,
+        });
         return res as R;
       } catch (err) {
         console.error(err);
       }
     },
-    [abi, address, method]
+    [abi, provider, address, method]
   );
 
   return useMemo(

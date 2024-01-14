@@ -85,7 +85,7 @@ const Home: NextPage = () => {
           <h4 className="text-center text-[16px] md:text-[20px] mt-[20px] md:mt-[24px] max-w-[800px] rubik text-MAIN_DARK dark:text-white">
             Polynote uses power of Polybase and encryption to create truly
             decentralized note-taking application environment, combined with
-            Push Protocol, Zksync and Filecoin Virtual Machine
+            Push Protocol, Scroll and Filecoin Virtual Machine
           </h4>
           <Button
             onClick={() => router.push(Paths.CONNECT_WALLET)}

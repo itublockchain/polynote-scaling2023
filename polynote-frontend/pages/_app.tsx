@@ -1,7 +1,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import {
-  connectorsForWallets,
   darkTheme,
+  getDefaultWallets,
   lightTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
@@ -31,38 +31,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { Header } from "components";
 import { publicProvider } from "wagmi/providers/public";
-
-import { walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
+import { CONFIG } from "config";
 
 export const queryClient = new QueryClient();
 
-const { chains, publicClient } = configureChains(
-  [zksync_testnet],
-  [publicProvider()]
-);
-
-const WC_PROJECT_ID = "5f9eb65b68d4fd8c5641c8d09e1ec88e";
-
-const connectors = connectorsForWallets([
-  {
-    groupName: "Other",
-    wallets: [
-      walletConnectWallet({
-        chains,
-        projectId: WC_PROJECT_ID,
-        options: {
-          projectId: WC_PROJECT_ID,
-          metadata: {
-            url: "https://polynote.itublockchain.com",
-            name: "Polynote",
-            description: "Private note taking application",
-            icons: ["https://i.imgur.com/bUPMfpq.png"],
-          },
-        },
-      }),
-    ],
-  },
+const { chains, publicClient } = configureChains(CONFIG.CHAINS, [
+  publicProvider(),
 ]);
+
+const { connectors } = getDefaultWallets({
+  appName: CONFIG.APP,
+  chains,
+  projectId: CONFIG.WC_PROJECT_ID,
+});
 
 const config = createConfig({
   autoConnect: true,
@@ -79,7 +60,7 @@ function PolynoteApp({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <WagmiConfig config={config}>
             <RainbowKitProvider
-              chains={[zksync_testnet]}
+              chains={CONFIG.CHAINS}
               theme={_theme === "dark" ? darkTheme() : lightTheme()}
             >
               <InitHooks setTheme={_setTheme} />

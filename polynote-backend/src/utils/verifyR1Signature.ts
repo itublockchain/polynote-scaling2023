@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { CONFIG } from 'src/config';
 import { Contract, Provider } from 'zksync-web3';
 
 const CLAVE_ACCOUNT_ABI = [
@@ -28,6 +29,116 @@ const CLAVE_ACCOUNT_ABI = [
   },
 ];
 
+export const CLAVE_REGISTRY_ABI = [
+  {
+    inputs: [],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
+    inputs: [],
+    name: 'NOT_FROM_FACTORY',
+    type: 'error',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'isClave',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'owner',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'register',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'factory_',
+        type: 'address',
+      },
+    ],
+    name: 'setFactory',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+];
+
 const formatHex = (hex: string) => (hex.includes('0x') ? hex : `0x${hex}`);
 
 export const verifyR1Signature = async (
@@ -39,7 +150,7 @@ export const verifyR1Signature = async (
 
   const signatureAndValidator = ethers.utils.defaultAbiCoder.encode(
     ['bytes', 'address'],
-    [formatHex(signature), '0x379f41Ab03B8e62A91aF1695fd70796ef51D4cfa'],
+    [formatHex(signature), CONFIG.CLAVE_VALIDATOR_ADDRESS],
   );
   const signedHash = ethers.utils.sha256(Buffer.from(message));
 

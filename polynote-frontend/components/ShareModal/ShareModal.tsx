@@ -1,76 +1,34 @@
 import { POLYNOTE_ABI } from "consts/abi";
-import { MOCK_VALIDATOR, POLYNOTE_CONTRACT } from "consts/contracts";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
+import { useContractFunction } from "hooks/useContractFunction";
 import { ModalController } from "hooks/useModal";
 import { useEffect, useMemo, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { Note } from "recoil/notes/types";
 import { Button, Input, Modal, Typography } from "ui";
 import { formatAddress } from "utils/formatAddress";
-import {
-  useAccount,
-  useContractRead,
-  useNetwork,
-  useSignMessage,
-  useSwitchNetwork,
-} from "wagmi";
+import { useChainId, useContractRead, useSwitchNetwork } from "wagmi";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useCopyText } from "hooks/useCopyText";
+import { formatRpcErrorMessage } from "utils/formatRPCErrorMessage";
 import { getSharedMessage } from "utils/getSharedMessage";
 import { useNotify } from "hooks/useNotify";
 import { useListenNetworkChange } from "hooks/useListenNetworkChange";
-import { zksync_testnet } from "consts/chains";
-import { useMutation } from "react-query";
-import { EIP712Signer, Provider, types, utils } from "zksync-web3";
+import { POLYNOTE_CONTRACT } from "consts/contracts";
+import { CONFIG } from "config";
 
 type Props = {
   modalController: ModalController;
   selectedNote: Note;
 };
 
-const provider = new Provider(zksync_testnet.rpcUrls.default.http[0]);
-
-export const parseHex = (hex: string): string => {
-  if (hex.startsWith("0x")) {
-    return hex.slice(2);
-  }
-  return hex;
-};
-
-export const hexToBuffer = (hex: string): Buffer => {
-  return Buffer.from(parseHex(hex), "hex");
-};
-/** Converts DER signature to R and S */
-export const derSignatureToRs = (
-  derSignature: string
-): { r: ethers.BigNumber; s: ethers.BigNumber } => {
-  /*
-      DER signature format:
-      0x30 <length total> 0x02 <length r> <r> 0x02 <length s> <s>
-  */
-  const derBuffer = hexToBuffer(derSignature);
-
-  const rLen = derBuffer[3];
-  const rOffset = 4;
-  const rBuffer = derBuffer.slice(rOffset, rOffset + rLen);
-  const sLen = derBuffer[5 + rLen];
-  const sOffset = 6 + rLen;
-  const sBuffer = derBuffer.slice(sOffset, sOffset + sLen);
-
-  const r = ethers.BigNumber.from(rBuffer);
-  const s = ethers.BigNumber.from(sBuffer);
-  return { r, s };
-};
-
 export const ShareModal = ({ modalController, selectedNote }: Props) => {
   const [whitelist, setWhitelist] = useState<string[]>([]);
   const [addingAddress, setAddingAddress] = useState("");
   const { switchNetwork } = useSwitchNetwork({
-    chainId: zksync_testnet.id,
+    chainId: CONFIG.CHAINS[0].id,
   });
-  const { signMessageAsync } = useSignMessage();
-  const { address } = useAccount();
-  const network = useNetwork();
+  const chainId = useChainId();
   const [isChainIdCorrect, setIsChainIdCorrect] = useState(true);
   const notify = useNotify();
 
@@ -85,91 +43,23 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
     args: [selectedNote.address, selectedNote.id],
   });
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      if (address == null) {
-        return;
-      }
-      const nonce = await provider.getTransactionCount(address);
-      const chainId = (await provider.getNetwork()).chainId;
-      const gasPrice = await provider.getGasPrice();
-
-      const iface = new ethers.utils.Interface(POLYNOTE_ABI);
-      const calldata = iface.encodeFunctionData("setPartners", [
-        selectedNote.id,
-        whitelist,
-      ]);
-
-      const transaction: types.TransactionRequest = {
-        data: calldata,
-        to: POLYNOTE_CONTRACT,
-        from: address,
-        value: BigNumber.from(0),
-        chainId,
-        nonce,
-        type: 113,
-        gasPrice,
-        customData: {
-          gasPerPubdata: utils.DEFAULT_GAS_PER_PUBDATA_LIMIT,
-          customSignature: undefined,
-        },
-        gasLimit: 1_000_000,
-      };
-
-      try {
-        const gasEstimation = await provider.estimateGas(transaction);
-        transaction.gasLimit = gasEstimation.toNumber();
-      } catch {}
-
-      const signedTxHash = EIP712Signer.getSignedDigest(transaction).toString();
-
-      const signature = await signMessageAsync({
-        message: signedTxHash.toString(),
-      });
-      const { r, s } = derSignatureToRs(signature);
-      const finalSignature = r._hex.concat(parseHex(s._hex));
-
-      const formattedSignature = ethers.utils.defaultAbiCoder.encode(
-        ["bytes", "address", "bytes[]"],
-        [finalSignature, MOCK_VALIDATOR, []]
-      );
-
-      const finalTransaction = {
-        ...transaction,
-        customData: {
-          ...transaction.customData,
-          customSignature: formattedSignature,
-        },
-      };
-
-      await provider.sendTransaction(utils.serialize(finalTransaction));
-    },
+  const { write, isLoading: isLoadingSet } = useContractFunction({
+    abi: POLYNOTE_ABI,
+    address: POLYNOTE_CONTRACT,
+    method: "setPartners",
     onSuccess: () => {
       notify.success("Note shared successfully");
-      modalController.close();
       setTimeout(() => {
         refetch();
-      }, 2500);
+      }, 1000);
+      setTimeout(() => {
+        refetch();
+      }, 4000);
+    },
+    onFail: (err) => {
+      formatRpcErrorMessage(err);
     },
   });
-
-  // const { write, isLoading: isLoadingSet } = useContractFunction({
-  //   abi: POLYNOTE_ABI,
-  //   address: POLYNOTE_CONTRACT,
-  //   method: "setPartners",
-  //   onSuccess: () => {
-  //     notify.success("Note shared successfully");
-  //     setTimeout(() => {
-  //       refetch();
-  //     }, 1000);
-  //     setTimeout(() => {
-  //       refetch();
-  //     }, 4000);
-  //   },
-  //   onFail: (err) => {
-  //     formatRpcErrorMessage(err);
-  //   },
-  // });
 
   useEffect(() => {
     if (Array.isArray(data)) {
@@ -191,10 +81,10 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
 
   useEffect(() => {
     const fn = async () => {
-      setIsChainIdCorrect(network.chain?.id === zksync_testnet.id);
+      setIsChainIdCorrect(chainId === CONFIG.CHAINS[0].id);
     };
     fn();
-  }, [network]);
+  }, [chainId]);
 
   return (
     <Modal width="540px" modalController={modalController}>
@@ -268,11 +158,10 @@ export const ShareModal = ({ modalController, selectedNote }: Props) => {
         </div>
 
         <Button
-          loading={mutation.isLoading}
+          loading={isLoadingSet}
           onClick={() => {
             if (isChainIdCorrect) {
-              mutation.mutate();
-              // write(selectedNote.id, whitelist);
+              write(selectedNote.id, whitelist);
             } else {
               switchNetwork?.();
             }

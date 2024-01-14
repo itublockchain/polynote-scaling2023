@@ -23,9 +23,10 @@ import {
   NotesUpdateParams,
 } from 'src/modules/note/note.dto';
 import { NoteService } from 'src/modules/note/note.service';
+import { Messages } from 'src/utils';
 import { POLYNOTE_ABI } from 'src/utils/abi';
 import { getTokenData } from 'src/utils/getTokenData';
-import { verifyR1Signature } from 'src/utils/verifyR1Signature';
+import { verifySignature } from 'src/utils/verifySignature';
 import { Provider } from 'zksync-web3';
 
 @ApiTags('Notes')
@@ -131,11 +132,15 @@ export class NoteController {
     @Param() param: NotesIdParam,
     @Body() sharedNoteParam: NotesSharedParam,
   ) {
-    await verifyR1Signature(
-      'See shared note',
+    const verification = await verifySignature(
+      Messages.SEE_SHARED_NOTE,
       sharedNoteParam.signature,
       sharedNoteParam.address,
     );
+
+    if (!verification) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
 
     const contract = new ethers.Contract(
       CONFIG.POLYNOTE_CONTRACT,
