@@ -52,7 +52,6 @@ const connectors = connectorsForWallets([
       injectedWallet({ chains }),
       walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
       rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
-      metaMaskWallet({ chains, projectId: CONFIG.WC_PROJECT_ID }),
     ],
   },
 ]);
