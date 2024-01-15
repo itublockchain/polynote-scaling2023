@@ -45,56 +45,52 @@ const { chains, publicClient } = configureChains(CONFIG.CHAINS, [
   publicProvider(),
 ]);
 
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended",
-    wallets: [
-      injectedWallet({ chains }),
-      claveWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
-      walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
-      rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
-      clvWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
-    ],
-  },
-]);
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  connectors,
-});
-
-function PolynoteApp({ Component, pageProps }: AppProps) {
-  const [_theme, _setTheme] = useState<ThemeOption>("dark");
-
+function PolynoteApp({ Component, pageProps, ...rest }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ClientOnly>
-        <RecoilRoot>
-          <WagmiConfig config={config}>
-            <RainbowKitProvider
-              chains={CONFIG.CHAINS}
-              theme={_theme === "dark" ? darkTheme() : lightTheme()}
-            >
-              <InitHooks setTheme={_setTheme} />
-              <Component {...pageProps} />
-              <ToastContainer draggable theme={_theme} />
-            </RainbowKitProvider>
-          </WagmiConfig>
-        </RecoilRoot>
-      </ClientOnly>
+      <ClientOnly Component={Component} pageProps={pageProps} {...rest} />
     </QueryClientProvider>
   );
 }
 
-function ClientOnly({ children }: { children: ReactNode }) {
+function ClientOnly({ Component, pageProps }: AppProps) {
   const [mounted, setMounted] = useState(false);
+  const [_theme, _setTheme] = useState<ThemeOption>("dark");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
+  const [config, setConfig] = useState<any>();
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    const connectors = connectorsForWallets([
+      {
+        groupName: "Recommended",
+        wallets: [
+          injectedWallet({ chains }),
+          // claveWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+          walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+          rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+          clvWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+        ],
+      },
+    ]);
+
+    const config = createConfig({
+      autoConnect: true,
+      publicClient,
+      connectors,
+    });
+
+    setConfig(config);
+  }, [mounted]);
+
+  if (!mounted || !config) {
     return (
       <>
         <Header />
@@ -102,7 +98,20 @@ function ClientOnly({ children }: { children: ReactNode }) {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <RecoilRoot>
+      <WagmiConfig config={config}>
+        <RainbowKitProvider
+          chains={CONFIG.CHAINS}
+          theme={_theme === "dark" ? darkTheme() : lightTheme()}
+        >
+          <InitHooks setTheme={_setTheme} />
+          <Component {...pageProps} />
+          <ToastContainer draggable theme={_theme} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </RecoilRoot>
+  );
 }
 
 function InitHooks({
