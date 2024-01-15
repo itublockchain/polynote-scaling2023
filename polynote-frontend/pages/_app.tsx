@@ -2,7 +2,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   connectorsForWallets,
   darkTheme,
-  getDefaultWallets,
   lightTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
@@ -36,8 +35,9 @@ import {
   injectedWallet,
   rainbowWallet,
   walletConnectWallet,
-  metaMaskWallet,
+  clvWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+import { claveWallet } from "utils/customWallets";
 
 export const queryClient = new QueryClient();
 
@@ -50,11 +50,14 @@ const connectors = connectorsForWallets([
     groupName: "Recommended",
     wallets: [
       injectedWallet({ chains }),
+      claveWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
       walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
       rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+      clvWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
     ],
   },
 ]);
+
 const config = createConfig({
   autoConnect: true,
   publicClient,
