@@ -15,7 +15,6 @@ import FeaturesIllustration from "assets/features-illustration.png";
 import FeaturesIllustrationLight from "assets/features-illustration-light.png";
 import { BsFillShareFill, BsGithub, BsTwitter } from "react-icons/bs";
 import Polybase from "assets/partners/polybase.png";
-import Scroll from "assets/partners/scroll.png";
 import Push from "assets/partners/push.png";
 import Nest from "assets/partners/nest.png";
 import React from "assets/partners/react.png";
@@ -85,7 +84,7 @@ const Home: NextPage = () => {
           <h4 className="text-center text-[16px] md:text-[20px] mt-[20px] md:mt-[24px] max-w-[800px] rubik text-MAIN_DARK dark:text-white">
             Polynote uses power of Polybase and encryption to create truly
             decentralized note-taking application environment, combined with
-            Push Protocol, Scroll and Filecoin Virtual Machine
+            Push Protocol, zkSync and Filecoin Virtual Machine
           </h4>
           <Button
             onClick={() => router.push(Paths.CONNECT_WALLET)}
@@ -164,7 +163,7 @@ const Home: NextPage = () => {
               </h4>
               <h4 className="mt-[8px] text-base font-regular text-neutral-500 dark:text-neutral-300 rubik">
                 Notes are shared with the security checks of Smart Contract
-                deployed on Scroll. You will receive a push notification if
+                deployed on zkSync. You will receive a push notification if
                 someone shares a note with you!
               </h4>
             </div>
@@ -312,10 +311,6 @@ const partners = [
   {
     url: "https://polybase.xyz",
     image: Polybase,
-  },
-  {
-    url: "https://scroll.io/",
-    image: Scroll,
   },
   {
     url: "https://fvm.filecoin.io/",
