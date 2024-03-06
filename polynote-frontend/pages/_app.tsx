@@ -73,7 +73,7 @@ function ClientOnly({ Component, pageProps }: AppProps) {
         groupName: "Recommended",
         wallets: [
           injectedWallet({ chains }),
-          // claveWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
+          claveWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
           walletConnectWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
           rainbowWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
           clvWallet({ projectId: CONFIG.WC_PROJECT_ID, chains }),
