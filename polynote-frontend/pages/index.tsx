@@ -268,7 +268,7 @@ const Home: NextPage = () => {
           <div className="flex translate-x-1 mt-4 md:mt-0">
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
-              href="https://github.com/itublockchain/polynote-scaling2023"
+              href="https://github.com/polynotexyz/polynote-monorepo"
               rel="noreferrer"
               target="_blank"
             >
@@ -279,7 +279,7 @@ const Home: NextPage = () => {
             </a>
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
-              href="https://polynote-api.itublockchain.com/docs"
+              href="https://api.polynote.xyz/docs"
               rel="noreferrer"
               target="_blank"
             >
@@ -290,7 +290,7 @@ const Home: NextPage = () => {
             </a>
             <a
               className="text-black dark:text-white hover:scale-110 mr-2 ml-2"
-              href="https://twitter.com/ITUblockchain"
+              href="https://twitter.com/polynote_xyz"
               rel="noreferrer"
               target="_blank"
             >
