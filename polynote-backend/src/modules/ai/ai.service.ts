@@ -23,7 +23,9 @@ export class AiService {
       ],
     });
 
-    return res.choices[0].message;
+    return (
+      res.choices[0].message.content ?? 'I could not make the text longer.'
+    );
   }
 
   public async summarize(text: string) {
@@ -37,7 +39,7 @@ export class AiService {
       ],
     });
 
-    return res.choices[0].message;
+    return res.choices[0].message?.content ?? 'I could not summarize the text.';
   }
 
   public async fixGrammar(text: string) {
@@ -51,6 +53,9 @@ export class AiService {
       ],
     });
 
-    return res.choices[0].message;
+    return (
+      res.choices[0].message?.content ??
+      "I'm sorry, I couldn't fix the grammar of the given text."
+    );
   }
 }
