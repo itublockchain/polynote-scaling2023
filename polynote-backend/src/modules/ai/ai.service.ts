@@ -1,53 +1,56 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai';
 import { CONFIG } from 'src/config';
 
-const DEFAULT_AI_MODEL = 'text-davinci-003';
 @Injectable()
 export class AiService {
-  openai: any;
+  openai: OpenAI;
 
   constructor() {
-    const configuration = new Configuration({
-      apiKey: CONFIG.OPENAI_API_KEY,
+    this.openai = new OpenAI({
+      apiKey: CONFIG.OPENAI_API_KEY, // This is also the default, can be omitted
     });
-    this.openai = new OpenAIApi(configuration);
   }
 
   public async makeLonger(text: string) {
-    const res = await this.openai.createEdit({
-      model: 'text-davinci-edit-001',
-      input: text,
-      instruction: 'Make the given text longer in one paragraph',
+    const res = await this.openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'user',
+          content: `Make the following content longer:\n ${text}`,
+        },
+      ],
     });
 
-    return res.data.choices[0].text;
+    return res.choices[0].message;
   }
 
   public async summarize(text: string) {
-    const res = await this.openai.createCompletion({
-      model: DEFAULT_AI_MODEL,
-      prompt: `${text}\n\nSummarize this text`,
-      temperature: 0.7,
-      max_tokens: 1000,
-      top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 1,
+    const res = await this.openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'user',
+          content: `Summarize the following content:\n ${text}`,
+        },
+      ],
     });
 
-    return res.data.choices[0].text;
+    return res.choices[0].message;
   }
 
   public async fixGrammar(text: string) {
-    const res = await this.openai.createCompletion({
-      model: DEFAULT_AI_MODEL,
-      prompt: `Correct this to standard English:${text}`,
-      temperature: 0,
-      top_p: 1.0,
-      max_tokens: 1000,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
+    const res = await this.openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'user',
+          content: `Fix the grammar of the following content:\n ${text}`,
+        },
+      ],
     });
-    return res.data.choices[0].text;
+
+    return res.choices[0].message;
   }
 }
